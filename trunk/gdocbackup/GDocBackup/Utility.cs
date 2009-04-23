@@ -67,7 +67,7 @@ namespace GDocBackup
         {
             Properties.Settings conf = Properties.Settings.Default;
 
-            WebProxy proxy = null;
+            IWebProxy proxy = null;
 
             if (conf.ProxyExplicit)
             {
@@ -81,7 +81,7 @@ namespace GDocBackup
                     switch (phps)
                     {
                         case ProxyHostPortSource.Default:
-                            proxy = WebProxy.GetDefaultProxy();             // OBSOLETE!!! ... da modificare!!!               
+                            proxy = HttpWebRequest.DefaultWebProxy;   // was: WebProxy.GetDefaultProxy();  // OBSOLETE!!! ... da modificare!!!               
                             break;
                         case ProxyHostPortSource.HostPort:
                             proxy = new WebProxy(conf.ProxyHost, conf.ProxyPort);
@@ -94,9 +94,10 @@ namespace GDocBackup
                     switch (proxyAuthMode)
                     {
                         case ProxyAuthMode.NotAuthenticated:
+                            proxy.Credentials = null;
                             break;
                         case ProxyAuthMode.DefaultCredential:
-                            proxy.UseDefaultCredentials = true;
+                            proxy.Credentials = CredentialCache.DefaultCredentials;   // was: proxy.UseDefaultCredentials = true;
                             break;
                         case ProxyAuthMode.UsernamePassword:
                             proxy.Credentials = new NetworkCredential(
