@@ -1,0 +1,4 @@
+
+
+ - proxy : tolto obsoleto e impostazione noauth
+ 
