@@ -52,6 +52,7 @@ namespace GDocBackup
             TbPassword.Text = String.IsNullOrEmpty(conf.Password) ? null : Utility.UnprotectData(conf.Password);
             CbStorePassword.Checked = !String.IsNullOrEmpty(conf.Password);
             TbBackupDir.Text = conf.BackupDir;
+            cbDisableUpdateCheck.Checked = conf.DisableUpdateCheck;
 
             // Data format TAB
             cbDocFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat);
@@ -82,6 +83,7 @@ namespace GDocBackup
             conf.UserName = TbUsername.Text;
             conf.Password = CbStorePassword.Checked ? Utility.ProtectData(TbPassword.Text) : null;
             conf.BackupDir = TbBackupDir.Text;
+            conf.DisableUpdateCheck = cbDisableUpdateCheck.Checked;
 
             // Data format TAB
             conf.DocumentExportFormat = cbDocFormat.SelectedItem.ToString();

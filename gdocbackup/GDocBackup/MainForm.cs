@@ -78,18 +78,22 @@ namespace GDocBackup
         /// </summary>
         private void ExecCheckUpdates()
         {
-            Version localVersion;
-            Version remoteVersion;
-            if (CheckUpdates.Exec(out localVersion, out remoteVersion))
+            if (!Properties.Settings.Default.DisableUpdateCheck)
             {
-                using (NewVersion nv = new NewVersion())
+                Version localVersion;
+                Version remoteVersion;
+                if (CheckUpdates.Exec(out localVersion, out remoteVersion))
                 {
-                    nv.LocalVersion = localVersion;
-                    nv.RemoteVersion = remoteVersion;
-                    nv.ShowDialog();
+                    using (NewVersion nv = new NewVersion())
+                    {
+                        nv.LocalVersion = localVersion;
+                        nv.RemoteVersion = remoteVersion;
+                        nv.ShowDialog();
+                    }
                 }
             }
         }
+
 
 
         #region  ---- User click on Buttons, Menu items & C.  ----
