@@ -202,5 +202,17 @@ namespace GDocBackup.Properties {
                 this["ProxyHostPortSource"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableUpdateCheck {
+            get {
+                return ((bool)(this["DisableUpdateCheck"]));
+            }
+            set {
+                this["DisableUpdateCheck"] = value;
+            }
+        }
     }
 }
