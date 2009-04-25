@@ -1,16 +1,16 @@
 
+WorkInProgess
+....
 
-WORK IN PROGRESS
 
+----------------------------------------------------------
+0.2.1
  - proxy : tolto obsoleto e impostazione noauth
  - opzione per disabilitare autocheckupdate
  - spostato repository SVN
  - supporto migliore per check update
-  
 ----------------------------------------------------------
-
 0.2.0  
 	....
 	....
-
 ----------------------------------------------------------
