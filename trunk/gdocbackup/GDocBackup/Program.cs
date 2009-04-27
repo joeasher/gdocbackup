@@ -12,16 +12,14 @@ namespace GDocBackup
         [STAThread]
         static void Main(string[] args)
         {
-            //if (args.Length > 0 && args[0] == "-console")
-            //{
-            //    .... TODO .....
-            //    RunFromConsole();
-            //    Environment.ExitCode = 0;
-            //    return;
-            //}
+            List<string> argList = new List<string>(args);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            MainForm mf = new MainForm();
+            mf.AutoStart = argList.Contains("-autostart");
+            Application.Run(mf);
         }
     }
 }
