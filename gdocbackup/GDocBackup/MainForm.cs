@@ -38,6 +38,13 @@ namespace GDocBackup
 
 
         /// <summary>
+        /// Autostart flag
+        /// </summary>
+        public bool AutoStart = false;
+
+
+
+        /// <summary>
         /// [Constructor]
         /// </summary>
         public MainForm()
@@ -47,7 +54,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Form load
+        /// Form load event
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -70,6 +77,16 @@ namespace GDocBackup
                     cf.ShowDialog();
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Form Shown event
+        /// </summary>
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (AutoStart)
+                this.ExecBackUp();
         }
 
 
@@ -171,24 +188,14 @@ namespace GDocBackup
             _logs = new List<string>();
             this.dataGV.Rows.Clear();
             this.BtnExec.Enabled = false;
-            this.TopLevelControl.Cursor = Cursors.WaitCursor;
-            //this.StartWorkingThread(userName, password, Properties.Settings.Default.BackupDir);
+            this.Cursor = Cursors.WaitCursor;
 
-            // start thread
+            // Start working thread
             Thread t = new Thread(ExecBackupThread);
             t.IsBackground = true;
             t.Name = "BackupExecThread";
             t.Start(new string[] { userName, password, Properties.Settings.Default.BackupDir });
         }
-
-
-        //private void StartWorkingThread(string username, string password, string directoryName)
-        //{
-        //    Thread t = new Thread(ExecBackupThread);
-        //    t.IsBackground = true;
-        //    t.Name = "BackupExecThread";
-        //    t.Start(new string[] { username, password, directoryName });
-        //}
 
 
         /// <summary>
@@ -250,6 +257,7 @@ namespace GDocBackup
             this.Cursor = Cursors.Default;
             this.BtnExec.Enabled = true;
 
+
             if (isOK)
             {
                 MessageBox.Show("Backup completed.", "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -266,6 +274,12 @@ namespace GDocBackup
                     msg += ex.GetType().Name + " : " + ex.Message;
                 }
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (AutoStart)
+            {
+                if (isOK)
+                    Application.Exit();
             }
         }
 

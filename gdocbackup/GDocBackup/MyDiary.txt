@@ -1,6 +1,10 @@
 
 WorkInProgess 
-....
+
+- opzione -autostart
+	- evento di MainForm_Shown:  this.ExecBackUp();
+	- se tutto OK Application.Exit() in "evento" EndDownload
+	TODO: testare con Ubuntu e Cron
 
 
 ----------------------------------------------------------
