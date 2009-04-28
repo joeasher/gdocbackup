@@ -260,6 +260,11 @@ namespace GDocBackup
 
             if (isOK)
             {
+                if (AutoStart)
+                {
+                    Application.Exit();
+                    return;   // Win does not requires it. Mono on Ubuntu, yes!   Is a Mono bug???
+                }
                 MessageBox.Show("Backup completed.", "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -276,11 +281,7 @@ namespace GDocBackup
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (AutoStart)
-            {
-                if (isOK)
-                    Application.Exit();
-            }
+
         }
 
         #endregion ----------------------------
