@@ -43,6 +43,11 @@ namespace GDocBackup
         public bool AutoStart = false;
 
 
+        /// <summary>
+        /// Autostart flag
+        /// </summary>
+        public bool WriteLog = false;
+
 
         /// <summary>
         /// [Constructor]
@@ -60,6 +65,7 @@ namespace GDocBackup
         {
             this.Icon = Properties.Resources.Logo;
             this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.StoreLogMsg("FORM_LOAD: " + this.Text);
 
             this.ExecCheckUpdates();
 
@@ -231,13 +237,14 @@ namespace GDocBackup
                 this.BeginInvoke(new EventHandler<FeedbackEventArgs>(Backup_Feedback), sender, e);
             else
             {
-                _logs.Add(DateTime.Now.ToString() + " > " + (int)(e.PerCent * 100) + "%");
-                _logs.Add(DateTime.Now.ToString() + " > " + e.Message);
+                this.StoreLogMsg((int)(e.PerCent * 100) + "%");
+                this.StoreLogMsg(e.Message);
 
                 this.progressBar1.Value = (int)(e.PerCent * 100);
 
                 if (e.FeedbackObj != null)
                 {
+                    this.StoreLogMsg("FeedbackObj: " + e.FeedbackObj.ToString());
                     this.dataGV.Rows.Add(
                         new object[] { 
                             e.FeedbackObj.FileName, 
@@ -248,6 +255,26 @@ namespace GDocBackup
             }
         }
 
+
+        /// <summary>
+        /// Add log message to list and file
+        /// </summary>
+        /// <param name="s"></param>
+        private void StoreLogMsg(string s)
+        {
+            string msg = DateTime.Now.ToString() + " > " + s;
+            if (_logs != null)
+                _logs.Add(msg);
+            if (WriteLog)
+            {
+                string logFileName = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+                string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
+                File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
+            }
+        }
+
+
+
         /// <summary>
         /// End download event handler
         /// </summary>
@@ -257,15 +284,15 @@ namespace GDocBackup
             this.Cursor = Cursors.Default;
             this.BtnExec.Enabled = true;
 
-
             if (isOK)
             {
                 if (AutoStart)
                 {
                     Application.Exit();
-                    return;   // Win does not requires it. Mono on Ubuntu, yes!   Is a Mono bug???
+                    return;   // Win does not requires it. Mono on Ubuntu, yes!  Is a Mono bug???   ... TO BE MORE TESTED  :(
                 }
-                MessageBox.Show("Backup completed.", "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Backup completed.", "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -273,15 +300,13 @@ namespace GDocBackup
                    "There are errors! " + Environment.NewLine + Environment.NewLine;
                 if (ex != null)
                 {
-                    _logs.Add("### EXCEPTION ###");
-                    _logs.Add(ex.ToString());
-                    _logs.Add("#################");
+                    this.StoreLogMsg("############### EXCEPTION ###############");
+                    this.StoreLogMsg(ex.ToString());
+                    this.StoreLogMsg("#########################################");
                     msg += ex.GetType().Name + " : " + ex.Message;
                 }
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         #endregion ----------------------------
