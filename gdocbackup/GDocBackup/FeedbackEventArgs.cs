@@ -22,7 +22,7 @@ using System.Text;
 namespace GDocBackup
 {
     /// <summary>
-    /// ...
+    /// Feedback event argument
     /// </summary>
     public class FeedbackEventArgs : EventArgs
     {

@@ -19,6 +19,7 @@ namespace GDocBackup
 
             MainForm mf = new MainForm();
             mf.AutoStart = argList.Contains("-autostart");
+            mf.WriteLog = argList.Contains("-writelog");
             Application.Run(mf);
         }
     }
