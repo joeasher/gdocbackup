@@ -21,6 +21,7 @@ using Google.GData.Client;
 using Google.Documents;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 
 
@@ -45,10 +46,17 @@ namespace GDocBackup
         private Exception _lastException = null;
 
 
+        /// <summary>
+        /// Last exception
+        /// </summary>
         public Exception LastException { get { return _lastException; } }
 
 
+        /// <summary>
+        /// Feedback event (gives informations about processing)
+        /// </summary>
         public event EventHandler<FeedbackEventArgs> Feedback;
+
 
 
         private void DoFeedback(string message)
@@ -77,13 +85,6 @@ namespace GDocBackup
         /// <summary>
         /// [Constructor]
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="outDir"></param>
-        /// <param name="docExpType"></param>
-        /// <param name="presExpType"></param>
-        /// <param name="sprdExpType"></param>
-        /// <param name="webproxy"></param>
         public Backup(string userName, string password, string outDir,
             Document.DownloadType docExpType, Document.DownloadType sprdExpType,
             Document.DownloadType presExpType, IWebProxy webproxy)
@@ -101,13 +102,20 @@ namespace GDocBackup
         /// <summary>
         /// Exec backup
         /// </summary>
-        /// <returns>True: tutto OK.  False: errori presenti.</returns>
+        /// <returns>True: all OK.  False: there are errors</returns>
         public bool Exec()
         {
             try
             {
                 int errorCount = this.ExecInternal();
                 return (errorCount == 0);
+            }
+            catch (ThreadAbortException tae)
+            {
+                Thread.ResetAbort();
+                _lastException = tae;
+                DoFeedback("STOP (ThreadAbortException):  " + tae.Message, 0);
+                return false;
             }
             catch (Exception ex)
             {
@@ -331,7 +339,6 @@ namespace GDocBackup
                 dt.Year, dt.Month, dt.Day,
                 dt.Hour, dt.Minute, dt.Second);
         }
-
 
     }
 
