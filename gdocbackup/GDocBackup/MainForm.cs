@@ -31,6 +31,10 @@ namespace GDocBackup
 {
     public partial class MainForm : Form
     {
+
+        private Thread _workingThread;
+
+
         /// <summary>
         /// Log data
         /// </summary>
@@ -118,14 +122,34 @@ namespace GDocBackup
         }
 
 
+        /// <summary>
+        /// Add log message to list and file
+        /// </summary>
+        /// <param name="s"></param>
+        private void StoreLogMsg(string s)
+        {
+            string msg = DateTime.Now.ToString() + " > " + s;
+            if (_logs != null)
+                _logs.Add(msg);
+            if (WriteLog)
+            {
+                string logFileName = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+                string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
+                File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
+            }
+        }
+
 
         #region  ---- User click on Buttons, Menu items & C.  ----
 
         private void BtnExec_Click(object sender, EventArgs e)
         {
-            this.ExecBackUp();
+            if (this.BtnExec.Text != "STOP")
+                this.ExecBackUp();
+            else
+                if (_workingThread != null && _workingThread.IsAlive)
+                    _workingThread.Abort();
         }
-
 
         private void configToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -133,11 +157,6 @@ namespace GDocBackup
             {
                 cf.ShowDialog();
             }
-        }
-
-        private void execBackupToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.ExecBackUp();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -193,14 +212,15 @@ namespace GDocBackup
 
             _logs = new List<string>();
             this.dataGV.Rows.Clear();
-            this.BtnExec.Enabled = false;
+            //this.BtnExec.Enabled = false;
+            this.BtnExec.Text = "STOP";
             this.Cursor = Cursors.WaitCursor;
 
             // Start working thread
-            Thread t = new Thread(ExecBackupThread);
-            t.IsBackground = true;
-            t.Name = "BackupExecThread";
-            t.Start(new string[] { userName, password, Properties.Settings.Default.BackupDir });
+            _workingThread = new Thread(ExecBackupThread);
+            _workingThread.IsBackground = true;
+            _workingThread.Name = "BackupExecThread";
+            _workingThread.Start(new string[] { userName, password, Properties.Settings.Default.BackupDir });
         }
 
 
@@ -257,25 +277,6 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Add log message to list and file
-        /// </summary>
-        /// <param name="s"></param>
-        private void StoreLogMsg(string s)
-        {
-            string msg = DateTime.Now.ToString() + " > " + s;
-            if (_logs != null)
-                _logs.Add(msg);
-            if (WriteLog)
-            {
-                string logFileName = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd") + ".log";
-                string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
-                File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
-            }
-        }
-
-
-
-        /// <summary>
         /// End download event handler
         /// </summary>
         private void EndDownload(bool isOK, Exception ex)
@@ -283,6 +284,7 @@ namespace GDocBackup
             this.progressBar1.Value = 0;
             this.Cursor = Cursors.Default;
             this.BtnExec.Enabled = true;
+            this.BtnExec.Text = "Exec";
 
             if (isOK)
             {

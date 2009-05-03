@@ -1,16 +1,17 @@
 
 *** WorkInProgess ***
 
+
+----------------------------------------------------------
+0.3.0
+
 - opzione -autostart
 	- evento di MainForm_Shown:  this.ExecBackUp();
 	- se tutto OK Application.Exit() in "evento" EndDownload
 	- testato con Ubuntu OK.. C'è solo uno strano comporamento di Application.Exit() in Mono 1.9.  Bug?
-
 - opzione -writelog      scritture log per debug
-
-TODO: test con utente "normale"
-TODO: testare -writelog in Linux
-
+- test con utente "normale" [OK]
+- testare -writelog in Linux [OK]
 
 ----------------------------------------------------------
 0.2.1
