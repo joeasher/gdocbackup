@@ -71,14 +71,14 @@ namespace GDocBackup
             this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.StoreLogMsg("FORM_LOAD: " + this.Text);
 
-            this.ExecCheckUpdates();
-
             if (Properties.Settings.Default.CallUpgrade)
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.CallUpgrade = false;
                 Properties.Settings.Default.Save();
             }
+
+            this.ExecCheckUpdates();
 
             if (String.IsNullOrEmpty(Properties.Settings.Default.BackupDir))
             {
@@ -107,16 +107,21 @@ namespace GDocBackup
         {
             if (!Properties.Settings.Default.DisableUpdateCheck)
             {
-                Version localVersion;
-                Version remoteVersion;
-                if (CheckUpdates.Exec(out localVersion, out remoteVersion))
+                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 2)
                 {
-                    using (NewVersion nv = new NewVersion())
+                    Version localVersion;
+                    Version remoteVersion;
+                    if (CheckUpdates.Exec(out localVersion, out remoteVersion))
                     {
-                        nv.LocalVersion = localVersion;
-                        nv.RemoteVersion = remoteVersion;
-                        nv.ShowDialog();
+                        using (NewVersion nv = new NewVersion())
+                        {
+                            nv.LocalVersion = localVersion;
+                            nv.RemoteVersion = remoteVersion;
+                            nv.ShowDialog();
+                        }
                     }
+                    Properties.Settings.Default.LastUpdateCheck = DateTime.Now;
+                    Properties.Settings.Default.Save();
                 }
             }
         }
