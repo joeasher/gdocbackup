@@ -107,7 +107,7 @@ namespace GDocBackup
         {
             if (!Properties.Settings.Default.DisableUpdateCheck)
             {
-                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 2)
+                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 4)
                 {
                     Version localVersion;
                     Version remoteVersion;
@@ -201,15 +201,18 @@ namespace GDocBackup
                 String.IsNullOrEmpty(Properties.Settings.Default.Password) ?
                 String.Empty :
                 Utility.UnprotectData(Properties.Settings.Default.Password);
+            string backupDir = Properties.Settings.Default.BackupDir;
 
-            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password))
+            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(backupDir))
             {
                 LoginForm login = new LoginForm();
                 login.UserName = userName;
+                login.BackupDir = backupDir;
                 if (login.ShowDialog() == DialogResult.OK)
                 {
                     userName = login.UserName;
                     password = login.Password;
+                    backupDir = login.BackupDir;
                 }
                 else
                     return;
@@ -217,7 +220,6 @@ namespace GDocBackup
 
             _logs = new List<string>();
             this.dataGV.Rows.Clear();
-            //this.BtnExec.Enabled = false;
             this.BtnExec.Text = "STOP";
             this.Cursor = Cursors.WaitCursor;
 
@@ -225,7 +227,7 @@ namespace GDocBackup
             _workingThread = new Thread(ExecBackupThread);
             _workingThread.IsBackground = true;
             _workingThread.Name = "BackupExecThread";
-            _workingThread.Start(new string[] { userName, password, Properties.Settings.Default.BackupDir });
+            _workingThread.Start(new string[] { userName, password, backupDir });
         }
 
 

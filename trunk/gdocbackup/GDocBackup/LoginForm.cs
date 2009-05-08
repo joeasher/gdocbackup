@@ -13,6 +13,7 @@ namespace GDocBackup
 
         public string UserName { get { return this.UsernameTB.Text; } set { this.UsernameTB.Text = value; } }
         public string Password { get { return this.PasswordTB.Text; } }
+        public string BackupDir { get { return this.BackupDirTB.Text; } set { this.BackupDirTB.Text = value; } }
 
         public LoginForm()
         {

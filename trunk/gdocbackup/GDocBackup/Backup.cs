@@ -212,7 +212,7 @@ namespace GDocBackup
                         locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
                         gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
 
-                        DoFeedback("FileExists: " + fi.Exists + " RemDT: " + gdocFileDateTime + " LocDT: " + locFileDateTime);
+                        DoFeedback("Check file exist - Result:" + fi.Exists + " RemoteDT: " + gdocFileDateTime + " LocalDT: " + locFileDateTime);
 
                         downloadDoc = (!fi.Exists || locFileDateTime != gdocFileDateTime);
                         if (downloadDoc)
