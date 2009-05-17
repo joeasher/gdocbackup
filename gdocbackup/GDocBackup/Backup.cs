@@ -263,7 +263,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Build (update) output folders tree
+        /// Builds (updates) output folders tree
         /// </summary>
         private void BuildFolders(Document parentDir, List<Document> docs, string currentPath)
         {
@@ -310,11 +310,9 @@ namespace GDocBackup
         }
 
 
-
         /// <summary>
-        /// Remove invalids chars from string
+        /// Removes invalids chars from string
         /// </summary>
-        /// <param name="s"></param>
         private string RemoveInvalidChars(string s)
         {
             StringBuilder x = new StringBuilder();
@@ -331,7 +329,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Remove milliseconds info from DateTime
+        /// Removes milliseconds info from DateTime
         /// </summary>
         private DateTime RemoveMilliseconds(DateTime dt)
         {

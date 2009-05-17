@@ -1,6 +1,9 @@
 
 *** WorkInProgess ***
 
+- Properties.Settings.Default.LastUpdateCheck
+- Properties.Settings.Default.LastUpdateCheck  totaldays > 6
+- minor fixes
 
 ----------------------------------------------------------
 0.3.0

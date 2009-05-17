@@ -38,7 +38,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// ...
+        /// Encrypts data using Data Protection API (DPAPI)
         /// </summary>
         public static string ProtectData(string data)
         {
@@ -49,7 +49,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// ...
+        /// Decrypts data using Data Protection API (DPAPI)
         /// </summary>
         public static string UnprotectData(string encryptedData)
         {
@@ -60,7 +60,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Creates an instance of WebProxy based on current configuration (app.config).
+        /// Creates an instance of a IWebProxy based on current configuration (app.config).
         /// </summary>
         /// <returns>An instance of WebProxy or null</returns>
         public static IWebProxy GetProxy()

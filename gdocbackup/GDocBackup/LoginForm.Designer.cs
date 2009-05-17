@@ -121,6 +121,7 @@ namespace GDocBackup
             this.Controls.Add(this.UsernameTB);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Login);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";

@@ -107,7 +107,7 @@ namespace GDocBackup
         {
             if (!Properties.Settings.Default.DisableUpdateCheck)
             {
-                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 4)
+                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 6)
                 {
                     Version localVersion;
                     Version remoteVersion;
