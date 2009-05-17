@@ -32,11 +32,14 @@ namespace GDocBackup
     internal class CheckUpdates
     {
 
+        /// <summary>
+        /// Gets the version of the last available release of GDocBackup form gs.fhtino.it
+        /// </summary>
         public static bool Exec(out Version localVersion, out Version remoteVersion)
         {
             try
             {
-                HttpWebRequest req = HttpWebRequest.Create("http://gs.fhtino.it/gdocbackup?GDBCheckVer=1") as HttpWebRequest;
+                HttpWebRequest req = HttpWebRequest.Create("http://gs.fhtino.it/gdocbackup/lastversion?GDBCheckVer=1") as HttpWebRequest;
                 req.Timeout = 3000;   // wait max 3 seconds.
                 req.Proxy = Utility.GetProxy();
                 HttpWebResponse res = req.GetResponse() as HttpWebResponse;
