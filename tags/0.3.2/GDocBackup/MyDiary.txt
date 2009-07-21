@@ -1,0 +1,37 @@
+
+*** WorkInProgess ***
+
+
+----------------------------------------------------------
+0.3.2
+
+- LastUpdateCheck: default value = 01/01/2000
+
+----------------------------------------------------------
+0.3.1
+
+- Properties.Settings.Default.LastUpdateCheck : totaldays > 6
+- minor fixes
+
+----------------------------------------------------------
+0.3.0
+
+- opzione -autostart
+	- evento di MainForm_Shown:  this.ExecBackUp();
+	- se tutto OK Application.Exit() in "evento" EndDownload
+	- testato con Ubuntu OK.. C'è solo uno strano comporamento di Application.Exit() in Mono 1.9.  Bug?
+- opzione -writelog      scritture log per debug
+- test con utente "normale" [OK]
+- testare -writelog in Linux [OK]
+
+----------------------------------------------------------
+0.2.1
+ - proxy : tolto obsoleto e impostazione noauth
+ - opzione per disabilitare autocheckupdate
+ - spostato repository SVN
+ - supporto migliore per check update
+----------------------------------------------------------
+0.2.0  
+	....
+	....
+----------------------------------------------------------
