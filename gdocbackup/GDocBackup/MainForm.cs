@@ -222,6 +222,7 @@ namespace GDocBackup
             this.dataGV.Rows.Clear();
             this.BtnExec.Text = "STOP";
             this.Cursor = Cursors.WaitCursor;
+            this.dataGV.Cursor = Cursors.WaitCursor;   // Need to set it (perhaps a bug of DataGridView...)
 
             // Start working thread
             _workingThread = new Thread(ExecBackupThread);
@@ -290,6 +291,7 @@ namespace GDocBackup
         {
             this.progressBar1.Value = 0;
             this.Cursor = Cursors.Default;
+            this.dataGV.Cursor = Cursors.Default;    // Need to set it (perhaps a bug of DataGridView...)
             this.BtnExec.Enabled = true;
             this.BtnExec.Text = "Exec";
 

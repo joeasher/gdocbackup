@@ -1,5 +1,9 @@
 
-*** WorkInProgess ***
+*** WorkInProgess : NEXT RELEASE ***
+
+0.3.2.9991
+
+- set cursor on datagridview (is it a datagridview bug ?)
 
 
 ----------------------------------------------------------
