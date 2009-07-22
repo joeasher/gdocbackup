@@ -100,7 +100,7 @@ namespace GDocBackup
             this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "AboutForm";
+            this.Text = "About";
             this.Load += new System.EventHandler(this.AboutForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
