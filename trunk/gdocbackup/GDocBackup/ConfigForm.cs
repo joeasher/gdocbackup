@@ -55,9 +55,27 @@ namespace GDocBackup
             cbDisableUpdateCheck.Checked = conf.DisableUpdateCheck;
 
             // Data format TAB
-            cbDocFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat);
-            cbSprShFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.SpreadsheetExportFormat);
-            cbPresFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.PresentationExportFormat);
+            cbEnableMultiExport.Checked = conf.MultiExportEnabled;
+
+            {
+                List<Document.DownloadType> docTypes = new List<Document.DownloadType>();
+                docTypes.AddRange(this.DecodeDownloadTypeArray(conf.MultiExportDocuments, Document.DownloadType.doc));
+                for (int i = 0; i < clbDocFormat.Items.Count; i++)
+                {
+                    if (docTypes.Contains((Document.DownloadType)clbDocFormat.Items[i]))
+                        clbDocFormat.SetItemChecked(i, true);
+                }
+            }
+
+
+            //conf.MultiExportDocuments.Split
+
+            // ...
+            {
+                cbDocFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat);
+                cbSprShFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.SpreadsheetExportFormat);
+                cbPresFormat.SelectedItem = Utility.ParseEnum<Document.DownloadType>(conf.PresentationExportFormat);
+            }
 
 
             // Proxy TAB
@@ -72,6 +90,24 @@ namespace GDocBackup
 
             this.SetAllControlStatus();
         }
+
+
+
+        private Document.DownloadType[] DecodeDownloadTypeArray(string s, Document.DownloadType defaultType)
+        {
+            if (String.IsNullOrEmpty(s))
+                return new Document.DownloadType[] { defaultType };
+
+            string[] tokens = s.Split('|');
+            if (tokens.Length == 0)
+                return new Document.DownloadType[] { defaultType };
+
+            Document.DownloadType[] list = new Document.DownloadType[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
+                list[i] = Utility.ParseEnum<Document.DownloadType>(tokens[i]);
+            return list;
+        }
+
 
 
         /// <summary>
@@ -152,6 +188,12 @@ namespace GDocBackup
             this.SetAllControlStatus();
         }
 
+        private void cbEnableMultiExport_CheckedChanged(object sender, EventArgs e)
+        {
+            this.SetAllControlStatus();
+        }
+
+
         /// <summary>
         /// Checks all control dependecies and sets visul properties.
         /// </summary>
@@ -167,6 +209,27 @@ namespace GDocBackup
                 panelProxyHostPort.Enabled = ((ProxyHostPortSource)comboProxyHostSource.SelectedItem == ProxyHostPortSource.HostPort);
             if (comboProxyAuthType.SelectedItem != null)
                 panelProxyUserPwd.Enabled = ((ProxyAuthMode)comboProxyAuthType.SelectedItem == ProxyAuthMode.UsernamePassword);
+
+            // Export format tab
+            panelSingleExport.Location = new Point(0, 0);
+            panelMultiExport.Location = new Point(0, 0);
+
+            if (cbEnableMultiExport.Checked)
+            {
+                panelMultiExport.Visible = true;
+                panelSingleExport.Visible = false;
+
+            }
+            else
+            {
+                panelMultiExport.Visible = false;
+                panelSingleExport.Visible = true;
+            }
+
+
+
+            //panelMultiExport.Visible = cbEnableMultiExport.Checked;
+
         }
 
 
@@ -197,7 +260,29 @@ namespace GDocBackup
 
             cbPresFormat.Items.Add(Document.DownloadType.ppt);
             cbPresFormat.Items.Add(Document.DownloadType.pdf);
+
+
+            clbDocFormat.Items.Add(Document.DownloadType.doc);
+            clbDocFormat.Items.Add(Document.DownloadType.odt);
+            clbDocFormat.Items.Add(Document.DownloadType.png);
+            clbDocFormat.Items.Add(Document.DownloadType.rtf);
+            clbDocFormat.Items.Add(Document.DownloadType.txt);
+            clbDocFormat.Items.Add(Document.DownloadType.pdf);
+
+            clbSprShFormat.Items.Add(Document.DownloadType.xls);
+            clbSprShFormat.Items.Add(Document.DownloadType.csv);
+            clbSprShFormat.Items.Add(Document.DownloadType.ods);
+            clbSprShFormat.Items.Add(Document.DownloadType.tsv);
+            clbSprShFormat.Items.Add(Document.DownloadType.pdf);
+
+            clbPresFormat.Items.Add(Document.DownloadType.ppt);
+            clbPresFormat.Items.Add(Document.DownloadType.pdf);
+
         }
+
+
+
+
 
 
 

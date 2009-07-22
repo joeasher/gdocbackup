@@ -69,7 +69,7 @@ namespace GDocBackup
         {
             this.Icon = Properties.Resources.Logo;
             this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            this.StoreLogMsg("FORM_LOAD: " + this.Text);
+            this.StoreLogMsg(-1, "FORM_LOAD: " + this.Text);
 
             if (Properties.Settings.Default.CallUpgrade)
             {
@@ -131,9 +131,9 @@ namespace GDocBackup
         /// Add log message to list and file
         /// </summary>
         /// <param name="s"></param>
-        private void StoreLogMsg(string s)
+        private void StoreLogMsg(int percent, string s)
         {
-            string msg = DateTime.Now.ToString() + " > " + s;
+            string msg = DateTime.Now.ToString() + " - " + percent.ToString("000") + " > " + s;
             if (_logs != null)
                 _logs.Add(msg);
             if (WriteLog)
@@ -245,9 +245,9 @@ namespace GDocBackup
                 parameters[0],
                 parameters[1],
                 parameters[2],
-                Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat),
-                Utility.ParseEnum<Document.DownloadType>(conf.SpreadsheetExportFormat),
-                Utility.ParseEnum<Document.DownloadType>(conf.PresentationExportFormat),
+                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat), Document.DownloadType.pdf },
+                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.SpreadsheetExportFormat), Document.DownloadType.pdf },
+                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.PresentationExportFormat), Document.DownloadType.pdf },
                 Utility.GetProxy());
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
@@ -265,14 +265,16 @@ namespace GDocBackup
                 this.BeginInvoke(new EventHandler<FeedbackEventArgs>(Backup_Feedback), sender, e);
             else
             {
-                this.StoreLogMsg((int)(e.PerCent * 100) + "%");
-                this.StoreLogMsg(e.Message);
+                int percent = (int)(e.PerCent * 100);
 
-                this.progressBar1.Value = (int)(e.PerCent * 100);
+                this.progressBar1.Value = percent;
+
+                if (!String.IsNullOrEmpty(e.Message))
+                    this.StoreLogMsg(percent, e.Message);
 
                 if (e.FeedbackObj != null)
                 {
-                    this.StoreLogMsg("FeedbackObj: " + e.FeedbackObj.ToString());
+                    this.StoreLogMsg(percent, "FeedbackObj: " + e.FeedbackObj.ToString());
                     this.dataGV.Rows.Add(
                         new object[] { 
                             e.FeedbackObj.FileName, 
@@ -311,9 +313,9 @@ namespace GDocBackup
                    "There are errors! " + Environment.NewLine + Environment.NewLine;
                 if (ex != null)
                 {
-                    this.StoreLogMsg("############### EXCEPTION ###############");
-                    this.StoreLogMsg(ex.ToString());
-                    this.StoreLogMsg("#########################################");
+                    this.StoreLogMsg(-1, "############### EXCEPTION ###############");
+                    this.StoreLogMsg(-1, ex.ToString());
+                    this.StoreLogMsg(-1, "#########################################");
                     msg += ex.GetType().Name + " : " + ex.Message;
                 }
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Error);
