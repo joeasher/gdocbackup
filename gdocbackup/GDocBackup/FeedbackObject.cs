@@ -23,7 +23,7 @@ using System.Text;
 namespace GDocBackup
 {
     /// <summary>
-    /// Contains more feedback information about documents/folders
+    /// Contains more feedback information about document/folder
     /// </summary>
     public class FeedbackObject
     {
@@ -48,8 +48,8 @@ namespace GDocBackup
 
         public override string ToString()
         {
-            return "FN=" + FileName + " DT=" + DocType + " Act=" + Action + 
-                " FLD=" + Folder + " LDT=" + LocalDateTime + " RDT=" + RemoteDateTime;
+            return "FileName=" + FileName + " DocType=" + DocType + " Action=" + Action +
+                " Folder=" + Folder + " LocalDateTime=" + LocalDateTime + " RemoteDateTime=" + RemoteDateTime;
         }
     }
 }

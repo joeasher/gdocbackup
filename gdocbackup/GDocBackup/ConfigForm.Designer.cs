@@ -64,17 +64,31 @@ namespace GDocBackup
             this.cbSetProxy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cbDisableUpdateCheck = new System.Windows.Forms.CheckBox();
+            this.tabPageNormalExport = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
+            this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
+            this.tbMultiExpPres = new System.Windows.Forms.TextBox();
+            this.panelSingleExport = new System.Windows.Forms.Panel();
+            this.panelMultiExport = new System.Windows.Forms.Panel();
+            this.cbEnableMultiExport = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.clbDocFormat = new System.Windows.Forms.CheckedListBox();
+            this.clbSprShFormat = new System.Windows.Forms.CheckedListBox();
+            this.clbPresFormat = new System.Windows.Forms.CheckedListBox();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
             this.panelProxyHostPort.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPageNormalExport.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.panelSingleExport.SuspendLayout();
+            this.panelMultiExport.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -142,7 +156,7 @@ namespace GDocBackup
             // cbDocFormat
             // 
             this.cbDocFormat.FormattingEnabled = true;
-            this.cbDocFormat.Location = new System.Drawing.Point(90, 19);
+            this.cbDocFormat.Location = new System.Drawing.Point(89, 18);
             this.cbDocFormat.Name = "cbDocFormat";
             this.cbDocFormat.Size = new System.Drawing.Size(90, 21);
             this.cbDocFormat.TabIndex = 7;
@@ -150,7 +164,7 @@ namespace GDocBackup
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 22);
+            this.label3.Location = new System.Drawing.Point(13, 21);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 1;
@@ -159,7 +173,7 @@ namespace GDocBackup
             // cbPresFormat
             // 
             this.cbPresFormat.FormattingEnabled = true;
-            this.cbPresFormat.Location = new System.Drawing.Point(90, 73);
+            this.cbPresFormat.Location = new System.Drawing.Point(89, 72);
             this.cbPresFormat.Name = "cbPresFormat";
             this.cbPresFormat.Size = new System.Drawing.Size(90, 21);
             this.cbPresFormat.TabIndex = 8;
@@ -167,7 +181,7 @@ namespace GDocBackup
             // cbSprShFormat
             // 
             this.cbSprShFormat.FormattingEnabled = true;
-            this.cbSprShFormat.Location = new System.Drawing.Point(90, 46);
+            this.cbSprShFormat.Location = new System.Drawing.Point(89, 45);
             this.cbSprShFormat.Name = "cbSprShFormat";
             this.cbSprShFormat.Size = new System.Drawing.Size(90, 21);
             this.cbSprShFormat.TabIndex = 8;
@@ -175,7 +189,7 @@ namespace GDocBackup
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 76);
+            this.label5.Location = new System.Drawing.Point(13, 75);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 13);
             this.label5.TabIndex = 3;
@@ -184,7 +198,7 @@ namespace GDocBackup
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 49);
+            this.label4.Location = new System.Drawing.Point(13, 48);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 2;
@@ -389,7 +403,7 @@ namespace GDocBackup
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPageNormalExport);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -416,21 +430,28 @@ namespace GDocBackup
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // cbDisableUpdateCheck
             // 
-            this.tabPage2.Controls.Add(this.cbPresFormat);
-            this.tabPage2.Controls.Add(this.cbSprShFormat);
-            this.tabPage2.Controls.Add(this.cbDocFormat);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(362, 197);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Export format";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.cbDisableUpdateCheck.AutoSize = true;
+            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 133);
+            this.cbDisableUpdateCheck.Name = "cbDisableUpdateCheck";
+            this.cbDisableUpdateCheck.Size = new System.Drawing.Size(130, 17);
+            this.cbDisableUpdateCheck.TabIndex = 10;
+            this.cbDisableUpdateCheck.Text = "Disable update check";
+            this.cbDisableUpdateCheck.UseVisualStyleBackColor = true;
+            // 
+            // tabPageNormalExport
+            // 
+            this.tabPageNormalExport.Controls.Add(this.cbEnableMultiExport);
+            this.tabPageNormalExport.Controls.Add(this.panelMultiExport);
+            this.tabPageNormalExport.Controls.Add(this.panelSingleExport);
+            this.tabPageNormalExport.Location = new System.Drawing.Point(4, 22);
+            this.tabPageNormalExport.Name = "tabPageNormalExport";
+            this.tabPageNormalExport.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNormalExport.Size = new System.Drawing.Size(362, 197);
+            this.tabPageNormalExport.TabIndex = 1;
+            this.tabPageNormalExport.Text = "Export format";
+            this.tabPageNormalExport.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -443,15 +464,114 @@ namespace GDocBackup
             this.tabPage3.Text = "Proxy";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // cbDisableUpdateCheck
+            // tbMultiExpCalc
             // 
-            this.cbDisableUpdateCheck.AutoSize = true;
-            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 136);
-            this.cbDisableUpdateCheck.Name = "cbDisableUpdateCheck";
-            this.cbDisableUpdateCheck.Size = new System.Drawing.Size(130, 17);
-            this.cbDisableUpdateCheck.TabIndex = 10;
-            this.cbDisableUpdateCheck.Text = "Disable update check";
-            this.cbDisableUpdateCheck.UseVisualStyleBackColor = true;
+            this.tbMultiExpCalc.Location = new System.Drawing.Point(3, 40);
+            this.tbMultiExpCalc.Name = "tbMultiExpCalc";
+            this.tbMultiExpCalc.Size = new System.Drawing.Size(142, 20);
+            this.tbMultiExpCalc.TabIndex = 0;
+            // 
+            // tbMultiExpDoc
+            // 
+            this.tbMultiExpDoc.Location = new System.Drawing.Point(3, 13);
+            this.tbMultiExpDoc.Name = "tbMultiExpDoc";
+            this.tbMultiExpDoc.Size = new System.Drawing.Size(142, 20);
+            this.tbMultiExpDoc.TabIndex = 0;
+            // 
+            // tbMultiExpPres
+            // 
+            this.tbMultiExpPres.Location = new System.Drawing.Point(3, 67);
+            this.tbMultiExpPres.Name = "tbMultiExpPres";
+            this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
+            this.tbMultiExpPres.TabIndex = 0;
+            // 
+            // panelSingleExport
+            // 
+            this.panelSingleExport.Controls.Add(this.cbPresFormat);
+            this.panelSingleExport.Controls.Add(this.label4);
+            this.panelSingleExport.Controls.Add(this.cbSprShFormat);
+            this.panelSingleExport.Controls.Add(this.label3);
+            this.panelSingleExport.Controls.Add(this.cbDocFormat);
+            this.panelSingleExport.Controls.Add(this.label5);
+            this.panelSingleExport.Location = new System.Drawing.Point(307, 15);
+            this.panelSingleExport.Name = "panelSingleExport";
+            this.panelSingleExport.Size = new System.Drawing.Size(279, 117);
+            this.panelSingleExport.TabIndex = 9;
+            // 
+            // panelMultiExport
+            // 
+            this.panelMultiExport.Controls.Add(this.clbPresFormat);
+            this.panelMultiExport.Controls.Add(this.clbSprShFormat);
+            this.panelMultiExport.Controls.Add(this.clbDocFormat);
+            this.panelMultiExport.Controls.Add(this.label11);
+            this.panelMultiExport.Controls.Add(this.label13);
+            this.panelMultiExport.Controls.Add(this.label14);
+            this.panelMultiExport.Location = new System.Drawing.Point(10, 6);
+            this.panelMultiExport.Name = "panelMultiExport";
+            this.panelMultiExport.Size = new System.Drawing.Size(273, 138);
+            this.panelMultiExport.TabIndex = 12;
+            // 
+            // cbEnableMultiExport
+            // 
+            this.cbEnableMultiExport.AutoSize = true;
+            this.cbEnableMultiExport.Location = new System.Drawing.Point(3, 174);
+            this.cbEnableMultiExport.Name = "cbEnableMultiExport";
+            this.cbEnableMultiExport.Size = new System.Drawing.Size(115, 17);
+            this.cbEnableMultiExport.TabIndex = 13;
+            this.cbEnableMultiExport.Text = "Enable multi-export";
+            this.cbEnableMultiExport.UseVisualStyleBackColor = true;
+            this.cbEnableMultiExport.CheckedChanged += new System.EventHandler(this.cbEnableMultiExport_CheckedChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(102, 9);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(70, 13);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "Spreadsheet:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(13, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 13);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "Document:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(185, 9);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(69, 13);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "Presentation:";
+            // 
+            // clbDocFormat
+            // 
+            this.clbDocFormat.FormattingEnabled = true;
+            this.clbDocFormat.Location = new System.Drawing.Point(16, 25);
+            this.clbDocFormat.Name = "clbDocFormat";
+            this.clbDocFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbDocFormat.TabIndex = 7;
+            // 
+            // clbSprShFormat
+            // 
+            this.clbSprShFormat.FormattingEnabled = true;
+            this.clbSprShFormat.Location = new System.Drawing.Point(102, 25);
+            this.clbSprShFormat.Name = "clbSprShFormat";
+            this.clbSprShFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbSprShFormat.TabIndex = 7;
+            // 
+            // clbPresFormat
+            // 
+            this.clbPresFormat.FormattingEnabled = true;
+            this.clbPresFormat.Location = new System.Drawing.Point(188, 25);
+            this.clbPresFormat.Name = "clbPresFormat";
+            this.clbPresFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbPresFormat.TabIndex = 7;
             // 
             // ConfigForm
             // 
@@ -479,10 +599,14 @@ namespace GDocBackup
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabPageNormalExport.ResumeLayout(false);
+            this.tabPageNormalExport.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.panelSingleExport.ResumeLayout(false);
+            this.panelSingleExport.PerformLayout();
+            this.panelMultiExport.ResumeLayout(false);
+            this.panelMultiExport.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -521,12 +645,24 @@ namespace GDocBackup
         private System.Windows.Forms.Panel panelProxyUserPwd;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageNormalExport;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panelProxy2;
         private System.Windows.Forms.CheckBox cbDirectConnection;
         private System.Windows.Forms.ComboBox comboProxyHostSource;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox cbDisableUpdateCheck;
+        private System.Windows.Forms.TextBox tbMultiExpCalc;
+        private System.Windows.Forms.TextBox tbMultiExpDoc;
+        private System.Windows.Forms.TextBox tbMultiExpPres;
+        private System.Windows.Forms.Panel panelSingleExport;
+        private System.Windows.Forms.Panel panelMultiExport;
+        private System.Windows.Forms.CheckBox cbEnableMultiExport;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.CheckedListBox clbDocFormat;
+        private System.Windows.Forms.CheckedListBox clbPresFormat;
+        private System.Windows.Forms.CheckedListBox clbSprShFormat;
     }
 }
