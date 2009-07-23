@@ -245,9 +245,9 @@ namespace GDocBackup
                 parameters[0],
                 parameters[1],
                 parameters[2],
-                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.DocumentExportFormat), Document.DownloadType.pdf },
-                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.SpreadsheetExportFormat), Document.DownloadType.pdf },
-                new Document.DownloadType[] { Utility.ParseEnum<Document.DownloadType>(conf.PresentationExportFormat), Document.DownloadType.pdf },
+                Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
+                Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
+                Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
                 Utility.GetProxy());
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
