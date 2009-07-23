@@ -229,42 +229,6 @@ namespace GDocBackup.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MultiExportDocuments {
-            get {
-                return ((string)(this["MultiExportDocuments"]));
-            }
-            set {
-                this["MultiExportDocuments"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MultiExportSpreadsheets {
-            get {
-                return ((string)(this["MultiExportSpreadsheets"]));
-            }
-            set {
-                this["MultiExportSpreadsheets"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MultiExportPresentations {
-            get {
-                return ((string)(this["MultiExportPresentations"]));
-            }
-            set {
-                this["MultiExportPresentations"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool MultiExportEnabled {
             get {

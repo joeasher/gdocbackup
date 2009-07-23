@@ -53,15 +53,6 @@
     <Setting Name="LastUpdateCheck" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">2000-01-01</Value>
     </Setting>
-    <Setting Name="MultiExportDocuments" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="MultiExportSpreadsheets" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="MultiExportPresentations" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="MultiExportEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
