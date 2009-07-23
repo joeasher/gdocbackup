@@ -474,7 +474,7 @@ namespace GDocBackup
             this.panelMultiExport.Controls.Add(this.label14);
             this.panelMultiExport.Location = new System.Drawing.Point(10, 6);
             this.panelMultiExport.Name = "panelMultiExport";
-            this.panelMultiExport.Size = new System.Drawing.Size(273, 138);
+            this.panelMultiExport.Size = new System.Drawing.Size(273, 156);
             this.panelMultiExport.TabIndex = 12;
             // 
             // clbPresFormat
@@ -482,7 +482,7 @@ namespace GDocBackup
             this.clbPresFormat.FormattingEnabled = true;
             this.clbPresFormat.Location = new System.Drawing.Point(188, 25);
             this.clbPresFormat.Name = "clbPresFormat";
-            this.clbPresFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbPresFormat.Size = new System.Drawing.Size(70, 109);
             this.clbPresFormat.TabIndex = 7;
             // 
             // clbSprShFormat
@@ -490,7 +490,7 @@ namespace GDocBackup
             this.clbSprShFormat.FormattingEnabled = true;
             this.clbSprShFormat.Location = new System.Drawing.Point(102, 25);
             this.clbSprShFormat.Name = "clbSprShFormat";
-            this.clbSprShFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbSprShFormat.Size = new System.Drawing.Size(70, 109);
             this.clbSprShFormat.TabIndex = 7;
             // 
             // clbDocFormat
@@ -498,7 +498,7 @@ namespace GDocBackup
             this.clbDocFormat.FormattingEnabled = true;
             this.clbDocFormat.Location = new System.Drawing.Point(16, 25);
             this.clbDocFormat.Name = "clbDocFormat";
-            this.clbDocFormat.Size = new System.Drawing.Size(70, 94);
+            this.clbDocFormat.Size = new System.Drawing.Size(70, 109);
             this.clbDocFormat.TabIndex = 7;
             // 
             // label11
@@ -536,7 +536,7 @@ namespace GDocBackup
             this.panelSingleExport.Controls.Add(this.label3);
             this.panelSingleExport.Controls.Add(this.cbDocFormat);
             this.panelSingleExport.Controls.Add(this.label5);
-            this.panelSingleExport.Location = new System.Drawing.Point(153, 150);
+            this.panelSingleExport.Location = new System.Drawing.Point(312, 45);
             this.panelSingleExport.Name = "panelSingleExport";
             this.panelSingleExport.Size = new System.Drawing.Size(279, 117);
             this.panelSingleExport.TabIndex = 9;

@@ -43,6 +43,7 @@ namespace GDocBackup
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(410, 154);
             this.textBox1.TabIndex = 2;
+            this.textBox1.WordWrap = false;
             // 
             // btnClose
             // 
