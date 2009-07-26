@@ -14,13 +14,12 @@
    limitations under the License.
 */
 
-
-/*
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GDocBackup
+
+namespace GDocBackupLib
 {
     /// <summary>
     /// Contains more feedback information about document/folder
@@ -53,4 +52,3 @@ namespace GDocBackup
         }
     }
 }
-*/

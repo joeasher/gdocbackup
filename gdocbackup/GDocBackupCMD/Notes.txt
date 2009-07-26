@@ -1,8 +1,9 @@
  Parameters:
               - username
               - password  (plain text)
-              - passwordEnd  (encoded)
-              - destinationFolder
+              - passwordEnc  (encoded)
+              - passwordEncFile  (file with encoded password)
+              - destDir
               - doc export formats
               - spreadsheet export formats
               - presentation export formats

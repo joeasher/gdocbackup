@@ -25,6 +25,7 @@ using System.IO;
 using System.Threading;
 using System.Reflection;
 using Google.Documents;
+using GDocBackupLib;
 
 
 namespace GDocBackup
@@ -248,7 +249,7 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
-                Utility.GetProxy());
+                UtilityOLD.GetProxy());
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();

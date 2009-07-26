@@ -14,12 +14,10 @@
    limitations under the License.
 */
 
-/*
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GDocBackup
+
+namespace GDocBackupLib
 {
     /// <summary>
     /// Feedback event argument
@@ -38,4 +36,3 @@ namespace GDocBackup
         public FeedbackEventArgs(string message, double percent, FeedbackObject fo) { _message = message; _percent = percent; _feedbackobj = fo; }
     }
 }
-*/
