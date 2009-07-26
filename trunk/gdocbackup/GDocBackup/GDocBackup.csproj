@@ -29,22 +29,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.GData.AccessControl, Version=1.4.1.28538, Culture=neutral, PublicKeyToken=b4b8eb9a7afc8328, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_dll\Google.GData.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.GData.Client, Version=1.4.1.28536, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_dll\Google.GData.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.GData.Documents, Version=1.4.1.28543, Culture=neutral, PublicKeyToken=099e9a853da5b089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_dll\Google.GData.Documents.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.GData.Extensions, Version=1.4.1.28538, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_dll\Google.GData.Extensions.dll</HintPath>
-    </Reference>
+    <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL" />
+    <Reference Include="Google.GData.Documents, Version=1.4.0.2, Culture=neutral, PublicKeyToken=099e9a853da5b089, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -148,6 +134,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MyDiary.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GDocBackupLib\GDocBackupLib.csproj">
+      <Project>{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}</Project>
+      <Name>GDocBackupLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

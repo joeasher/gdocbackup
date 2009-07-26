@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FE34A3C5-FFC2-4463-A411-71A3B0BC3BB9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GDocBackupCMD</RootNamespace>
-    <AssemblyName>GDocBackupCMD</AssemblyName>
+    <RootNamespace>GDocBackupLib</RootNamespace>
+    <AssemblyName>GDocBackupLib</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,22 +30,18 @@
   <ItemGroup>
     <Reference Include="Google.GData.Client, Version=1.4.0.2, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL" />
     <Reference Include="Google.GData.Documents, Version=1.4.0.2, Culture=neutral, PublicKeyToken=099e9a853da5b089, processorArchitecture=MSIL" />
+    <Reference Include="Google.GData.Extensions, Version=1.4.0.2, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Backup.cs" />
+    <Compile Include="FeedbackEventArgs.cs" />
+    <Compile Include="FeedbackObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Notes.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GDocBackupLib\GDocBackupLib.csproj">
-      <Project>{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}</Project>
-      <Name>GDocBackupLib</Name>
-    </ProjectReference>
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

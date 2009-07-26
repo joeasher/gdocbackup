@@ -41,7 +41,7 @@ namespace GDocBackup
             {
                 HttpWebRequest req = HttpWebRequest.Create("http://gs.fhtino.it/gdocbackup/lastversion?GDBCheckVer=1") as HttpWebRequest;
                 req.Timeout = 3000;   // wait max 3 seconds.
-                req.Proxy = Utility.GetProxy();
+                req.Proxy = UtilityOLD.GetProxy();
                 HttpWebResponse res = req.GetResponse() as HttpWebResponse;
 
                 string text = null;

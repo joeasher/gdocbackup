@@ -14,25 +14,22 @@
    limitations under the License.
 */
 
-
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Security.Cryptography;
 using System.Net;
 using Google.Documents;
-using GDocBackupLib;
+using System.Security.Cryptography;
 
 
-namespace GDocBackup
+namespace GDocBackupLib
 {
 
     /// <summary>
     /// Misc utilities
     /// </summary>
-    internal class UtilityOLD
+    public class Utility
     {
-
         /// <summary>
         /// Add entroty to protected data
         /// </summary>
@@ -60,7 +57,7 @@ namespace GDocBackup
             return Encoding.Unicode.GetString(dataBytes);
         }
 
-
+        /*
         /// <summary>
         /// Creates an instance of a IWebProxy based on current configuration (app.config).
         /// </summary>
@@ -113,7 +110,7 @@ namespace GDocBackup
 
             return proxy;
         }
-
+        */
 
         /// <summary>
         /// ...
@@ -153,7 +150,8 @@ namespace GDocBackup
             return String.Join("|", list.ConvertAll<String>(delegate(Document.DownloadType x) { return x.ToString(); }).ToArray());
         }
 
-
     }
+
+
 
 }
