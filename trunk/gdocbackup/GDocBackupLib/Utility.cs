@@ -127,12 +127,21 @@ namespace GDocBackupLib
         /// </summary>
         public static List<Document.DownloadType> DecodeDownloadTypeArray(string s)
         {
+            return DecodeDownloadTypeArray(s, '|');
+        }
+
+
+        /// <summary>
+        /// Utility: ....
+        /// </summary>
+        public static List<Document.DownloadType> DecodeDownloadTypeArray(string s, char separator)
+        {
             List<Document.DownloadType> list = new List<Document.DownloadType>();
 
             if (String.IsNullOrEmpty(s))
                 return list;
 
-            string[] tokens = s.Split('|');
+            string[] tokens = s.Split(separator);
             if (tokens.Length == 0)
                 return list;
 
@@ -140,6 +149,7 @@ namespace GDocBackupLib
                 list.Add(Utility.ParseEnum<Document.DownloadType>(tokens[i]));
             return list;
         }
+
 
 
         /// <summary>
