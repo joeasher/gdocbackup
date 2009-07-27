@@ -35,7 +35,6 @@ namespace GDocBackupCMD
 
 
             Dictionary<string, string> parameters = ParseParameters(args);
-
             if (!parameters.ContainsKey("mode"))
                 parameters.Add("mode", "help");
 
