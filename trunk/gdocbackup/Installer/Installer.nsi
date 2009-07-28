@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "GDocBackup"
-!define PRODUCT_VERSION "0.3.2"
+!define PRODUCT_VERSION "0.4.0"
 !define PRODUCT_WEB_SITE "http://gs.fhtino.it/gdocbackup"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\GDocBackup.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -16,12 +16,25 @@
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
+
+
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
+
+; Warning page
+!define MUI_WELCOMEPAGE_TITLE "WARNING"
+!define MUI_WELCOMEPAGE_TEXT "GDocBackup uses the official Google Data APIs (.NET version) (http://code.google.com/p/google-gdata/). So the quality, accuracy and correctness of the exported files is out of the control of GDocBackup. If you encounter problems in the exported documents (i.e. the exported doc is not similar to the original on Google Docs), contact the Google Docs support forum:\r\n http://www.google.com/support/forum/p/Google+Docs "
+!insertmacro MUI_PAGE_WELCOME
+
+; License page
+!insertmacro MUI_PAGE_LICENSE Apache_LICENSE-2.0.txt
+
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
+
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
+
 ; Finish page
 !define MUI_FINISHPAGE_RUN "$INSTDIR\GDocBackup.exe"
 !insertmacro MUI_PAGE_FINISH
@@ -47,7 +60,6 @@ Section "GDocBackup" SEC01
   File "CompiledBIN\Google.GData.Extensions.dll"
   File "CompiledBIN\Google.GData.Documents.dll"
   File "CompiledBIN\Google.GData.Client.dll"
-  File "CompiledBIN\Google.GData.AccessControl.dll"
   File "CompiledBIN\GDocBackup.exe"
   CreateDirectory "$SMPROGRAMS\GDocBackup"
   CreateShortCut "$SMPROGRAMS\GDocBackup\GDocBackup.lnk" "$INSTDIR\GDocBackup.exe"
@@ -85,7 +97,6 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\GDocBackup.exe"
-  Delete "$INSTDIR\Google.GData.AccessControl.dll"
   Delete "$INSTDIR\Google.GData.Client.dll"
   Delete "$INSTDIR\Google.GData.Documents.dll"
   Delete "$INSTDIR\Google.GData.Extensions.dll"
