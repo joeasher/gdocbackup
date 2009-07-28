@@ -37,6 +37,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GDocBackupVersion.cs">
+      <Link>GDocBackupVersion.cs</Link>
+    </Compile>
     <Compile Include="Backup.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FeedbackEventArgs.cs" />
