@@ -232,7 +232,7 @@ namespace GDocBackup
                 Document.DownloadType.rtf,
                 Document.DownloadType.txt,
                 Document.DownloadType.pdf,
-                Document.DownloadType.html  // NEW     // ZIP missing ???
+                // Document.DownloadType.html   // ZIP missing --> html is not useful
             };
 
             Document.DownloadType[] sprsDownType = new Document.DownloadType[]{
@@ -241,7 +241,7 @@ namespace GDocBackup
                 Document.DownloadType.ods,
                 Document.DownloadType.tsv,
                 Document.DownloadType.pdf,
-                Document.DownloadType.html  // NEW 
+                // Document.DownloadType.html   // ZIP missing --> html is not useful
             };
 
             Document.DownloadType[] presDownType = new Document.DownloadType[]{ 
