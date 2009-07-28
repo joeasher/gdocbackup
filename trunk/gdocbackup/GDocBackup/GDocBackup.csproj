@@ -46,7 +46,6 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Backup.cs" />
     <Compile Include="CheckUpdates.cs" />
     <Compile Include="ConfigForm.cs">
       <SubType>Form</SubType>
@@ -54,9 +53,6 @@
     <Compile Include="ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Enums.cs" />
-    <Compile Include="FeedbackEventArgs.cs" />
-    <Compile Include="FeedbackObject.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,7 +123,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Logo.ico" />

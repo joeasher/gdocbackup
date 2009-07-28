@@ -19,6 +19,7 @@ using System;
 
 namespace GDocBackupLib
 {
+
     /// <summary>
     /// Proxy authentication modes
     /// </summary>
