@@ -21,6 +21,7 @@ using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using GDocBackupLib;
 
 
 namespace GDocBackup
@@ -39,9 +40,14 @@ namespace GDocBackup
         {
             try
             {
+                Properties.Settings conf = Properties.Settings.Default;
+
+                IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
+
                 HttpWebRequest req = HttpWebRequest.Create("http://gs.fhtino.it/gdocbackup/lastversion?GDBCheckVer=1") as HttpWebRequest;
                 req.Timeout = 3000;   // wait max 3 seconds.
-                req.Proxy = UtilityOLD.GetProxy();
+                if (webproxy != null)
+                    req.Proxy = webproxy;
                 HttpWebResponse res = req.GetResponse() as HttpWebResponse;
 
                 string text = null;

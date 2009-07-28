@@ -26,6 +26,7 @@ using System.Threading;
 using System.Reflection;
 using Google.Documents;
 using GDocBackupLib;
+using System.Net;
 
 
 namespace GDocBackup
@@ -242,6 +243,8 @@ namespace GDocBackup
 
             Properties.Settings conf = Properties.Settings.Default;
 
+            IWebProxy webproxy =  Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
+
             Backup b = new Backup(
                 parameters[0],
                 parameters[1],
@@ -249,7 +252,7 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
-                UtilityOLD.GetProxy());
+                webproxy);
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();

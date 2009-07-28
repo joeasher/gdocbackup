@@ -15,15 +15,14 @@
 */
 
 using System;
+ 
 
-
-namespace GDocBackup
+namespace GDocBackupLib
 {
-
-  /*  /// <summary>
+    /// <summary>
     /// Proxy authentication modes
     /// </summary>
-    internal enum ProxyAuthMode
+    public enum ProxyAuthMode
     {
         NotAuthenticated,    // proxy not authenticated
         DefaultCredential,   // current user credential (in Win use logged-in user credentials)
@@ -34,10 +33,9 @@ namespace GDocBackup
     /// <summary>
     /// Proxy address source
     /// </summary>
-    internal enum ProxyHostPortSource
+    public enum ProxyHostPortSource
     {
         Default,   // IE
         HostPort
-    }*/
-
+    }
 }

@@ -32,35 +32,7 @@ namespace GDocBackup
     /// </summary>
     internal class UtilityOLD
     {
-
-        /// <summary>
-        /// Add entroty to protected data
-        /// </summary>
-        private static readonly byte[] _protectDataExtraEntropy = new byte[] { 2, 92, 5, 20, 1, 19, 3, 2, 12, 7, 71, 5, 73 };
-
-
-        /// <summary>
-        /// Encrypts data using Data Protection API (DPAPI)
-        /// </summary>
-        public static string ProtectData(string data)
-        {
-            byte[] dataBytes = Encoding.Unicode.GetBytes(data);
-            byte[] encryptedData = ProtectedData.Protect(dataBytes, _protectDataExtraEntropy, DataProtectionScope.CurrentUser);
-            return Convert.ToBase64String(encryptedData);
-        }
-
-
-        /// <summary>
-        /// Decrypts data using Data Protection API (DPAPI)
-        /// </summary>
-        public static string UnprotectData(string encryptedData)
-        {
-            byte[] encryptedDataBytes = Convert.FromBase64String(encryptedData);
-            byte[] dataBytes = ProtectedData.Unprotect(encryptedDataBytes, _protectDataExtraEntropy, DataProtectionScope.CurrentUser);
-            return Encoding.Unicode.GetString(dataBytes);
-        }
-
-
+ /*
         /// <summary>
         /// Creates an instance of a IWebProxy based on current configuration (app.config).
         /// </summary>
@@ -113,47 +85,7 @@ namespace GDocBackup
 
             return proxy;
         }
-
-
-        /// <summary>
-        /// ...
-        /// </summary>
-        public static T ParseEnum<T>(string s)
-        {
-            return (T)Enum.Parse(typeof(T), s);
-        }
-
-
-
-        /// <summary>
-        /// Utility: ....
-        /// </summary>
-        public static List<Document.DownloadType> DecodeDownloadTypeArray(string s)
-        {
-            List<Document.DownloadType> list = new List<Document.DownloadType>();
-
-            if (String.IsNullOrEmpty(s))
-                return list;
-
-            string[] tokens = s.Split('|');
-            if (tokens.Length == 0)
-                return list;
-
-            for (int i = 0; i < tokens.Length; i++)
-                list.Add(Utility.ParseEnum<Document.DownloadType>(tokens[i]));
-            return list;
-        }
-
-
-        /// <summary>
-        /// Utility: ....
-        /// </summary>
-        public static string EncodeDownloadTypeArray(List<Document.DownloadType> list)
-        {
-            return String.Join("|", list.ConvertAll<String>(delegate(Document.DownloadType x) { return x.ToString(); }).ToArray());
-        }
-
-
+         */
     }
 
 }
