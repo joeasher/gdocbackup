@@ -170,6 +170,16 @@ namespace GDocBackupCMD
             Console.WriteLine("  -password: string to be encoded");
             Console.WriteLine("");
             Console.WriteLine("");
+            Console.WriteLine("Examples:");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -password=bar -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -passwordEncFile=pass.txt -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=encodepassword -password=foo");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("");
         }
 
 
