@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using GDocBackupLib;
 using System.IO;
+using GDocBackupLib;
 using Google.Documents;
 using System.Reflection;
 
@@ -31,13 +31,12 @@ namespace GDocBackupCMD
         static int Main(string[] args)
         {
             AssemblyName assembName = Assembly.GetExecutingAssembly().GetName();
-            Console.WriteLine("\n" + assembName.Name + " - ver. " + assembName.Version.ToString() + " - " + "http://gs.fhtino.it/gdocbackup" + "\n\n");
-
+            Console.WriteLine("\n" + assembName.Name + " - ver. " + assembName.Version.ToString() +
+                " - " + "http://gs.fhtino.it/gdocbackup" + "\n\n");
 
             Dictionary<string, string> parameters = ParseParameters(args);
             if (!parameters.ContainsKey("mode"))
                 parameters.Add("mode", "help");
-
 
             if (parameters["mode"] == "encodepassword")
             {
@@ -45,7 +44,6 @@ namespace GDocBackupCMD
                     Console.WriteLine(GDocBackupLib.Utility.ProtectData(parameters["password"]));
                 return 0;
             }
-
 
             if (parameters["mode"] == "backup")
             {
@@ -60,7 +58,7 @@ namespace GDocBackupCMD
                     Console.WriteLine(new String('-', 40));
                     Console.WriteLine(ex.ToString());
                     Console.WriteLine(new String('-', 40));
-                    resOK=false;
+                    resOK = false;
                 }
 
                 if (resOK)
@@ -79,8 +77,9 @@ namespace GDocBackupCMD
         }
 
 
-
-
+        /// <summary>
+        /// ...
+        /// </summary>
         private static bool DoBackup(Dictionary<string, string> parameters)
         {
             // Get username
@@ -135,6 +134,9 @@ namespace GDocBackupCMD
         }
 
 
+        /// <summary>
+        /// ...
+        /// </summary>
         private static void backup_Feedback(object sender, FeedbackEventArgs e)
         {
             int percent = (int)(e.PerCent * 100);
@@ -145,18 +147,29 @@ namespace GDocBackupCMD
         }
 
 
-
         /// <summary>
         /// ...
         /// </summary>
         private static void ShowUsage()
         {
-            Console.WriteLine("USAGE   [TODO]");
-            Console.WriteLine("...");
-            Console.WriteLine("...");
-            Console.WriteLine("...");
-            Console.WriteLine("...");
-            Console.WriteLine("\n\n");
+            Console.WriteLine("USAGE   (draft)");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=backup|encodepassword");
+            Console.WriteLine("");
+            Console.WriteLine(">>> mode=backup <<<");
+            Console.WriteLine("  -username: google username");
+            Console.WriteLine("  -password: password (clear text)");
+            Console.WriteLine("  -passwordEnc: encoded password");
+            Console.WriteLine("  -passwordEncFile: file containing the encoded password");
+            Console.WriteLine("  -destDir: path to the local destination directory");
+            Console.WriteLine("  -docF : export format (for Documents)");
+            Console.WriteLine("  -sprsF: export format (for Spreadsheets)");
+            Console.WriteLine("  -presF: export format (for Presentations)");
+            Console.WriteLine("");
+            Console.WriteLine(">>> mode=encodepassword <<<");
+            Console.WriteLine("  -password: string to be encoded");
+            Console.WriteLine("");
+            Console.WriteLine("");
         }
 
 

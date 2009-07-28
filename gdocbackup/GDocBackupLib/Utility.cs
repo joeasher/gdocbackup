@@ -24,6 +24,8 @@ using System.Security.Cryptography;
 
 namespace GDocBackupLib
 {
+   
+
 
     /// <summary>
     /// Misc utilities
@@ -57,39 +59,38 @@ namespace GDocBackupLib
             return Encoding.Unicode.GetString(dataBytes);
         }
 
-        /*
+
         /// <summary>
         /// Creates an instance of a IWebProxy based on current configuration (app.config).
         /// </summary>
         /// <returns>An instance of WebProxy or null</returns>
-        public static IWebProxy GetProxy()
+        public static IWebProxy GetProxy(bool proxyExplicit, bool directConnection, string hostPortSource,
+            string hostName, int portTcp, string authMode, string username, string password)
         {
-            Properties.Settings conf = Properties.Settings.Default;
-
             IWebProxy proxy = null;
 
-            if (conf.ProxyExplicit)
+            if (proxyExplicit)
             {
-                if (conf.ProxyDirectConnection)
+                if (directConnection)
                 {
                     proxy = new WebProxy();    // empty webproxy --> direct connection
                 }
                 else
                 {
-                    ProxyHostPortSource phps = Utility.ParseEnum<ProxyHostPortSource>(conf.ProxyHostPortSource);
+                    ProxyHostPortSource phps = Utility.ParseEnum<ProxyHostPortSource>(hostPortSource);
                     switch (phps)
                     {
                         case ProxyHostPortSource.Default:
-                            proxy = HttpWebRequest.DefaultWebProxy;   // was: WebProxy.GetDefaultProxy();  // OBSOLETE!!! ... da modificare!!!               
+                            proxy = HttpWebRequest.DefaultWebProxy;
                             break;
                         case ProxyHostPortSource.HostPort:
-                            proxy = new WebProxy(conf.ProxyHost, conf.ProxyPort);
+                            proxy = new WebProxy(hostName, portTcp);
                             break;
                         default:
                             throw new ApplicationException("Not supported ProxyHostPortSource");
                     }
 
-                    ProxyAuthMode proxyAuthMode = Utility.ParseEnum<ProxyAuthMode>(conf.ProxyAuthMode);
+                    ProxyAuthMode proxyAuthMode = Utility.ParseEnum<ProxyAuthMode>(authMode);
                     switch (proxyAuthMode)
                     {
                         case ProxyAuthMode.NotAuthenticated:
@@ -100,7 +101,7 @@ namespace GDocBackupLib
                             break;
                         case ProxyAuthMode.UsernamePassword:
                             proxy.Credentials = new NetworkCredential(
-                                conf.ProxyUsername, Utility.UnprotectData(conf.ProxyPassword));
+                                username, Utility.UnprotectData(password));
                             break;
                         default:
                             throw new ApplicationException("Not supported proxyAuthMode");
@@ -110,7 +111,7 @@ namespace GDocBackupLib
 
             return proxy;
         }
-        */
+
 
         /// <summary>
         /// ...

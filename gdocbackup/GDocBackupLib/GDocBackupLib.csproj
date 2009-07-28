@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backup.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="FeedbackEventArgs.cs" />
     <Compile Include="FeedbackObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
