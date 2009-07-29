@@ -24,9 +24,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Reflection;
+using System.Net;
 using Google.Documents;
 using GDocBackupLib;
-using System.Net;
 
 
 namespace GDocBackup
