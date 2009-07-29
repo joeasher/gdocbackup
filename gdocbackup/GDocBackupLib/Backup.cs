@@ -267,30 +267,6 @@ namespace GDocBackupLib
 
 
 
-        //private void TEST_DOWNLOAD(Document doc, Document.DownloadType downloadtype, DocumentsRequest request)
-        //{
-        //    // ************************************************************************
-        //    //DoFeedback("Downloading: " + doc.Title);
-        //    //DoFeedback("Type: " + doc.Type);
-        //    Stream stream = request.Download(doc, downloadtype);
-        //    using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
-        //    {
-        //        byte[] buffer = new byte[8192];
-        //        int bytesRead;
-        //        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-        //            outFile.Write(buffer, 0, bytesRead);
-        //        outFile.Close();
-        //    }
-        //    new FileInfo(outFileFP).LastWriteTime = doc.Updated;
-        //    // ************************************************************************
-        //}
-
-
-
-
-
-
-
         /// <summary>
         /// Builds (updates) output folders tree
         /// </summary>

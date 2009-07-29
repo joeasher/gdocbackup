@@ -84,6 +84,8 @@ namespace GDocBackup
             tbProxyLogin.Text = conf.ProxyUsername;
             tbProxyPassword.Text = String.IsNullOrEmpty(conf.ProxyPassword) ? null : Utility.UnprotectData(conf.ProxyPassword);
 
+
+            // Setup controls status
             this.SetAllControlStatus();
         }
 
@@ -107,7 +109,6 @@ namespace GDocBackup
                 List<Document.DownloadType> docsDownTypes = this.CLBGetActiveItems(clbDocFormat);
                 List<Document.DownloadType> sprsDownTypes = this.CLBGetActiveItems(clbSprShFormat);
                 List<Document.DownloadType> presDownTypes = this.CLBGetActiveItems(clbPresFormat);
-
                 if (docsDownTypes.Count > 0) conf.DocumentExportFormat = Utility.EncodeDownloadTypeArray(docsDownTypes);
                 if (sprsDownTypes.Count > 0) conf.SpreadsheetExportFormat = Utility.EncodeDownloadTypeArray(sprsDownTypes);
                 if (presDownTypes.Count > 0) conf.PresentationExportFormat = Utility.EncodeDownloadTypeArray(presDownTypes);
@@ -129,14 +130,12 @@ namespace GDocBackup
             conf.ProxyUsername = tbProxyLogin.Text;
             conf.ProxyPassword = String.IsNullOrEmpty(tbProxyPassword.Text) ? null : Utility.ProtectData(tbProxyPassword.Text);
 
+            // Save configuration
             conf.Save();
             this.DialogResult = DialogResult.OK;
         }
 
 
-        /// <summary>
-        /// ...
-        /// </summary>
         private void BtnSelectDir_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -144,7 +143,6 @@ namespace GDocBackup
             if (fbd.ShowDialog() == DialogResult.OK)
                 TbBackupDir.Text = fbd.SelectedPath;
         }
-
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
@@ -188,7 +186,7 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// Checks all control dependecies and sets visul properties.
+        /// Checks all control dependecies and sets visual properties.
         /// </summary>
         private void SetAllControlStatus()
         {
@@ -206,7 +204,6 @@ namespace GDocBackup
             // Export format tab
             panelMultiExport.Visible = cbEnableMultiExport.Checked;
             panelSingleExport.Visible = !cbEnableMultiExport.Checked;
-
         }
 
 
