@@ -1,0 +1,9 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+
+[assembly: AssemblyVersion("0.4.0.$WCREV$")]
+[assembly: AssemblyFileVersion("0.4.0.$WCREV$")]
+[assembly: AssemblyDescription("GDocBackup - SVNRevision: $WCREV$ [$WCDATE$] - http://gs.fhtino.it/gdocbackup")]
+[assembly: AssemblyCopyright("Copyright ©  2009  Fabrizio Accatino")]

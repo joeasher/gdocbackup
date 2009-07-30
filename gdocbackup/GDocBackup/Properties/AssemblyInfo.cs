@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GDocBackup")]
-[assembly: AssemblyDescription("http://gs.fhtino.it/gdocbackup")]
+//[assembly: AssemblyDescription("http://gs.fhtino.it/gdocbackup")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("GDocBackup")]
-[assembly: AssemblyCopyright("Copyright ©  2009  Fabrizio Accatino")]
+//[assembly: AssemblyCopyright("Copyright ©  2009  Fabrizio Accatino")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
