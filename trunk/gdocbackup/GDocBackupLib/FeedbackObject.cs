@@ -26,17 +26,19 @@ namespace GDocBackupLib
     {
         public string FileName;
         public string DocType;
+        public string ExportFormat;
         public string Action;
         public string Folder;
         public DateTime? LocalDateTime;
         public DateTime? RemoteDateTime;
 
         public FeedbackObject(
-            string fileName, string docType, string action, string folder,
+            string fileName, string docType, string exportFormat, string action, string folder,
             DateTime? localDateTime, DateTime? remoteDateTime)
         {
             FileName = fileName;
             DocType = docType;
+            ExportFormat = exportFormat;
             Action = action;
             Folder = folder;
             LocalDateTime = localDateTime;
@@ -45,7 +47,7 @@ namespace GDocBackupLib
 
         public override string ToString()
         {
-            return "FileName=" + FileName + " DocType=" + DocType + " Action=" + Action +
+            return "FileName=" + FileName + " DocType=" + DocType + " ExpFrm=" + ExportFormat + " Action=" + Action +
                 " Folder=" + Folder + " LocalDateTime=" + LocalDateTime + " RemoteDateTime=" + RemoteDateTime;
         }
     }

@@ -195,7 +195,6 @@ namespace GDocBackupLib
                 {
                     try
                     {
-                        bool sendFeedback = true;
                         foreach (Document.DownloadType downloadtype in downloadTypes)
                         {
                             // Build local file path
@@ -234,14 +233,10 @@ namespace GDocBackupLib
                                 DoFeedback("Skipped doc: " + doc.Title);
                             }
 
-                            // Send Feedback only on first download type
-                            if (sendFeedback)
-                            {
-                                DoFeedback(new FeedbackObject(
-                                    doc.Title, doc.Type.ToString(), downloadDoc ? "BCKUP" : "SKIP",
-                                    "", locFileDateTime, gdocFileDateTime));
-                                sendFeedback = false;
-                            }
+                            // Send Feedback                             
+                            DoFeedback(new FeedbackObject(
+                                doc.Title, doc.Type.ToString(), downloadtype.ToString(), downloadDoc ? "BCKUP" : "SKIP",
+                                "", locFileDateTime, gdocFileDateTime));
                         }
                     }
                     catch (Exception ex)
@@ -249,7 +244,7 @@ namespace GDocBackupLib
                         errorCount++;
                         DoFeedback("DOC-ERROR: " + ex.ToString());
                         DoFeedback(new FeedbackObject(
-                            doc.Title, doc.Type.ToString(), "ERROR",
+                            doc.Title, doc.Type.ToString(), "", "ERROR",
                             "", null, null));
                     }
 
@@ -257,7 +252,7 @@ namespace GDocBackupLib
                 else
                 {
                     if (doc.Type != Document.DocumentType.Folder)
-                        DoFeedback(new FeedbackObject(doc.Title, doc.Type.ToString(), "NONE", "", null, null));
+                        DoFeedback(new FeedbackObject(doc.Title, doc.Type.ToString(), "", "NONE", "", null, null));
                 }
             }
 
