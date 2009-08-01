@@ -283,6 +283,7 @@ namespace GDocBackup
                         new object[] { 
                             e.FeedbackObj.FileName, 
                             e.FeedbackObj.DocType, 
+                            e.FeedbackObj.ExportFormat.ToUpper(),
                             e.FeedbackObj.Action,
                             e.FeedbackObj.RemoteDateTime.ToString() });
                 }

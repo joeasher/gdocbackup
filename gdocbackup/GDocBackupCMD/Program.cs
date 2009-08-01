@@ -140,10 +140,9 @@ namespace GDocBackupCMD
         private static void backup_Feedback(object sender, FeedbackEventArgs e)
         {
             int percent = (int)(e.PerCent * 100);
-            string msg = percent.ToString("000") + " - " + e.Message;
-            Console.WriteLine("LOG> " + msg);
+            Console.WriteLine("LOG> " + percent.ToString("000") + " : " + e.Message);
             if (e.FeedbackObj != null)
-                Console.WriteLine(percent.ToString("000") + " - FeedbackObj: " + e.FeedbackObj.ToString());
+                Console.WriteLine("FBK> " + percent.ToString("000") + " : " + e.FeedbackObj.ToString());
         }
 
 
