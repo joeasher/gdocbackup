@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "GDocBackup"
-!define PRODUCT_VERSION "0.4.0"
+!define PRODUCT_VERSION "$$$VerMajor$$$.$$$VerMinor$$$.$$$VerBuild$$$"
 !define PRODUCT_WEB_SITE "http://gs.fhtino.it/gdocbackup"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\GDocBackup.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -23,7 +23,7 @@
 
 ; Warning page
 !define MUI_WELCOMEPAGE_TITLE "WARNING"
-!define MUI_WELCOMEPAGE_TEXT "GDocBackup uses the official Google Data APIs (.NET version) (http://code.google.com/p/google-gdata/). So the quality, accuracy and correctness of the exported files is out of the control of GDocBackup. If you encounter problems in the exported documents (i.e. the exported doc is not similar to the original on Google Docs), contact the Google Docs support forum:\r\n http://www.google.com/support/forum/p/Google+Docs "
+!define MUI_WELCOMEPAGE_TEXT "*** READ CAREFULLY ***\r\n\r\nGDocBackup uses the official Google Data APIs (.NET version) (http://code.google.com/p/google-gdata/). So the quality, accuracy and correctness of the exported files is out of the control of GDocBackup. If you encounter problems in the exported documents (i.e. the exported doc is not similar to the original on Google Docs), contact the Google Docs support forum:\r\n http://www.google.com/support/forum/p/Google+Docs "
 !insertmacro MUI_PAGE_WELCOME
 
 ; License page
@@ -48,7 +48,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "${PRODUCT_NAME}_${PRODUCT_VERSION}_Setup.exe"
+OutFile "${PRODUCT_NAME}_${PRODUCT_VERSION}.$$$VerRevision$$$_Setup.exe"
 InstallDir "$PROGRAMFILES\GDocBackup"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
