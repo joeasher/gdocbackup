@@ -1,0 +1,26 @@
+
+
+Parameters:
+              - username
+              - password  (plain text)
+              - passwordEnc  (encoded)
+              - passwordEncFile  (file with encoded password)
+              - destDir
+              - doc export formats
+              - spreadsheet export formats
+              - presentation export formats
+              - encodePassword (utility for password encoding: print the encoded password)
+            
+
+Exit codes:
+              - 0 : OK
+              - 1 : errors
+
+
+GDocBackupCMD.exe -encodepassword pippo   --> GFHDJ673HJK789......
+
+
+GDocBackupCMD.exe -username=foo -password bar -folder c:\temp\b -docF=doc|txt|pdf -presF=ppt -sprsF=xls|pdf
+
+
+
