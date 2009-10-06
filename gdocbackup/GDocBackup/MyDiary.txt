@@ -1,12 +1,18 @@
 
 *** WorkInProgess : NEXT RELEASE ***
 
-0.3.2.9991   -->   0.4.0
+[0.4.2]
+
+- check new version in About form
+
+
+----------------------------------------------------------
+
+0.4.1
 
 - set cursor on datagridview (is it a datagridview bug ?)
 - created external DLL: GDocBackupLib
 - created command line version: GDocBackupCMD
-
 
 ----------------------------------------------------------
 0.3.2
