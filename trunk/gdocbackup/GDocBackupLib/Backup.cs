@@ -35,6 +35,7 @@ namespace GDocBackupLib
         private string _userName;
         private string _password;
         private string _outDir;
+        private bool _downloadAll;
         private Document.DownloadType[] _docExpType;
         private Document.DownloadType[] _sprdExpType;
         private Document.DownloadType[] _presExpType;
@@ -84,7 +85,10 @@ namespace GDocBackupLib
         /// [Constructor]
         /// </summary>
         public Backup(
-            string userName, string password, string outDir,
+            string userName,
+            string password,
+            string outDir,
+            bool downloadAll,
             Document.DownloadType[] docExpType,
             Document.DownloadType[] sprdExpType,
             Document.DownloadType[] presExpType,
@@ -93,6 +97,7 @@ namespace GDocBackupLib
             _userName = userName;
             _password = password;
             _outDir = outDir;
+            _downloadAll = downloadAll;
             _docExpType = docExpType;
             _sprdExpType = sprdExpType;
             _presExpType = presExpType;
@@ -210,7 +215,7 @@ namespace GDocBackupLib
                             locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
                             gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
 
-                            bool downloadDoc = (!fi.Exists || locFileDateTime != gdocFileDateTime);
+                            bool downloadDoc = (!fi.Exists || locFileDateTime != gdocFileDateTime || _downloadAll);
                             if (downloadDoc)
                             {
                                 // ************************************************************************

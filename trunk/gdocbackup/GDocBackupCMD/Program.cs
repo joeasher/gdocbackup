@@ -126,7 +126,7 @@ namespace GDocBackupCMD
             Console.WriteLine(new String('-', 40));
 
             // Exec backup
-            Backup backup = new Backup(username, password, destDir, docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(), null);
+            Backup backup = new Backup(username, password, destDir, false, docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(), null);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 

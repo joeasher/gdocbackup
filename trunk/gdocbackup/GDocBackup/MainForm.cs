@@ -98,7 +98,7 @@ namespace GDocBackup
         private void MainForm_Shown(object sender, EventArgs e)
         {
             if (AutoStart)
-                this.ExecBackUp();
+                this.ExecBackUp(false);
         }
 
 
@@ -152,10 +152,22 @@ namespace GDocBackup
         private void BtnExec_Click(object sender, EventArgs e)
         {
             if (this.BtnExec.Text != "STOP")
-                this.ExecBackUp();
+                this.ExecBackUp(false);
             else
                 if (_workingThread != null && _workingThread.IsAlive)
                     _workingThread.Abort();
+        }
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.BtnExec.Text != "STOP")
+                this.ExecBackUp(false);
+        }
+
+        private void downloadAllagainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.BtnExec.Text != "STOP")
+                this.ExecBackUp(true);
         }
 
         private void configToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -196,7 +208,7 @@ namespace GDocBackup
         /// <summary>
         /// Start backup in a separate (background) thread
         /// </summary>
-        private void ExecBackUp()
+        private void ExecBackUp(bool downloadAll)
         {
             string userName = Properties.Settings.Default.UserName;
             string password =
@@ -230,7 +242,7 @@ namespace GDocBackup
             _workingThread = new Thread(ExecBackupThread);
             _workingThread.IsBackground = true;
             _workingThread.Name = "BackupExecThread";
-            _workingThread.Start(new string[] { userName, password, backupDir });
+            _workingThread.Start(new string[] { userName, password, backupDir, downloadAll ? "ALL" : "" });
         }
 
 
@@ -243,12 +255,13 @@ namespace GDocBackup
 
             Properties.Settings conf = Properties.Settings.Default;
 
-            IWebProxy webproxy =  Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
+            IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
 
             Backup b = new Backup(
                 parameters[0],
                 parameters[1],
                 parameters[2],
+                parameters[3] == "ALL",
                 Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
@@ -328,6 +341,7 @@ namespace GDocBackup
         }
 
         #endregion ----------------------------
+
 
     }
 }
