@@ -33,7 +33,6 @@ namespace GDocBackup
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadAllagainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.configToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +86,6 @@ namespace GDocBackup
             // 
             this.configToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.downloadToolStripMenuItem,
-            this.toolStripSeparator3,
             this.downloadAllagainToolStripMenuItem,
             this.toolStripSeparator1,
             this.configToolStripMenuItem1,
@@ -96,63 +94,58 @@ namespace GDocBackup
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.configToolStripMenuItem.Text = "Action";
             // 
             // downloadToolStripMenuItem
             // 
             this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.downloadToolStripMenuItem.Text = "Exec Download";
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.downloadToolStripMenuItem.Text = "Download modified";
             this.downloadToolStripMenuItem.Click += new System.EventHandler(this.downloadToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(184, 6);
             // 
             // downloadAllagainToolStripMenuItem
             // 
             this.downloadAllagainToolStripMenuItem.Name = "downloadAllagainToolStripMenuItem";
-            this.downloadAllagainToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.downloadAllagainToolStripMenuItem.Text = "Download all (Again!)";
+            this.downloadAllagainToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.downloadAllagainToolStripMenuItem.Text = "Download all";
             this.downloadAllagainToolStripMenuItem.Click += new System.EventHandler(this.downloadAllagainToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
             // configToolStripMenuItem1
             // 
             this.configToolStripMenuItem1.Name = "configToolStripMenuItem1";
-            this.configToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
+            this.configToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.configToolStripMenuItem1.Text = "Config";
             this.configToolStripMenuItem1.Click += new System.EventHandler(this.configToolStripMenuItem1_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.logsToolStripMenuItem.Text = "Logs";
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.logsToolStripMenuItem.Text = "View Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(184, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -253,7 +246,6 @@ namespace GDocBackup
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLocalData;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem downloadAllagainToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }

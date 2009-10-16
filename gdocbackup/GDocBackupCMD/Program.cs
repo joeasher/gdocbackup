@@ -113,6 +113,7 @@ namespace GDocBackupCMD
             List<Document.DownloadType> docTypes = Utility.DecodeDownloadTypeArray(docF, '+');
             List<Document.DownloadType> sprsTypes = Utility.DecodeDownloadTypeArray(sprsF, '+');
             List<Document.DownloadType> presTypes = Utility.DecodeDownloadTypeArray(presF, '+');
+            string downloadAll = parameters.ContainsKey("downloadAll") ? parameters["downloadAll"] : null;
 
             // Output parameters
             Console.WriteLine(new String('-', 40));
@@ -123,10 +124,15 @@ namespace GDocBackupCMD
             Console.WriteLine("Document:     " + docF);
             Console.WriteLine("Spreadsheet:  " + sprsF);
             Console.WriteLine("Presentation: " + presF);
+            Console.WriteLine("DownloadAll:  " + downloadAll);
             Console.WriteLine(new String('-', 40));
 
             // Exec backup
-            Backup backup = new Backup(username, password, destDir, false, docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(), null);
+            Backup backup = new Backup(
+                username, password, destDir,
+                downloadAll == "yes",
+                docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(),
+                null);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 
@@ -164,6 +170,7 @@ namespace GDocBackupCMD
             Console.WriteLine("  -docF : export format (for Documents)");
             Console.WriteLine("  -sprsF: export format (for Spreadsheets)");
             Console.WriteLine("  -presF: export format (for Presentations)");
+            Console.WriteLine("  -downloadall: if \"yes\" download all documents");
             Console.WriteLine("");
             Console.WriteLine(">>> mode=encodepassword <<<");
             Console.WriteLine("  -password: string to be encoded");
@@ -172,6 +179,8 @@ namespace GDocBackupCMD
             Console.WriteLine("Examples:");
             Console.WriteLine("");
             Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -password=bar -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -password=bar -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt -downloadall=yes");
             Console.WriteLine("");
             Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -passwordEncFile=pass.txt -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
             Console.WriteLine("");

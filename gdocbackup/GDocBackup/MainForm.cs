@@ -167,7 +167,14 @@ namespace GDocBackup
         private void downloadAllagainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.BtnExec.Text != "STOP")
-                this.ExecBackUp(true);
+            {
+                if (MessageBox.Show(
+                        "GDocBackup will donwload again ALL documents from Google Docs. Are you sure?",
+                        "GDocBackup",
+                        MessageBoxButtons.OKCancel, 
+                        MessageBoxIcon.Warning) == DialogResult.OK)
+                    this.ExecBackUp(true);
+            }
         }
 
         private void configToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -327,8 +334,8 @@ namespace GDocBackup
             }
             else
             {
-                string msg = "Backup completed." + Environment.NewLine + Environment.NewLine +
-                   "There are errors! " + Environment.NewLine + Environment.NewLine;
+                string msg = "Backup completed. There are errors! " + Environment.NewLine + Environment.NewLine +
+                   "Review Logs for details." + Environment.NewLine + Environment.NewLine;
                 if (ex != null)
                 {
                     this.StoreLogMsg(-1, "############### EXCEPTION ###############");
