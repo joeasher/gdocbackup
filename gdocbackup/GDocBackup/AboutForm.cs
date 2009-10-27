@@ -12,6 +12,10 @@ namespace GDocBackup
 {
     public partial class AboutForm : Form
     {
+        private bool _newveravailable;
+        private Version _newversion;
+
+
         public AboutForm()
         {
             InitializeComponent();
@@ -44,14 +48,10 @@ namespace GDocBackup
             _newveravailable = CheckUpdates.Exec(out localVersion, out _newversion);
             try
             {
-                Thread.Sleep(5);
                 this.BeginInvoke((MethodInvoker)delegate() { this.ShowCheckNewVersionResult(); });
             }
             catch (Exception) { }   // the form could be closed during thread run
         }
-
-        private bool _newveravailable;
-        private Version _newversion;
 
         private void ShowCheckNewVersionResult()
         {
