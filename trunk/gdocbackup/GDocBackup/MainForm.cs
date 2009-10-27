@@ -171,7 +171,7 @@ namespace GDocBackup
                 if (MessageBox.Show(
                         "GDocBackup will donwload again ALL documents from Google Docs. Are you sure?",
                         "GDocBackup",
-                        MessageBoxButtons.OKCancel, 
+                        MessageBoxButtons.OKCancel,
                         MessageBoxIcon.Warning) == DialogResult.OK)
                     this.ExecBackUp(true);
             }
@@ -335,7 +335,8 @@ namespace GDocBackup
             else
             {
                 string msg = "Backup completed. There are errors! " + Environment.NewLine + Environment.NewLine +
-                   "Review Logs for details." + Environment.NewLine + Environment.NewLine;
+                   "Please review Logs for details." + Environment.NewLine +
+                   "(Menu 'Action' --> 'View Logs')";
                 if (ex != null)
                 {
                     this.StoreLogMsg(-1, "############### EXCEPTION ###############");
