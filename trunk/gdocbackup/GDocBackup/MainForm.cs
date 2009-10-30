@@ -335,14 +335,14 @@ namespace GDocBackup
             else
             {
                 string msg = "Backup completed. There are errors! " + Environment.NewLine + Environment.NewLine +
-                   "Please review Logs for details." + Environment.NewLine +
-                   "(Menu 'Action' --> 'View Logs')";
+                   "Please review Logs for details. (Menu 'Action' --> 'View Logs')";
                 if (ex != null)
                 {
                     this.StoreLogMsg(-1, "############### EXCEPTION ###############");
                     this.StoreLogMsg(-1, ex.ToString());
                     this.StoreLogMsg(-1, "#########################################");
-                    msg += ex.GetType().Name + " : " + ex.Message;
+                    msg += Environment.NewLine + Environment.NewLine +
+                        "[ERROR: " + ex.GetType().Name + " : " + ex.Message + "]";
                 }
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

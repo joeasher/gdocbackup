@@ -284,7 +284,9 @@ namespace GDocBackupLib
                         // Level = Zero
                         if (doc.ParentFolders.Count == 0)
                         {
-                            string newCurrPath = Path.Combine(currentPath, doc.Title);
+                            string folderName = doc.Title;
+                            folderName = this.RemoveInvalidChars(folderName);
+                            string newCurrPath = Path.Combine(currentPath, folderName);
 
                             _folderDict.Add(doc.Id, newCurrPath);
 
@@ -300,7 +302,9 @@ namespace GDocBackupLib
                         if (doc.ParentFolders.Contains(parentDir.Id))
                         {
                             // child found!
-                            string newCurrPath = Path.Combine(currentPath, doc.Title);
+                            string folderName = doc.Title;
+                            folderName = this.RemoveInvalidChars(folderName);
+                            string newCurrPath = Path.Combine(currentPath, folderName);
 
                             _folderDict.Add(doc.Id, newCurrPath);
 
