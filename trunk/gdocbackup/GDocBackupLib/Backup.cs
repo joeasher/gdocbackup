@@ -28,7 +28,7 @@ namespace GDocBackupLib
 {
 
     /// <summary>
-    /// Execute backup of docs
+    /// Execute backup of docs 
     /// </summary>
     public class Backup
     {
