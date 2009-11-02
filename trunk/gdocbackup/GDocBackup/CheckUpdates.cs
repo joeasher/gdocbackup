@@ -36,7 +36,10 @@ namespace GDocBackup
         /// <summary>
         /// Gets the version of the last available release of GDocBackup form gs.fhtino.it
         /// </summary>
-        public static bool Exec(out Version localVersion, out Version remoteVersion)
+        /// <param name="localVersion">Version of the running assembly</param>
+        /// <param name="remoteVersion">Version of the latest version available</param>
+        /// <param name="errorPresent">True if there was error getting the latest version number</param>
+        public static bool Exec(out Version localVersion, out Version remoteVersion, out bool errorPresent)
         {
             try
             {
@@ -60,22 +63,31 @@ namespace GDocBackup
                 // Sample:   ###LASTVERSION=0.0.9###
                 Regex regex = new Regex("###LASTVERSION=(?<version>(.)*)###");
                 Match match = regex.Match(text);
+                bool newVersionAvailable =false;
                 if (match.Success)
                 {
                     string s = match.Result("${version}");
                     remoteVersion = new Version(s);
                     localVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                    return (remoteVersion > localVersion);
+                    newVersionAvailable = (remoteVersion > localVersion);                    
                 }
+                else
+                {
+                    localVersion = null;
+                    remoteVersion = null;                   
+                    newVersionAvailable = false;                    
+                }
+                errorPresent = false;
+                return newVersionAvailable;
             }
             catch (Exception)
             {
                 // ignore exception
-            }
-
-            localVersion = null;
-            remoteVersion = null;
-            return false;
+                errorPresent = true;                
+                localVersion = null;
+                remoteVersion = null;
+                return false;
+            }            
         }
     }
 }

@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MyDiary.txt" />
+    <None Include="Resources\error_20x20.png" />
     <None Include="Resources\running.gif" />
     <None Include="Resources\warning_20x20.png" />
     <None Include="Resources\ok_20x20.png" />

@@ -13,6 +13,7 @@ namespace GDocBackup
     public partial class AboutForm : Form
     {
         private bool _newveravailable;
+        private bool _newversionerror;
         private Version _newversion;
 
 
@@ -45,7 +46,7 @@ namespace GDocBackup
         private void ExecCheckNewVersion()
         {
             Version localVersion;
-            _newveravailable = CheckUpdates.Exec(out localVersion, out _newversion);
+            _newveravailable = CheckUpdates.Exec(out localVersion, out _newversion, out _newversionerror);
             try
             {
                 this.BeginInvoke((MethodInvoker)delegate() { this.ShowCheckNewVersionResult(); });
@@ -55,15 +56,23 @@ namespace GDocBackup
 
         private void ShowCheckNewVersionResult()
         {
-            if (_newveravailable)
+            if (_newversionerror)
             {
-                lblCheckNewVer.Text = "A new version is available (" + _newversion.ToString() + ")";
-                pictRotor.Image = Properties.Resources.warning_20x20;
+                lblCheckNewVer.Text = "Error detecting latest available version.";
+                pictRotor.Image = Properties.Resources.error_20x20;
             }
             else
             {
-                lblCheckNewVer.Text = "You have the latest version.";
-                pictRotor.Image = Properties.Resources.ok_20x20;
+                if (_newveravailable)
+                {
+                    lblCheckNewVer.Text = "A new version is available (" + _newversion.ToString() + ")";
+                    pictRotor.Image = Properties.Resources.warning_20x20;
+                }
+                else
+                {
+                    lblCheckNewVer.Text = "You have the latest version.";
+                    pictRotor.Image = Properties.Resources.ok_20x20;
+                }
             }
         }
 

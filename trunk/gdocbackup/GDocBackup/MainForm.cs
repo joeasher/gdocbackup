@@ -113,7 +113,8 @@ namespace GDocBackup
                 {
                     Version localVersion;
                     Version remoteVersion;
-                    if (CheckUpdates.Exec(out localVersion, out remoteVersion))
+                    bool errorPresent;
+                    if (CheckUpdates.Exec(out localVersion, out remoteVersion, out errorPresent))
                     {
                         using (NewVersion nv = new NewVersion())
                         {
