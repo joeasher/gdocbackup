@@ -34,12 +34,57 @@ namespace GDocBackup
     {
 
         /// <summary>
-        /// Gets the version of the last available release of GDocBackup form gs.fhtino.it
+        /// Gets the version of the last available release of GDocBackup from fhtino.appspot.com
         /// </summary>
         /// <param name="localVersion">Version of the running assembly</param>
         /// <param name="remoteVersion">Version of the latest version available</param>
         /// <param name="errorPresent">True if there was error getting the latest version number</param>
         public static bool Exec(out Version localVersion, out Version remoteVersion, out bool errorPresent)
+        {
+            try
+            {
+                Properties.Settings conf = Properties.Settings.Default;
+
+                IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
+
+                HttpWebRequest req = HttpWebRequest.Create("http://fhtino.appspot.com/getinformation?code=gdocbackupver") as HttpWebRequest;
+                req.Timeout = 3000;   // wait max 3 seconds.
+                if (webproxy != null)
+                    req.Proxy = webproxy;
+                HttpWebResponse res = req.GetResponse() as HttpWebResponse;
+
+                string text = null;
+                using (Stream stream = res.GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(stream))
+                        text = sr.ReadToEnd();
+                }
+
+                remoteVersion = new Version(text);
+                localVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                errorPresent = false;
+
+                return (remoteVersion > localVersion);
+            }
+            catch (Exception)
+            {
+                // ignore exception
+                errorPresent = true;
+                localVersion = null;
+                remoteVersion = null;
+                return false;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Gets the version of the last available release of GDocBackup form gs.fhtino.it
+        /// </summary>
+        /// <param name="localVersion">Version of the running assembly</param>
+        /// <param name="remoteVersion">Version of the latest version available</param>
+        /// <param name="errorPresent">True if there was error getting the latest version number</param>
+        public static bool Exec_OLD_NOTUSED(out Version localVersion, out Version remoteVersion, out bool errorPresent)
         {
             try
             {
@@ -63,19 +108,19 @@ namespace GDocBackup
                 // Sample:   ###LASTVERSION=0.0.9###
                 Regex regex = new Regex("###LASTVERSION=(?<version>(.)*)###");
                 Match match = regex.Match(text);
-                bool newVersionAvailable =false;
+                bool newVersionAvailable = false;
                 if (match.Success)
                 {
                     string s = match.Result("${version}");
                     remoteVersion = new Version(s);
                     localVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                    newVersionAvailable = (remoteVersion > localVersion);                    
+                    newVersionAvailable = (remoteVersion > localVersion);
                 }
                 else
                 {
                     localVersion = null;
-                    remoteVersion = null;                   
-                    newVersionAvailable = false;                    
+                    remoteVersion = null;
+                    newVersionAvailable = false;
                 }
                 errorPresent = false;
                 return newVersionAvailable;
@@ -83,11 +128,12 @@ namespace GDocBackup
             catch (Exception)
             {
                 // ignore exception
-                errorPresent = true;                
+                errorPresent = true;
                 localVersion = null;
                 remoteVersion = null;
                 return false;
-            }            
+            }
         }
+
     }
 }
