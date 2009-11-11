@@ -69,6 +69,9 @@ namespace GDocBackup
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
+             throw new ApplicationException("TEST EXCEPTION");
+
+
             this.Icon = Properties.Resources.Logo;
             this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.StoreLogMsg(-1, "FORM_LOAD: " + this.Text);
@@ -109,7 +112,7 @@ namespace GDocBackup
         {
             if (!Properties.Settings.Default.DisableUpdateCheck)
             {
-                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 6)
+                if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 1.0)
                 {
                     Version localVersion;
                     Version remoteVersion;
