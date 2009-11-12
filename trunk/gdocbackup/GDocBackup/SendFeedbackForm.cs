@@ -1,3 +1,19 @@
+/*
+   Copyright 2009  Fabrizio Accatino
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,16 +33,13 @@ namespace GDocBackup
 
         public String DataTitle
         {
-            get { return this.LblTitle.Text; }
             set { this.LblTitle.Text = value; }
         }
 
         public String DataBody
         {
-            get { return this.TbData.Text; }
             set { this.TbData.Text = value; }
         }
-
 
         public SendFeedbackForm()
         {
@@ -57,94 +70,32 @@ namespace GDocBackup
             paramColl.Add("MsgBody", body);
 
             Properties.Settings conf = Properties.Settings.Default;
-            IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
-            String resOutput = ExecHttpPost("http://fhtino.appspot.com/clientfeedback", paramColl, webproxy);
+            IWebProxy webproxy = Utility.GetProxy(
+                conf.ProxyExplicit,
+                conf.ProxyDirectConnection,
+                conf.ProxyHostPortSource,
+                conf.ProxyHost,
+                conf.ProxyPort,
+                conf.ProxyAuthMode,
+                conf.ProxyUsername,
+                conf.ProxyPassword);
+
+            SendFeedback sf = new SendFeedback();
+            if (sf.Exec(paramColl, webproxy))
+            {
+                MessageBox.Show("Informations correctly sent. Thank you.");
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Error during transmission [" +
+                    ((sf.InternalException != null) ? sf.InternalException.Message : "?") +
+                    "]");
+            }
 
             this.Close();
         }
 
-        private string ExecHttpPost(string url, NameValueCollection parameters, IWebProxy proxy)
-        {
-            // prepare data
-            List<String> tokens = new List<string>();
-            foreach (string key in parameters.AllKeys)
-                tokens.Add(key + "=" + MyUrlEncode(parameters[key]));
-            string data = String.Join("&", tokens.ToArray());
-
-
-            Encoding reqEncoding = Encoding.GetEncoding("ISO-8859-1");
-            byte[] dataBytes = reqEncoding.GetBytes(data);
-
-            // open http socket
-            HttpWebRequest httpReq = (HttpWebRequest)HttpWebRequest.Create(url);
-            httpReq.ContentType = "application/x-www-form-urlencoded";
-            httpReq.Method = "POST";
-            httpReq.Timeout = 5000;
-            httpReq.ReadWriteTimeout = 5000;
-            if (proxy != null)
-                httpReq.Proxy = new WebProxy();
-
-            // send http request body
-            Stream reqStr = httpReq.GetRequestStream();
-            reqStr.Write(dataBytes, 0, dataBytes.Length);
-            reqStr.Close();
-
-            // get http response
-            HttpWebResponse httpRes = (HttpWebResponse)httpReq.GetResponse();
-
-            // read response
-            Encoding resEncoding = Encoding.GetEncoding(httpRes.CharacterSet);
-            StreamReader rdr = new StreamReader(httpRes.GetResponseStream(), resEncoding);
-            string resOutput = rdr.ReadToEnd();
-            rdr.Close();
-
-            return resOutput;
-        }
-
-        private static string MyUrlEncode(string s)
-        {
-            if (String.IsNullOrEmpty(s))
-                return s;
-
-            // convert string to utf8 bytes
-            byte[] buffer = Encoding.UTF8.GetBytes(s);
-
-            // escape "special" characters
-            StringBuilder sb = new StringBuilder(s.Length);
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                char c = (char)buffer[i];
-                if (c == ' ')
-                    sb.Append('+');
-                else if (IsSafe(c))
-                    sb.Append(c);
-                else
-                    sb.Append("%" + ((int)c).ToString("X2"));
-            }
-
-            return sb.ToString();
-        }
-
-        internal static bool IsSafe(char ch)
-        {
-            if ((((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) || ((ch >= '0') && (ch <= '9')))
-            {
-                return true;
-            }
-            switch (ch)
-            {
-                case '\'':
-                case '(':
-                case ')':
-                case '*':
-                case '-':
-                case '.':
-                case '_':
-                case '!':
-                    return true;
-            }
-            return false;
-        }
 
     }
 }
