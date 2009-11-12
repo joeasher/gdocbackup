@@ -12,7 +12,7 @@ using GDocBackupLib;
 
 namespace GDocBackup
 {
-    public partial class SendFeedback : Form
+    public partial class SendFeedbackForm : Form
     {
 
         public String DataTitle
@@ -28,7 +28,7 @@ namespace GDocBackup
         }
 
 
-        public SendFeedback()
+        public SendFeedbackForm()
         {
             InitializeComponent();
         }
