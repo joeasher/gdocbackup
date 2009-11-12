@@ -1,6 +1,6 @@
 namespace GDocBackup
 {
-    partial class SendFeedback
+    partial class SendFeedbackForm
     {
         /// <summary>
         /// Required designer variable.

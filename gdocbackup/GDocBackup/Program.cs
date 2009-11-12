@@ -18,18 +18,18 @@ namespace GDocBackup
 
             //throw new ApplicationException("TEST");
 
-            List<string> argList = new List<string>(args);
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            List<string> argList = new List<string>(args); 
+            
             MainForm mf = new MainForm();
             mf.AutoStart = argList.Contains("-autostart");
             mf.WriteLog = argList.Contains("-writelog");
             Application.Run(mf);
         }
 
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             BuildAndSendFeedBack("Application_ThreadException", e.Exception);
             Application.Exit();
@@ -62,7 +62,7 @@ namespace GDocBackup
             }
 
             // Show SendFeedback window
-            SendFeedback sf = new SendFeedback();
+            SendFeedbackForm sf = new SendFeedbackForm();
             sf.DataTitle = "GDocBackup encountered an unexpected error!";
             sf.DataBody = sb.ToString();
             sf.ShowDialog();
