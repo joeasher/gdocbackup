@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text;
-using System.Reflection;
 using System.Threading;
 
 namespace GDocBackup
@@ -17,8 +16,6 @@ namespace GDocBackup
         {
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
-
-            //throw new ApplicationException("TEST");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -55,17 +52,9 @@ namespace GDocBackup
         /// </summary>
         private static void BuildAndSendFeedBack(string mainEx, object subEx)
         {
-            // Detect if running on Mono framework
-            Type tmono = Type.GetType("Mono.Runtime");
 
             // Build feedback data
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Assembly: " + Assembly.GetExecutingAssembly().GetName().ToString());
-            sb.AppendLine("Operating System: " + Environment.OSVersion.Platform + " - " + Environment.OSVersion.VersionString);
-            sb.AppendLine("Framework: " + Environment.Version.ToString());
-            if (tmono != null)
-                sb.AppendLine("Running on Mono [" + tmono.ToString() + "]");
-            sb.AppendLine(new String('-', 40));
             sb.AppendLine(mainEx);
             sb.AppendLine(new String('-', 40));
             if (subEx != null)
@@ -75,10 +64,12 @@ namespace GDocBackup
             }
 
             // Show SendFeedback window
-            SendFeedbackForm sf = new SendFeedbackForm();
-            sf.DataTitle = "GDocBackup encountered an unexpected error!";
-            sf.DataBody = sb.ToString();
-            sf.ShowDialog();
+            using (SendFeedbackForm sf = new SendFeedbackForm())
+            {
+                sf.DataTitle = "GDocBackup encountered an unexpected error!";
+                sf.DataBody = sb.ToString();
+                sf.ShowDialog();
+            }
         }
 
     }

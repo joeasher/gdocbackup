@@ -50,5 +50,18 @@ namespace GDocBackup
         {
             this.Close();
         }
+
+        private void sendLogsToGDocBackupDevelopersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Logs == null)
+                return;
+
+            using (SendFeedbackForm sf = new SendFeedbackForm())
+            {
+                sf.DataTitle = "GDocBackup Logs";
+                sf.DataBody = String.Join(Environment.NewLine, Logs);
+                sf.ShowDialog();
+            }
+        }
     }
 }

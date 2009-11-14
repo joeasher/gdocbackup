@@ -25,6 +25,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.IO;
 using GDocBackupLib;
+using System.Reflection;
 
 namespace GDocBackup
 {
@@ -38,7 +39,22 @@ namespace GDocBackup
 
         public String DataBody
         {
-            set { this.TbData.Text = value; }
+            set
+            {
+                // Add extra informations
+                StringBuilder sb = new StringBuilder();
+                Type tmono = Type.GetType("Mono.Runtime");
+                sb.AppendLine("Assembly: " + Assembly.GetExecutingAssembly().GetName().ToString());
+                sb.AppendLine("Operating System: " + Environment.OSVersion.Platform + " - " + Environment.OSVersion.VersionString);
+                sb.AppendLine("Framework: " + Environment.Version.ToString());
+                if (tmono != null)
+                    sb.AppendLine("Running on Mono [" + tmono.ToString() + "]");
+                sb.AppendLine(new String('-', 40));
+                sb.AppendLine(value);
+
+                // Set TextBox
+                this.TbData.Text = sb.ToString();
+            }
         }
 
         public SendFeedbackForm()
@@ -60,6 +76,8 @@ namespace GDocBackup
         {
             string body =
                 "EMAIL=" + this.TbEmail.Text + Environment.NewLine +
+                new String('-', 40) + Environment.NewLine +
+                "MESSAGE=" + this.TbMessage.Text + Environment.NewLine +
                 new String('-', 40) + Environment.NewLine +
                 this.TbData.Text;
 
