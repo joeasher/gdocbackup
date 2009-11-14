@@ -26,17 +26,29 @@ namespace GDocBackup
     internal class SendFeedback
     {
 
-        public Exception InternalException;
-        public String ResponseContent;
+        private Exception _internalException;
+        private String _responseContent;
+
+
+        public Exception InternalException
+        {
+            get { return _internalException; }
+        }
+
+
+        public String ResponseContent
+        {
+            get { return _responseContent; }
+        }
 
 
         /// <summary>
         /// ...
         /// </summary>
-        public   bool Exec(NameValueCollection parameters, IWebProxy proxy)
+        public bool Exec(NameValueCollection parameters, IWebProxy proxy)
         {
-            this.InternalException = null;
-            this.ResponseContent = null;
+            _internalException = null;
+            _responseContent = null;
 
             try
             {
@@ -70,14 +82,14 @@ namespace GDocBackup
                 // read response
                 Encoding resEncoding = Encoding.GetEncoding(httpRes.CharacterSet);
                 StreamReader rdr = new StreamReader(httpRes.GetResponseStream(), resEncoding);
-                this.ResponseContent = rdr.ReadToEnd();
+                _responseContent = rdr.ReadToEnd();
                 rdr.Close();
 
                 return true;
             }
             catch (Exception ex)
             {
-                this.InternalException = ex;
+                _internalException = ex;
                 return false;
             }
         }
@@ -86,7 +98,7 @@ namespace GDocBackup
         /// <summary>
         /// ...
         /// </summary>
-        private   string MyUrlEncode(string s)
+        private string MyUrlEncode(string s)
         {
             if (String.IsNullOrEmpty(s))
                 return s;
@@ -110,7 +122,7 @@ namespace GDocBackup
             return sb.ToString();
         }
 
-        private   bool IsSafe(char ch)
+        private bool IsSafe(char ch)
         {
             if ((((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) || ((ch >= '0') && (ch <= '9')))
             {
