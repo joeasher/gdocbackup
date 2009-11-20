@@ -28,6 +28,7 @@ namespace GDocBackup
             Application.Run(mf);
         }
 
+
         /// <summary>
         /// Handles exceptions from (sub)threads
         /// </summary>
@@ -36,6 +37,7 @@ namespace GDocBackup
             BuildAndSendFeedBack("Application_ThreadException", e.Exception);
             Application.Exit();
         }
+
 
         /// <summary>
         /// Handles exceptions from main thread (of appdomain)

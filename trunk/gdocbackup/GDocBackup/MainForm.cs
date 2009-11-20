@@ -273,7 +273,8 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
-                webproxy);
+                webproxy,
+                conf.BypassCertificateChecks);
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
