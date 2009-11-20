@@ -40,6 +40,7 @@ namespace GDocBackupLib
         private Document.DownloadType[] _sprdExpType;
         private Document.DownloadType[] _presExpType;
         private IWebProxy _iwebproxy;
+        private bool _bypassHttpsChecks;
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
         private Exception _lastException = null;
@@ -92,7 +93,8 @@ namespace GDocBackupLib
             Document.DownloadType[] docExpType,
             Document.DownloadType[] sprdExpType,
             Document.DownloadType[] presExpType,
-            IWebProxy webproxy)
+            IWebProxy webproxy,
+            bool bypassHttpsChecks)
         {
             _userName = userName;
             _password = password;
@@ -102,6 +104,7 @@ namespace GDocBackupLib
             _sprdExpType = sprdExpType;
             _presExpType = presExpType;
             _iwebproxy = webproxy;
+            _bypassHttpsChecks = bypassHttpsChecks;
         }
 
 
@@ -139,6 +142,13 @@ namespace GDocBackupLib
         {
             _lastException = null;
 
+            // Bypass Https checks?
+            // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
+            if (_bypassHttpsChecks)
+                ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
+
+
+            // Credentials
             GDataCredentials credentials = new GDataCredentials(_userName, _password);
             RequestSettings settings = new RequestSettings("GDocBackup", credentials);
             settings.AutoPaging = true;

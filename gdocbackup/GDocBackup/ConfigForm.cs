@@ -56,6 +56,7 @@ namespace GDocBackup
             CbStorePassword.Checked = !String.IsNullOrEmpty(conf.Password);
             TbBackupDir.Text = conf.BackupDir;
             cbDisableUpdateCheck.Checked = conf.DisableUpdateCheck;
+            cbBypassCertificatesCheck.Checked = conf.BypassCertificateChecks;
 
 
             // --- Data format TAB ---
@@ -101,6 +102,7 @@ namespace GDocBackup
             conf.Password = CbStorePassword.Checked ? Utility.ProtectData(TbPassword.Text) : null;
             conf.BackupDir = TbBackupDir.Text;
             conf.DisableUpdateCheck = cbDisableUpdateCheck.Checked;
+            conf.BypassCertificateChecks = cbBypassCertificatesCheck.Checked;
 
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;

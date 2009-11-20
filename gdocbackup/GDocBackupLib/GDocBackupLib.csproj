@@ -41,6 +41,7 @@
       <Link>GDocBackupVersion.cs</Link>
     </Compile>
     <Compile Include="Backup.cs" />
+    <Compile Include="BypassHttpsCertCheck.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FeedbackEventArgs.cs" />
     <Compile Include="FeedbackObject.cs" />

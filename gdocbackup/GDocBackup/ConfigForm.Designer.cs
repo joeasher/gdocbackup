@@ -79,6 +79,7 @@ namespace GDocBackup
             this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
             this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
             this.tbMultiExpPres = new System.Windows.Forms.TextBox();
+            this.cbBypassCertificatesCheck = new System.Windows.Forms.CheckBox();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
@@ -413,6 +414,7 @@ namespace GDocBackup
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.cbBypassCertificatesCheck);
             this.tabPage1.Controls.Add(this.cbDisableUpdateCheck);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
@@ -573,6 +575,16 @@ namespace GDocBackup
             this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
             this.tbMultiExpPres.TabIndex = 0;
             // 
+            // cbBypassCertificatesCheck
+            // 
+            this.cbBypassCertificatesCheck.AutoSize = true;
+            this.cbBypassCertificatesCheck.Location = new System.Drawing.Point(14, 156);
+            this.cbBypassCertificatesCheck.Name = "cbBypassCertificatesCheck";
+            this.cbBypassCertificatesCheck.Size = new System.Drawing.Size(273, 17);
+            this.cbBypassCertificatesCheck.TabIndex = 10;
+            this.cbBypassCertificatesCheck.Text = "Bypass https certificates checks (... at your own risk)";
+            this.cbBypassCertificatesCheck.UseVisualStyleBackColor = true;
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -664,5 +676,6 @@ namespace GDocBackup
         private System.Windows.Forms.CheckedListBox clbDocFormat;
         private System.Windows.Forms.CheckedListBox clbPresFormat;
         private System.Windows.Forms.CheckedListBox clbSprShFormat;
+        private System.Windows.Forms.CheckBox cbBypassCertificatesCheck;
     }
 }
