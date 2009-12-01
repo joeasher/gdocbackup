@@ -24,9 +24,9 @@ using System.Security.Cryptography.X509Certificates;
 namespace GDocBackupLib
 {
 
-    // This is a better solution but Mono does not support it.  ARGHH !
-    //
-    //ServicePointManager.ServerCertificateValidationCallback = delegate(
+    // This is a better solution. But Mono does not support it.  ARGHH !
+    // -------------------------------------------------------
+    // ServicePointManager.ServerCertificateValidationCallback = delegate(
     //    Object sndr,
     //    System.Security.Cryptography.X509Certificates.X509Certificate certificate,
     //    System.Security.Cryptography.X509Certificates.X509Chain chain,
@@ -34,7 +34,12 @@ namespace GDocBackupLib
     //    {
     //        return true;
     //    };
+    // -------------------------------------------------------
 
+
+    /// <summary>
+    /// A very indulgent certificate policy...  :-)
+    /// </summary>
     internal class BypassHttpsCertCheck : ICertificatePolicy
     {
         public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem)
