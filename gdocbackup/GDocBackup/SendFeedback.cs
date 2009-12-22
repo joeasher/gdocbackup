@@ -59,6 +59,11 @@ namespace GDocBackup
                 foreach (string key in parameters.AllKeys)
                     tokens.Add(key + "=" + MyUrlEncode(parameters[key]));
                 string data = String.Join("&", tokens.ToArray());
+
+                // truncate data > 100000 chars
+                if (data.Length > 100000)
+                    data = data.Substring(0, 100000) + "...TRUNCATED...";
+
                 Encoding reqEncoding = Encoding.GetEncoding("ISO-8859-1");
                 byte[] dataBytes = reqEncoding.GetBytes(data);
 
