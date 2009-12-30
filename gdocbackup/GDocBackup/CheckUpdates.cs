@@ -48,7 +48,7 @@ namespace GDocBackup
                 IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
 
                 HttpWebRequest req = HttpWebRequest.Create("http://fhtino.appspot.com/getinformation?code=gdocbackupver") as HttpWebRequest;
-                req.Timeout = 3000;   // wait max 3 seconds.
+                req.Timeout = 6000;   // wait max 6 seconds.
                 if (webproxy != null)
                     req.Proxy = webproxy;
                 HttpWebResponse res = req.GetResponse() as HttpWebResponse;

@@ -111,20 +111,30 @@ namespace GDocBackup
             {
                 if (DateTime.Now.Subtract(Properties.Settings.Default.LastUpdateCheck).TotalDays > 1.0)
                 {
-                    Version localVersion;
-                    Version remoteVersion;
-                    bool errorPresent;
-                    if (CheckUpdates.Exec(out localVersion, out remoteVersion, out errorPresent))
-                    {
-                        using (NewVersion nv = new NewVersion())
+                    Thread chkUpdtThread = new Thread(delegate()
                         {
-                            nv.LocalVersion = localVersion;
-                            nv.RemoteVersion = remoteVersion;
-                            nv.ShowDialog();
+                            Version localVersion;
+                            Version remoteVersion;
+                            bool errorPresent;
+                            if (CheckUpdates.Exec(out localVersion, out remoteVersion, out errorPresent))
+                            {
+                                this.BeginInvoke((MethodInvoker)delegate()
+                                    {
+                                        using (NewVersion nv = new NewVersion())
+                                        {
+                                            nv.LocalVersion = localVersion;
+                                            nv.RemoteVersion = remoteVersion;
+                                            nv.ShowDialog(this);
+                                        }
+                                    });
+                            }
+                            Properties.Settings.Default.LastUpdateCheck = DateTime.Now;
+                            Properties.Settings.Default.Save();
                         }
-                    }
-                    Properties.Settings.Default.LastUpdateCheck = DateTime.Now;
-                    Properties.Settings.Default.Save();
+                    );
+
+                    chkUpdtThread.IsBackground = true;
+                    chkUpdtThread.Start();
                 }
             }
         }
