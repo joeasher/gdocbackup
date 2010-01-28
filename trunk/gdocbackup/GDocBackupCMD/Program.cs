@@ -116,7 +116,7 @@ namespace GDocBackupCMD
             string downloadAll = parameters.ContainsKey("downloadAll") ? parameters["downloadAll"] : null;
 
             // Get BypassHttpsCertChecks
-            bool bypassHttpsCertChecks = parameters.ContainsKey("bypassHtppsCertChecks");
+            bool bypassHttpsCertChecks = parameters.ContainsKey("bypassHttpsCertChecks");
 
             // Output parameters
             Console.WriteLine(new String('-', 40));
@@ -174,6 +174,8 @@ namespace GDocBackupCMD
             Console.WriteLine("  -sprsF: export format (for Spreadsheets)");
             Console.WriteLine("  -presF: export format (for Presentations)");
             Console.WriteLine("  -downloadall: if \"yes\" download all documents");
+            Console.WriteLine("  -bypassHttpsCertChecks:  bypass the checks of https certificate (at your own risk!!!)");
+            Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine(">>> mode=encodepassword <<<");
             Console.WriteLine("  -password: string to be encoded");
@@ -186,6 +188,8 @@ namespace GDocBackupCMD
             Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -password=bar -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt -downloadall=yes");
             Console.WriteLine("");
             Console.WriteLine("GDocBackupCMD.exe -mode=backup -username=foo -passwordEncFile=pass.txt -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
+            Console.WriteLine("");
+            Console.WriteLine("GDocBackupCMD.exe -mode=backup -bypassHttpsCertChecks -username=foo -passwordEncFile=pass.txt -destDir=c:\\temp\\docs\\ -docF=pdf -sprsF=csv -presF=ppt");
             Console.WriteLine("");
             Console.WriteLine("GDocBackupCMD.exe -mode=encodepassword -password=foo");
             Console.WriteLine("");
