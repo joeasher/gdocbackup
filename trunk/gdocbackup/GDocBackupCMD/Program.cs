@@ -115,6 +115,9 @@ namespace GDocBackupCMD
             List<Document.DownloadType> presTypes = Utility.DecodeDownloadTypeArray(presF, '+');
             string downloadAll = parameters.ContainsKey("downloadAll") ? parameters["downloadAll"] : null;
 
+            // Get BypassHttpsCertChecks
+            bool bypassHttpsCertChecks = parameters.ContainsKey("bypassHtppsCertChecks");
+
             // Output parameters
             Console.WriteLine(new String('-', 40));
             Console.WriteLine("Parameters: ");
@@ -132,7 +135,7 @@ namespace GDocBackupCMD
                 username, password, destDir,
                 downloadAll == "yes",
                 docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(),
-                null, false);
+                null, bypassHttpsCertChecks);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 
@@ -203,14 +206,21 @@ namespace GDocBackupCMD
                 {
                     if (arg[0] == '-')
                     {
+                        string paramKey;
+                        string paramValue;
                         int eqSignPosition = arg.IndexOf('=');
                         if (eqSignPosition != -1)
                         {
-                            string paramKey = arg.Substring(1, eqSignPosition - 1);
-                            string paramValue = arg.Substring(eqSignPosition + 1);
-                            if (!parameters.ContainsKey(paramKey))
-                                parameters.Add(paramKey, paramValue);
+                            paramKey = arg.Substring(1, eqSignPosition - 1);
+                            paramValue = arg.Substring(eqSignPosition + 1);
                         }
+                        else
+                        {
+                            paramKey = arg.Substring(1);    // ignore the first char '-'                            
+                            paramValue = null;
+                        }
+                        if (!parameters.ContainsKey(paramKey))
+                            parameters.Add(paramKey, paramValue);
                     }
                 }
             }
