@@ -20,11 +20,12 @@ using System.Text;
 using System.Net;
 using Google.Documents;
 using System.Security.Cryptography;
+using System.IO;
 
 
 namespace GDocBackupLib
 {
-   
+
 
 
     /// <summary>
@@ -54,9 +55,22 @@ namespace GDocBackupLib
         /// </summary>
         public static string UnprotectData(string encryptedData)
         {
-            byte[] encryptedDataBytes = Convert.FromBase64String(encryptedData);
-            byte[] dataBytes = ProtectedData.Unprotect(encryptedDataBytes, _protectDataExtraEntropy, DataProtectionScope.CurrentUser);
-            return Encoding.Unicode.GetString(dataBytes);
+            try
+            {
+                byte[] encryptedDataBytes = Convert.FromBase64String(encryptedData);
+                byte[] dataBytes = ProtectedData.Unprotect(encryptedDataBytes, _protectDataExtraEntropy, DataProtectionScope.CurrentUser);
+                return Encoding.Unicode.GetString(dataBytes);
+            }
+            catch (CryptographicException cex)
+            {
+                List<String> cndLineArgs = new List<String>(Environment.GetCommandLineArgs());
+                if (cndLineArgs.Contains("-debug"))
+                    File.AppendAllText("gdocbackup.debug.txt",
+                        DateTime.Now.ToString() + Environment.NewLine +
+                        "UnprotectData ERROR " + cex.ToString() + Environment.NewLine +
+                        new String('-', 80) + Environment.NewLine);
+                return null;
+            }
         }
 
 
