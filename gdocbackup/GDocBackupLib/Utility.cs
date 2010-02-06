@@ -55,6 +55,7 @@ namespace GDocBackupLib
         /// </summary>
         public static string UnprotectData(string encryptedData)
         {
+            // if an administrator reset the user password, ProtectedData.Unprotect will throw an exception (by design)
             try
             {
                 byte[] encryptedDataBytes = Convert.FromBase64String(encryptedData);
@@ -63,12 +64,16 @@ namespace GDocBackupLib
             }
             catch (CryptographicException cex)
             {
-                List<String> cndLineArgs = new List<String>(Environment.GetCommandLineArgs());
-                if (cndLineArgs.Contains("-debug"))
-                    File.AppendAllText("gdocbackup.debug.txt",
-                        DateTime.Now.ToString() + Environment.NewLine +
-                        "UnprotectData ERROR " + cex.ToString() + Environment.NewLine +
-                        new String('-', 80) + Environment.NewLine);
+                try
+                {
+                    List<String> cndLineArgs = new List<String>(Environment.GetCommandLineArgs());
+                    if (cndLineArgs.Contains("-debug"))
+                        File.AppendAllText("gdocbackup.debug.txt",
+                            DateTime.Now.ToString() + Environment.NewLine +
+                            "UnprotectData ERROR " + cex.ToString() + Environment.NewLine +
+                            new String('-', 80) + Environment.NewLine);
+                }
+                catch { }
                 return null;
             }
         }
