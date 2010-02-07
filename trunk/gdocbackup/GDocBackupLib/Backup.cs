@@ -57,12 +57,17 @@ namespace GDocBackupLib
         /// </summary>
         public event EventHandler<FeedbackEventArgs> Feedback;
 
-
-
         private void DoFeedback(string message)
         {
             if (Feedback != null)
                 Feedback(this, new FeedbackEventArgs(message, _lastPercent));
+        }
+
+
+        private void DoFeedback(string message, bool verbose)
+        {
+            if (Feedback != null)
+                Feedback(this, new FeedbackEventArgs(message, _lastPercent, verbose));
         }
 
 
@@ -177,6 +182,9 @@ namespace GDocBackupLib
 
             // Builds/updates local folder structure
             this.BuildFolders(null, docs, _outDir);
+            foreach (String k in _folderDict.Keys)
+                DoFeedback("FolderDict: " + k + " --> " + _folderDict[k]);
+
 
             // Docs loop!
             int errorCount = 0;
@@ -213,7 +221,16 @@ namespace GDocBackupLib
                         foreach (Document.DownloadType downloadtype in downloadTypes)
                         {
                             // Build local file path
-                            string outFolderPath = (doc.ParentFolders.Count == 0) ? _outDir : _folderDict[doc.ParentFolders[0]];
+                            string outFolderPath;
+                            if (doc.ParentFolders.Count == 0)
+                            {
+                                outFolderPath = _outDir;
+                            }
+                            else
+                            {
+                                DoFeedback("Try to get folder from dict using key=[" + doc.ParentFolders[0] + "]");
+                                outFolderPath = _folderDict[doc.ParentFolders[0]];
+                            }
                             string outFileFP = Path.Combine(outFolderPath, RemoveInvalidChars(doc.Title) + "." + downloadtype.ToString());
 
                             // Get current local file in infos

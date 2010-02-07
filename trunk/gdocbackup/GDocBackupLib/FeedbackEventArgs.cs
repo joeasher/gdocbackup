@@ -24,15 +24,37 @@ namespace GDocBackupLib
     /// </summary>
     public class FeedbackEventArgs : EventArgs
     {
+        // -- privates --
         private string _message;
         private double _percent;
         private FeedbackObject _feedbackobj;
+        private bool _isVerbose;
 
+        // -- properties --
         public string Message { get { return _message; } }
         public double PerCent { get { return _percent; } }
         public FeedbackObject FeedbackObj { get { return _feedbackobj; } }
+        public bool IsVerbose { get { return _isVerbose; } }
 
-        public FeedbackEventArgs(string message, double percent) { _message = message; _percent = percent; }
-        public FeedbackEventArgs(string message, double percent, FeedbackObject fo) { _message = message; _percent = percent; _feedbackobj = fo; }
+        // -- constructors --
+        public FeedbackEventArgs(string message, double percent)
+            : this(message, percent, false)
+        {
+        }
+
+        public FeedbackEventArgs(string message, double percent, bool isVerbose)
+        {
+            _message = message;
+            _percent = percent;
+            _isVerbose = isVerbose;
+        }
+
+        public FeedbackEventArgs(string message, double percent, FeedbackObject fo)
+        {
+            _message = message;
+            _percent = percent;
+            _feedbackobj = fo;
+            _isVerbose = false;
+        }
     }
 }
