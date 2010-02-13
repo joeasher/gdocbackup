@@ -185,6 +185,7 @@ namespace GDocBackupLib
             foreach (String k in _folderDict.Keys)
                 DoFeedback("FolderDict: " + k + " --> " + _folderDict[k]);
 
+            this.DumpAllDocInfo(docs);
 
             // Docs loop!
             int errorCount = 0;
@@ -372,6 +373,24 @@ namespace GDocBackupLib
             return new DateTime(
                 dt.Year, dt.Month, dt.Day,
                 dt.Hour, dt.Minute, dt.Second);
+        }
+
+
+        /// <summary>
+        /// [Only for debug/testing]
+        /// </summary>
+        private void DumpAllDocInfo(List<Document> docs)
+        {
+            DoFeedback(new String('-', 80));
+            DoFeedback("DUMP_ALL_DOC_INFO");
+            foreach (Document doc in docs)
+            {
+                DoFeedback("*** " + doc.Title + " ***");
+                DoFeedback(doc.Id);
+                foreach (String pfid in doc.ParentFolders)
+                    DoFeedback(" ----- PF> " + pfid);
+            }
+            DoFeedback(new String('-', 80));
         }
 
     }
