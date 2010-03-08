@@ -52,7 +52,31 @@ namespace GDocBackup
         /// <summary>
         /// Autostart flag
         /// </summary>
-        public bool WriteLog = false;
+        // public bool WriteLog = false;
+
+
+        /// <summary>
+        /// Debugmode flag
+        /// </summary>
+        private bool _debugMode = false;
+        public bool DebugMode
+        {
+            get
+            {
+                return _debugMode;
+            }
+            set
+            {
+                _debugMode = value;
+                this.debugModeToolStripMenuItem.Checked = _debugMode;
+            }
+        }
+
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        private string _debugModeLogSessionID = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
 
 
         /// <summary>
@@ -71,7 +95,7 @@ namespace GDocBackup
         {
             this.Icon = Properties.Resources.Logo;
             this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            this.StoreLogMsg(-1, "FORM_LOAD: " + this.Text);
+            this.StoreLogMsgInfo(-1, "FORM_LOAD: " + this.Text);
 
             if (Properties.Settings.Default.CallUpgrade)
             {
@@ -144,14 +168,14 @@ namespace GDocBackup
         /// Add log message to list and file
         /// </summary>
         /// <param name="s"></param>
-        private void StoreLogMsg(int percent, string s)
+        private void StoreLogMsgInfo(int percent, string s)
         {
             string msg = DateTime.Now.ToString() + " - " + percent.ToString("000") + " > " + s;
             if (_logs != null)
                 _logs.Add(msg);
-            if (WriteLog)
+            if (_debugMode)
             {
-                string logFileName = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+                string logFileName = _debugModeLogSessionID + ".log";
                 string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
                 File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
             }
@@ -186,6 +210,11 @@ namespace GDocBackup
                         MessageBoxIcon.Warning) == DialogResult.OK)
                     this.ExecBackUp(true);
             }
+        }
+
+        private void debugModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DebugMode = !this.DebugMode;
         }
 
         private void configToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -284,7 +313,8 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
                 webproxy,
-                conf.BypassCertificateChecks);
+                conf.BypassCertificateChecks,
+                this.DebugMode);
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
@@ -302,15 +332,14 @@ namespace GDocBackup
             else
             {
                 int percent = (int)(e.PerCent * 100);
-
                 this.progressBar1.Value = percent;
 
                 if (!String.IsNullOrEmpty(e.Message))
-                    this.StoreLogMsg(percent, e.Message);
+                    this.StoreLogMsgInfo(percent, e.Message);
 
                 if (e.FeedbackObj != null)
                 {
-                    this.StoreLogMsg(percent, "FeedbackObj: " + e.FeedbackObj.ToString());
+                    this.StoreLogMsgInfo(percent, "FO> " + e.FeedbackObj.ToString());
                     this.dataGV.Rows.Add(
                         new object[] { 
                             e.FeedbackObj.FileName, 
@@ -350,9 +379,9 @@ namespace GDocBackup
                    "Please review Logs for details. (Menu 'Action' --> 'View Logs')";
                 if (ex != null)
                 {
-                    this.StoreLogMsg(-1, "############### EXCEPTION ###############");
-                    this.StoreLogMsg(-1, ex.ToString());
-                    this.StoreLogMsg(-1, "#########################################");
+                    this.StoreLogMsgInfo(-1, "############### EXCEPTION ###############");
+                    this.StoreLogMsgInfo(-1, ex.ToString());
+                    this.StoreLogMsgInfo(-1, "#########################################");
                     msg += Environment.NewLine + Environment.NewLine +
                         "[ERROR: " + ex.GetType().Name + " : " + ex.Message + "]";
                 }
@@ -361,6 +390,7 @@ namespace GDocBackup
         }
 
         #endregion ----------------------------
+
 
 
     }

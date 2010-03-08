@@ -28,25 +28,20 @@ namespace GDocBackupLib
         private string _message;
         private double _percent;
         private FeedbackObject _feedbackobj;
-        private bool _isVerbose;
+       // private bool _isDebug;
 
         // -- properties --
         public string Message { get { return _message; } }
         public double PerCent { get { return _percent; } }
         public FeedbackObject FeedbackObj { get { return _feedbackobj; } }
-        public bool IsVerbose { get { return _isVerbose; } }
+       // public bool IsDebug { get { return _isDebug; } }
 
         // -- constructors --
-        public FeedbackEventArgs(string message, double percent)
-            : this(message, percent, false)
-        {
-        }
-
-        public FeedbackEventArgs(string message, double percent, bool isVerbose)
+        public FeedbackEventArgs(string message, double percent )
         {
             _message = message;
             _percent = percent;
-            _isVerbose = isVerbose;
+           // _isDebug = isDebug;
         }
 
         public FeedbackEventArgs(string message, double percent, FeedbackObject fo)
@@ -54,7 +49,7 @@ namespace GDocBackupLib
             _message = message;
             _percent = percent;
             _feedbackobj = fo;
-            _isVerbose = false;
+            //_isDebug = false;
         }
     }
 }
