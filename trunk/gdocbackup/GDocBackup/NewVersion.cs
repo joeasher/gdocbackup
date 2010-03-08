@@ -49,8 +49,10 @@ namespace GDocBackup
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start((sender as LinkLabel).Text);
+            // note: Process.Start crashes on some systems (issue 17)
+            try { System.Diagnostics.Process.Start((sender as LinkLabel).Text); }
+            catch (Exception) { }
         }
-        
+
     }
 }
