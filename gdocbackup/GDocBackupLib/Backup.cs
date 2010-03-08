@@ -41,6 +41,7 @@ namespace GDocBackupLib
         private Document.DownloadType[] _presExpType;
         private IWebProxy _iwebproxy;
         private bool _bypassHttpsChecks;
+        private bool _debugMode;
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
         private Exception _lastException = null;
@@ -63,14 +64,6 @@ namespace GDocBackupLib
                 Feedback(this, new FeedbackEventArgs(message, _lastPercent));
         }
 
-
-        private void DoFeedback(string message, bool verbose)
-        {
-            if (Feedback != null)
-                Feedback(this, new FeedbackEventArgs(message, _lastPercent, verbose));
-        }
-
-
         private void DoFeedback(string message, double percent)
         {
             _lastPercent = percent;
@@ -78,13 +71,20 @@ namespace GDocBackupLib
                 Feedback(this, new FeedbackEventArgs(message, percent));
         }
 
-
         private void DoFeedback(FeedbackObject fo)
         {
             if (Feedback != null)
                 Feedback(this, new FeedbackEventArgs("", _lastPercent, fo));
         }
 
+        private void DoFeedbackDebug(string message)
+        {
+            if (_debugMode)
+            {
+                if (Feedback != null)
+                    Feedback(this, new FeedbackEventArgs(message, _lastPercent));
+            }
+        }
 
 
         /// <summary>
@@ -99,7 +99,8 @@ namespace GDocBackupLib
             Document.DownloadType[] sprdExpType,
             Document.DownloadType[] presExpType,
             IWebProxy webproxy,
-            bool bypassHttpsChecks)
+            bool bypassHttpsChecks,
+            bool debugMode)
         {
             _userName = userName;
             _password = password;
@@ -110,6 +111,7 @@ namespace GDocBackupLib
             _presExpType = presExpType;
             _iwebproxy = webproxy;
             _bypassHttpsChecks = bypassHttpsChecks;
+            _debugMode = debugMode;
         }
 
 
@@ -145,23 +147,28 @@ namespace GDocBackupLib
         /// </summary>
         private int ExecInternal()
         {
+            DoFeedback(new string('*', 60));
+            DoFeedback("****** START BACKUP PROCESS ******");
+
             _lastException = null;
 
             // Bypass Https checks?
             // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
             if (_bypassHttpsChecks)
+            {
+                DoFeedback("BypassHttpsCertCheck ACTIVE");
                 ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
+            }
 
 
-            // Credentials
+            // Setup credentials and connection
+            DoFeedback("Setup connection & get doc list");
             GDataCredentials credentials = new GDataCredentials(_userName, _password);
             RequestSettings settings = new RequestSettings("GDocBackup", credentials);
             settings.AutoPaging = true;
             settings.PageSize = 100;
 
-            DoFeedback("Get doc list");
             DocumentsRequest request = new DocumentsRequest(settings);
-
             if (_iwebproxy != null)
             {
                 GDataRequestFactory gdrf = request.Service.RequestFactory as GDataRequestFactory;
@@ -184,7 +191,6 @@ namespace GDocBackupLib
             this.BuildFolders(null, docs, _outDir);
             foreach (String k in _folderDict.Keys)
                 DoFeedback("FolderDict: " + k + " --> " + _folderDict[k]);
-
             this.DumpAllDocInfo(docs);
 
             // Docs loop!
@@ -289,7 +295,7 @@ namespace GDocBackupLib
                 }
             }
 
-            DoFeedback("End", 0);
+            DoFeedback("****** END BACKUP PROCESS ******");
             return errorCount;
         }
 
@@ -381,16 +387,16 @@ namespace GDocBackupLib
         /// </summary>
         private void DumpAllDocInfo(List<Document> docs)
         {
-            DoFeedback(new String('-', 80));
-            DoFeedback("DUMP_ALL_DOC_INFO");
+            DoFeedbackDebug(new String('-', 80));
+            DoFeedbackDebug("DUMP_ALL_DOC_INFO");
             foreach (Document doc in docs)
             {
-                DoFeedback("*** " + doc.Title + " ***");
-                DoFeedback(doc.Id);
+                DoFeedbackDebug("*** " + doc.Title + " ***");
+                DoFeedbackDebug(doc.Id);
                 foreach (String pfid in doc.ParentFolders)
-                    DoFeedback(" ----- PF> " + pfid);
+                    DoFeedbackDebug(" ----- PF> " + pfid);
             }
-            DoFeedback(new String('-', 80));
+            DoFeedbackDebug(new String('-', 80));
         }
 
     }

@@ -46,6 +46,8 @@ namespace GDocBackup
             this.Export = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLocalData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.debugModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGV)).BeginInit();
             this.SuspendLayout();
@@ -92,60 +94,62 @@ namespace GDocBackup
             this.logsToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.toolStripSeparator2,
+            this.debugModeToolStripMenuItem,
+            this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.configToolStripMenuItem.Text = "Action";
             // 
             // downloadToolStripMenuItem
             // 
             this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.downloadToolStripMenuItem.Text = "Download (only modified docs)";
             this.downloadToolStripMenuItem.Click += new System.EventHandler(this.downloadToolStripMenuItem_Click);
             // 
             // downloadAllagainToolStripMenuItem
             // 
             this.downloadAllagainToolStripMenuItem.Name = "downloadAllagainToolStripMenuItem";
-            this.downloadAllagainToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.downloadAllagainToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.downloadAllagainToolStripMenuItem.Text = "Download (all docs)";
             this.downloadAllagainToolStripMenuItem.Click += new System.EventHandler(this.downloadAllagainToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(228, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(238, 6);
             // 
             // configToolStripMenuItem1
             // 
             this.configToolStripMenuItem1.Name = "configToolStripMenuItem1";
-            this.configToolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
+            this.configToolStripMenuItem1.Size = new System.Drawing.Size(241, 22);
             this.configToolStripMenuItem1.Text = "Config";
             this.configToolStripMenuItem1.Click += new System.EventHandler(this.configToolStripMenuItem1_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.logsToolStripMenuItem.Text = "View Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(228, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(238, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -204,6 +208,18 @@ namespace GDocBackup
             this.ColumnLocalData.Name = "ColumnLocalData";
             this.ColumnLocalData.ReadOnly = true;
             // 
+            // debugModeToolStripMenuItem
+            // 
+            this.debugModeToolStripMenuItem.Name = "debugModeToolStripMenuItem";
+            this.debugModeToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.debugModeToolStripMenuItem.Text = "Debug mode";
+            this.debugModeToolStripMenuItem.Click += new System.EventHandler(this.debugModeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(238, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +264,8 @@ namespace GDocBackup
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadAllagainToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem debugModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 
