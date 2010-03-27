@@ -160,7 +160,6 @@ namespace GDocBackupLib
                 ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
             }
 
-
             // Setup credentials and connection
             DoFeedback("Setup connection & get doc list");
             GDataCredentials credentials = new GDataCredentials(_userName, _password);
@@ -208,18 +207,18 @@ namespace GDocBackupLib
                         break;
                     case Document.DocumentType.Presentation:
                         downloadTypes = _presExpType;
-                        //downloadDoc = true;
                         break;
                     case Document.DocumentType.Spreadsheet:
                         downloadTypes = _sprdExpType;
                         break;
-                    //case Document.DocumentType.PDF:
-                    //    --- NOT SUPPORTED by GDoc API ---
-                    //    downloadtype = Document.DownloadType.pdf;
-                    //    break;
+                    case Document.DocumentType.PDF:
+                        // --- NOT Completely supported by GDoc API 2.0 for .NET ---
+                        downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+                        break;
                     default:
                         break;
                 }
+
 
                 if (downloadTypes != null)
                 {
@@ -252,20 +251,41 @@ namespace GDocBackupLib
                             bool downloadDoc = (!fi.Exists || locFileDateTime != gdocFileDateTime || _downloadAll);
                             if (downloadDoc)
                             {
-                                // ************************************************************************
                                 DoFeedback("Start exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
-                                Stream stream = request.Download(doc, downloadtype);
-                                using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
+                                Stream gdocStream = null;
+                                try
                                 {
-                                    byte[] buffer = new byte[8192];
-                                    int bytesRead;
-                                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                                        outFile.Write(buffer, 0, bytesRead);
-                                    outFile.Close();
+                                    if (doc.Type != Document.DocumentType.PDF)
+                                    {
+                                        gdocStream = request.Download(doc, downloadtype);
+                                    }
+                                    else
+                                    {
+                                        // This is a workaround for downloading Pdf (new API 3.0 will support)                                            
+                                        String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
+                                        Uri downloadUri = new Uri(downloadUrl);
+                                        gdocStream = request.Service.Query(downloadUri);
+                                    }
+                                    using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
+                                    {
+                                        byte[] buffer = new byte[8192];
+                                        int bytesRead;
+                                        while ((bytesRead = gdocStream.Read(buffer, 0, buffer.Length)) > 0)
+                                            outFile.Write(buffer, 0, bytesRead);
+                                        outFile.Close();
+                                    }
+                                    gdocStream.Close();
                                 }
+                                finally
+                                {
+                                    if (gdocStream != null)
+                                        gdocStream.Dispose();
+                                }
+
                                 new FileInfo(outFileFP).LastWriteTime = doc.Updated;
                                 DoFeedback("End exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
                                 // ************************************************************************
+                                // }
                             }
                             else
                             {
