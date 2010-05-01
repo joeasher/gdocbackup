@@ -10,7 +10,7 @@ subwcrev.exe . GDocBackupVersion.template.txt GDocBackupVersion.cs
 pause
 
 
-CALL "%VS80COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+CALL "%VS90COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 MSBuild  GDocBackup.sln  /t:Clean,Rebuild /p:Configuration=Release
 
