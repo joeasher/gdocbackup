@@ -39,6 +39,8 @@ namespace GDocBackup
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.debugModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGV = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,8 +48,6 @@ namespace GDocBackup
             this.Export = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLocalData = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.debugModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGV)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +57,7 @@ namespace GDocBackup
             this.BtnExec.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.BtnExec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnExec.ForeColor = System.Drawing.Color.DarkRed;
-            this.BtnExec.Location = new System.Drawing.Point(196, 27);
+            this.BtnExec.Location = new System.Drawing.Point(226, 27);
             this.BtnExec.Name = "BtnExec";
             this.BtnExec.Size = new System.Drawing.Size(93, 34);
             this.BtnExec.TabIndex = 0;
@@ -71,7 +71,7 @@ namespace GDocBackup
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(12, 67);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(465, 18);
+            this.progressBar1.Size = new System.Drawing.Size(526, 18);
             this.progressBar1.TabIndex = 3;
             // 
             // menuStrip1
@@ -80,7 +80,7 @@ namespace GDocBackup
             this.configToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(492, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(553, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -146,6 +146,18 @@ namespace GDocBackup
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(238, 6);
             // 
+            // debugModeToolStripMenuItem
+            // 
+            this.debugModeToolStripMenuItem.Name = "debugModeToolStripMenuItem";
+            this.debugModeToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.debugModeToolStripMenuItem.Text = "Debug mode";
+            this.debugModeToolStripMenuItem.Click += new System.EventHandler(this.debugModeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(238, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -170,7 +182,7 @@ namespace GDocBackup
             this.dataGV.Location = new System.Drawing.Point(12, 91);
             this.dataGV.Name = "dataGV";
             this.dataGV.ReadOnly = true;
-            this.dataGV.Size = new System.Drawing.Size(465, 135);
+            this.dataGV.Size = new System.Drawing.Size(526, 178);
             this.dataGV.TabIndex = 5;
             // 
             // ColumnName
@@ -186,7 +198,6 @@ namespace GDocBackup
             this.ColumnType.Name = "ColumnType";
             this.ColumnType.ReadOnly = true;
             this.ColumnType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnType.Width = 50;
             // 
             // Export
             // 
@@ -208,24 +219,12 @@ namespace GDocBackup
             this.ColumnLocalData.Name = "ColumnLocalData";
             this.ColumnLocalData.ReadOnly = true;
             // 
-            // debugModeToolStripMenuItem
-            // 
-            this.debugModeToolStripMenuItem.Name = "debugModeToolStripMenuItem";
-            this.debugModeToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
-            this.debugModeToolStripMenuItem.Text = "Debug mode";
-            this.debugModeToolStripMenuItem.Click += new System.EventHandler(this.debugModeToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(238, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(492, 238);
+            this.ClientSize = new System.Drawing.Size(553, 281);
             this.Controls.Add(this.dataGV);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.BtnExec);
@@ -256,16 +255,16 @@ namespace GDocBackup
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGV;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Export;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLocalData;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadAllagainToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem debugModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Export;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLocalData;
     }
 }
 
