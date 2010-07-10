@@ -22,6 +22,7 @@ using Google.Documents;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 
 namespace GDocBackupLib
@@ -60,6 +61,7 @@ namespace GDocBackupLib
 
         private void DoFeedback(string message)
         {
+            System.Diagnostics.Debug.WriteLine(message);
             if (Feedback != null)
                 Feedback(this, new FeedbackEventArgs(message, _lastPercent));
         }
@@ -67,18 +69,21 @@ namespace GDocBackupLib
         private void DoFeedback(string message, double percent)
         {
             _lastPercent = percent;
+            System.Diagnostics.Debug.WriteLine(message);
             if (Feedback != null)
                 Feedback(this, new FeedbackEventArgs(message, percent));
         }
 
         private void DoFeedback(FeedbackObject fo)
         {
+            System.Diagnostics.Debug.WriteLine(fo.ToString());
             if (Feedback != null)
                 Feedback(this, new FeedbackEventArgs("", _lastPercent, fo));
         }
 
         private void DoFeedbackDebug(string message)
         {
+            System.Diagnostics.Debug.WriteLine(message);
             if (_debugMode)
             {
                 if (Feedback != null)
@@ -177,7 +182,7 @@ namespace GDocBackupLib
                 // (see http://code.google.com/p/google-gdata/issues/detail?id=234  )
                 //
                 // request.Proxy = _iwebproxy;
-                //
+                //               
             }
 
             // Get doc list from GDocs
@@ -189,7 +194,7 @@ namespace GDocBackupLib
             // Builds/updates local folder structure
             this.BuildFolders(null, docs, _outDir);
             foreach (String k in _folderDict.Keys)
-                DoFeedback("FolderDict: " + k + " --> " + _folderDict[k]);
+                DoFeedbackDebug("FolderDict: " + k + " --> " + _folderDict[k]);
             this.DumpAllDocInfo(docs);
 
             // Docs loop!
@@ -215,6 +220,9 @@ namespace GDocBackupLib
                         // --- NOT Completely supported by GDoc API 2.0 for .NET ---
                         downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
                         break;
+                    case Document.DocumentType.Unknown:
+                        downloadTypes = new Document.DownloadType[] { Document.DownloadType.zip };  // download format not used! It's only a "place-holder".
+                        break;
                     default:
                         break;
                 }
@@ -237,7 +245,10 @@ namespace GDocBackupLib
                                 DoFeedback("Try to get folder from dict using key=[" + doc.ParentFolders[0] + "]");
                                 outFolderPath = _folderDict[doc.ParentFolders[0]];
                             }
-                            string outFileFP = Path.Combine(outFolderPath, RemoveInvalidChars(doc.Title) + "." + downloadtype.ToString());
+                            string outFileFP =
+                                doc.Type == Document.DocumentType.Unknown ?
+                                Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
+                                Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
 
                             // Get current local file in infos
                             FileInfo fi = new FileInfo(outFileFP);
@@ -255,7 +266,13 @@ namespace GDocBackupLib
                                 Stream gdocStream = null;
                                 try
                                 {
-                                    if (doc.Type != Document.DocumentType.PDF)
+                                    if (doc.Type == Document.DocumentType.Unknown)
+                                    {
+                                        String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
+                                        Uri downloadUri = new Uri(downloadUrl);
+                                        gdocStream = request.Service.Query(downloadUri);
+                                    }
+                                    else if (doc.Type != Document.DocumentType.PDF)
                                     {
                                         gdocStream = request.Download(doc, downloadtype);
                                     }
@@ -294,7 +311,10 @@ namespace GDocBackupLib
 
                             // Send Feedback                             
                             DoFeedback(new FeedbackObject(
-                                doc.Title, doc.Type.ToString(), downloadtype.ToString(), downloadDoc ? "BCKUP" : "SKIP",
+                                doc.Title,
+                                doc.Type.ToString(),
+                                doc.Type == Document.DocumentType.Unknown ? "BIN" : downloadtype.ToString(),
+                                downloadDoc ? "BCKUP" : "SKIP",
                                 "", locFileDateTime, gdocFileDateTime));
                         }
                     }
@@ -339,10 +359,11 @@ namespace GDocBackupLib
                         if (doc.ParentFolders.Count == 0)
                         {
                             string folderName = doc.Title;
-                            folderName = this.RemoveInvalidChars(folderName);
+                            folderName = this.RemoveInvalidChars(folderName, false);
                             string newCurrPath = Path.Combine(currentPath, folderName);
 
-                            _folderDict.Add(doc.Id, newCurrPath);
+                            //OLD_folderDict.Add(doc.Id, newCurrPath);
+                            _folderDict.Add(doc.Self, newCurrPath);
 
                             if (!Directory.Exists(newCurrPath))
                                 Directory.CreateDirectory(newCurrPath);
@@ -353,14 +374,16 @@ namespace GDocBackupLib
                     else
                     {
                         // Level > Zero
-                        if (doc.ParentFolders.Contains(parentDir.Id))
+                        //OLDif (doc.ParentFolders.Contains(parentDir.Id))
+                        if (doc.ParentFolders.Contains(parentDir.Self))
                         {
                             // child found!
                             string folderName = doc.Title;
-                            folderName = this.RemoveInvalidChars(folderName);
+                            folderName = this.RemoveInvalidChars(folderName, false);
                             string newCurrPath = Path.Combine(currentPath, folderName);
 
-                            _folderDict.Add(doc.Id, newCurrPath);
+                            //OLD_folderDict.Add(doc.Id, newCurrPath);
+                            _folderDict.Add(doc.Self, newCurrPath);
 
                             if (!Directory.Exists(newCurrPath))
                                 Directory.CreateDirectory(newCurrPath);
@@ -376,18 +399,21 @@ namespace GDocBackupLib
         /// <summary>
         /// Removes invalids chars from string
         /// </summary>
-        private string RemoveInvalidChars(string s)
+        private string RemoveInvalidChars(string s, bool convertMultipleToSingleDot)
         {
             StringBuilder x = new StringBuilder();
             for (int i = 0; i < s.Length; i++)
             {
                 char c = s[i];
-                if (Char.IsLetter(c) || Char.IsNumber(c) || c == '-' || c == '_')
+                if (Char.IsLetter(c) || Char.IsNumber(c) || c == '-' || c == '_' || c == '.')
                     x.Append(c);
                 else
                     x.Append('_');
             }
-            return x.ToString();
+
+            return convertMultipleToSingleDot ?
+                Regex.Replace(x.ToString(), "(\\.){1,}", ".") :
+                Regex.Replace(x.ToString(), "(\\.)", "_");
         }
 
 
@@ -412,7 +438,8 @@ namespace GDocBackupLib
             foreach (Document doc in docs)
             {
                 DoFeedbackDebug("*** " + doc.Title + " ***");
-                DoFeedbackDebug(doc.Id);
+                DoFeedbackDebug("[ID] " + doc.Id);
+                DoFeedbackDebug("[SELF] " + doc.Self);
                 foreach (String pfid in doc.ParentFolders)
                     DoFeedbackDebug(" ----- PF> " + pfid);
             }
