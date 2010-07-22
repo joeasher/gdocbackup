@@ -175,14 +175,12 @@ namespace GDocBackupLib
             DocumentsRequest request = new DocumentsRequest(settings);
             if (_iwebproxy != null)
             {
-                GDataRequestFactory gdrf = request.Service.RequestFactory as GDataRequestFactory;
-                gdrf.Proxy = _iwebproxy;
+                // OLD CODE
+                // GDataRequestFactory gdrf = request.Service.RequestFactory as GDataRequestFactory;
+                // gdrf.Proxy = _iwebproxy;
 
-                // BETTER/FUTURE SOLUTION (DocumentsRequest.Proxy property will be available in the next release of the GDoc NET Lib)
-                // (see http://code.google.com/p/google-gdata/issues/detail?id=234  )
-                //
-                // request.Proxy = _iwebproxy;
-                //               
+                // new DocumentRequest support proxy setting :)
+                request.Proxy = _iwebproxy;
             }
 
             // Get doc list from GDocs
