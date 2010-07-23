@@ -272,7 +272,8 @@ namespace GDocBackupLib
                                     }
                                     else if (doc.Type != Document.DocumentType.PDF)
                                     {
-                                        gdocStream = request.Download(doc, downloadtype);
+                                        //gdocStream = request.Download(doc, downloadtype);
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
                                     }
                                     else
                                     {
