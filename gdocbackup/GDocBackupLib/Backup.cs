@@ -270,10 +270,23 @@ namespace GDocBackupLib
                                         Uri downloadUri = new Uri(downloadUrl);
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
+                                    else if (doc.Type == Document.DocumentType.Document)
+                                    {
+                                        // Questo dovrebbe essere il modo giusto. Ma non funziona (google bug!)
+                                        // gdocStream = request.Download(doc, downloadtype);
+                                        // 
+                                        // In attesa di una soluzione, ecco la mandrakata!
+                                        gdocStream = Mandrakata.GetDocUri(request, doc, downloadtype);
+                                    }
+                                    else if (doc.Type == Document.DocumentType.Spreadsheet)
+                                    {
+                                        // dovrei usare questo: gdocStream = request.Download(doc, downloadtype);
+                                        // ma non funziona. Questo funziona... boh...
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
+                                    }
                                     else if (doc.Type != Document.DocumentType.PDF)
                                     {
-                                        //gdocStream = request.Download(doc, downloadtype);
-                                        gdocStream = request.Download(doc, downloadtype.ToString());
+                                        gdocStream = request.Download(doc, downloadtype);
                                     }
                                     else
                                     {
@@ -282,6 +295,7 @@ namespace GDocBackupLib
                                         Uri downloadUri = new Uri(downloadUrl);
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
+
                                     using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
                                     {
                                         byte[] buffer = new byte[8192];
@@ -300,8 +314,6 @@ namespace GDocBackupLib
 
                                 new FileInfo(outFileFP).LastWriteTime = doc.Updated;
                                 DoFeedback("End exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
-                                // ************************************************************************
-                                // }
                             }
                             else
                             {
