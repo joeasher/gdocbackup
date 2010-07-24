@@ -18,6 +18,7 @@ xcopy ..\GDocBackup\bin\Release\GDocBackupLib.dll               .\CompiledBIN\  
 xcopy ..\GDocBackup\bin\Release\Google.GData.Client.dll         .\CompiledBIN\  /Y
 xcopy ..\GDocBackup\bin\Release\Google.GData.Documents.dll      .\CompiledBIN\  /Y
 xcopy ..\GDocBackup\bin\Release\Google.GData.Extensions.dll     .\CompiledBIN\  /Y
+xcopy ..\GDocBackup\bin\Release\Google.GData.AccessControl.dll  .\CompiledBIN\  /Y
 
 @echo ----------------------
 
@@ -26,6 +27,7 @@ xcopy ..\GDocBackupCMD\bin\Release\GDocBackupLib.dll               .\CompiledBIN
 xcopy ..\GDocBackupCMD\bin\Release\Google.GData.Client.dll         .\CompiledBIN_CMD\  /Y
 xcopy ..\GDocBackupCMD\bin\Release\Google.GData.Documents.dll      .\CompiledBIN_CMD\  /Y
 xcopy ..\GDocBackupCMD\bin\Release\Google.GData.Extensions.dll     .\CompiledBIN_CMD\  /Y
+xcopy ..\GDocBackupCMD\bin\Release\Google.GData.AccessControl.dll  .\CompiledBIN_CMD\  /Y
 
 @echo ----------------------
 
