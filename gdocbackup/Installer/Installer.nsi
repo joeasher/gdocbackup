@@ -57,6 +57,7 @@ ShowUnInstDetails show
 Section "GDocBackup" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
+  File "CompiledBIN\Google.GData.AccessControl.dll"
   File "CompiledBIN\Google.GData.Extensions.dll"
   File "CompiledBIN\Google.GData.Documents.dll"
   File "CompiledBIN\Google.GData.Client.dll"
@@ -102,6 +103,7 @@ Section Uninstall
   Delete "$INSTDIR\Google.GData.Client.dll"
   Delete "$INSTDIR\Google.GData.Documents.dll"
   Delete "$INSTDIR\Google.GData.Extensions.dll"
+  Delete "$INSTDIR\Google.GData.AccessControl.dll"
 
   Delete "$SMPROGRAMS\GDocBackup\Uninstall.lnk"
   Delete "$SMPROGRAMS\GDocBackup\Website.lnk"
