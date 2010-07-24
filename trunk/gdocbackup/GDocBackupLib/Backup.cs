@@ -385,7 +385,7 @@ namespace GDocBackupLib
                     else
                     {
                         // Level > Zero
-                        //OLDif (doc.ParentFolders.Contains(parentDir.Id))
+                        //OLD if (doc.ParentFolders.Contains(parentDir.Id))
                         if (doc.ParentFolders.Contains(parentDir.Self))
                         {
                             // child found!
@@ -394,12 +394,17 @@ namespace GDocBackupLib
                             string newCurrPath = Path.Combine(currentPath, folderName);
 
                             //OLD_folderDict.Add(doc.Id, newCurrPath);
-                            _folderDict.Add(doc.Self, newCurrPath);
-
-                            if (!Directory.Exists(newCurrPath))
-                                Directory.CreateDirectory(newCurrPath);
-
-                            BuildFolders(doc, docs, newCurrPath);
+                            if (!_folderDict.ContainsKey(doc.Self))
+                            {
+                                _folderDict.Add(doc.Self, newCurrPath);
+                                if (!Directory.Exists(newCurrPath))
+                                    Directory.CreateDirectory(newCurrPath);
+                                BuildFolders(doc, docs, newCurrPath);
+                            }
+                            else
+                            {
+                                DoFeedbackDebug("WARNING: Folder already present in DICT. This is an open issue. Sorry. " + doc.Self + " - " + newCurrPath);
+                            }
                         }
                     }
                 }
