@@ -137,9 +137,19 @@ namespace GDocBackupLib
         /// </summary>
         public static T ParseEnum<T>(string s)
         {
-            return (T)Enum.Parse(typeof(T), s);
+            // Sometimes Mono has problem (see Issue 25 - System.ArgumentException: An empty string is not considered a valid value.)
+            // So, in case of error, ParseEnum returns the default value.
+            // [THIS IS A TEMP WORKAROUND]
+            try
+            {
+                return (T)Enum.Parse(typeof(T), s);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                return default(T);
+            }
         }
-
 
 
         /// <summary>
