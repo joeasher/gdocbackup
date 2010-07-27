@@ -43,24 +43,14 @@ namespace GDocBackup
         {
             try
             {
-                Properties.Settings conf = Properties.Settings.Default;
-
-                IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
-
-                HttpWebRequest req = HttpWebRequest.Create("http://fhtino.appspot.com/getinformation?code=gdocbackupver") as HttpWebRequest;
-                req.Timeout = 6000;   // wait max 6 seconds.
-                if (webproxy != null)
-                    req.Proxy = webproxy;
-                HttpWebResponse res = req.GetResponse() as HttpWebResponse;
-
-                string text = null;
-                using (Stream stream = res.GetResponseStream())
+                remoteVersion = GetRemoteVersion(false);
+                if (Properties.Settings.Default.CheckForBeta)
                 {
-                    using (StreamReader sr = new StreamReader(stream))
-                        text = sr.ReadToEnd();
+                    Version betaVersion = GetRemoteVersion(true);
+                    if (betaVersion > remoteVersion)
+                        remoteVersion = betaVersion;
                 }
 
-                remoteVersion = new Version(text);
                 localVersion = Assembly.GetExecutingAssembly().GetName().Version;
                 errorPresent = false;
 
@@ -77,7 +67,32 @@ namespace GDocBackup
         }
 
 
+        private static Version GetRemoteVersion(bool beta)
+        {
+            Properties.Settings conf = Properties.Settings.Default;
 
+            IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
+
+            string url = "http://fhtino.appspot.com/getinformation?code=gdocbackupver" + (beta ? "beta" : "");
+
+            HttpWebRequest req = HttpWebRequest.Create(url) as HttpWebRequest;
+            req.Timeout = 6000;   // wait max 6 seconds.
+            if (webproxy != null)
+                req.Proxy = webproxy;
+            HttpWebResponse res = req.GetResponse() as HttpWebResponse;
+
+            string text = null;
+            using (Stream stream = res.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(stream))
+                    text = sr.ReadToEnd();
+            }
+
+            return new Version(text);
+        }
+
+
+        /*
         /// <summary>
         /// Gets the version of the last available release of GDocBackup form gs.fhtino.it
         /// </summary>
@@ -134,6 +149,6 @@ namespace GDocBackup
                 return false;
             }
         }
-
+        */
     }
 }

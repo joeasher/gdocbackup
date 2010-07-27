@@ -64,6 +64,7 @@ namespace GDocBackup
             this.cbSetProxy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cbBypassCertificatesCheck = new System.Windows.Forms.CheckBox();
             this.cbDisableUpdateCheck = new System.Windows.Forms.CheckBox();
             this.tabPageNormalExport = new System.Windows.Forms.TabPage();
             this.cbEnableMultiExport = new System.Windows.Forms.CheckBox();
@@ -79,7 +80,7 @@ namespace GDocBackup
             this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
             this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
             this.tbMultiExpPres = new System.Windows.Forms.TextBox();
-            this.cbBypassCertificatesCheck = new System.Windows.Forms.CheckBox();
+            this.cbCheckForBetaVersion = new System.Windows.Forms.CheckBox();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
@@ -414,6 +415,7 @@ namespace GDocBackup
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.cbCheckForBetaVersion);
             this.tabPage1.Controls.Add(this.cbBypassCertificatesCheck);
             this.tabPage1.Controls.Add(this.cbDisableUpdateCheck);
             this.tabPage1.Controls.Add(this.label2);
@@ -432,10 +434,20 @@ namespace GDocBackup
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // cbBypassCertificatesCheck
+            // 
+            this.cbBypassCertificatesCheck.AutoSize = true;
+            this.cbBypassCertificatesCheck.Location = new System.Drawing.Point(14, 172);
+            this.cbBypassCertificatesCheck.Name = "cbBypassCertificatesCheck";
+            this.cbBypassCertificatesCheck.Size = new System.Drawing.Size(273, 17);
+            this.cbBypassCertificatesCheck.TabIndex = 10;
+            this.cbBypassCertificatesCheck.Text = "Bypass https certificates checks (... at your own risk)";
+            this.cbBypassCertificatesCheck.UseVisualStyleBackColor = true;
+            // 
             // cbDisableUpdateCheck
             // 
             this.cbDisableUpdateCheck.AutoSize = true;
-            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 133);
+            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 126);
             this.cbDisableUpdateCheck.Name = "cbDisableUpdateCheck";
             this.cbDisableUpdateCheck.Size = new System.Drawing.Size(130, 17);
             this.cbDisableUpdateCheck.TabIndex = 10;
@@ -575,15 +587,15 @@ namespace GDocBackup
             this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
             this.tbMultiExpPres.TabIndex = 0;
             // 
-            // cbBypassCertificatesCheck
+            // cbCheckForBetaVersion
             // 
-            this.cbBypassCertificatesCheck.AutoSize = true;
-            this.cbBypassCertificatesCheck.Location = new System.Drawing.Point(14, 156);
-            this.cbBypassCertificatesCheck.Name = "cbBypassCertificatesCheck";
-            this.cbBypassCertificatesCheck.Size = new System.Drawing.Size(273, 17);
-            this.cbBypassCertificatesCheck.TabIndex = 10;
-            this.cbBypassCertificatesCheck.Text = "Bypass https certificates checks (... at your own risk)";
-            this.cbBypassCertificatesCheck.UseVisualStyleBackColor = true;
+            this.cbCheckForBetaVersion.AutoSize = true;
+            this.cbCheckForBetaVersion.Location = new System.Drawing.Point(14, 149);
+            this.cbCheckForBetaVersion.Name = "cbCheckForBetaVersion";
+            this.cbCheckForBetaVersion.Size = new System.Drawing.Size(167, 17);
+            this.cbCheckForBetaVersion.TabIndex = 11;
+            this.cbCheckForBetaVersion.Text = "Also check for BETA releases";
+            this.cbCheckForBetaVersion.UseVisualStyleBackColor = true;
             // 
             // ConfigForm
             // 
@@ -677,5 +689,6 @@ namespace GDocBackup
         private System.Windows.Forms.CheckedListBox clbPresFormat;
         private System.Windows.Forms.CheckedListBox clbSprShFormat;
         private System.Windows.Forms.CheckBox cbBypassCertificatesCheck;
+        private System.Windows.Forms.CheckBox cbCheckForBetaVersion;
     }
 }
