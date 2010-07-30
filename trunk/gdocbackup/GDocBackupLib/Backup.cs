@@ -230,6 +230,12 @@ namespace GDocBackupLib
                 {
                     try
                     {
+                        // * WorkAround for drawing *
+                        // Detect if drawing and then force downloadtype to pdf
+                        bool isDrawing = doc.ResourceId.StartsWith("drawing:");   // drawing:14TBycKwlpXJ25N......
+                        if (isDrawing)
+                            downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+
                         foreach (Document.DownloadType downloadtype in downloadTypes)
                         {
                             // Build local file path
@@ -244,7 +250,7 @@ namespace GDocBackupLib
                                 outFolderPath = _folderDict[doc.ParentFolders[0]];
                             }
                             string outFileFP =
-                                doc.Type == Document.DocumentType.Unknown ?
+                                (doc.Type == Document.DocumentType.Unknown && !isDrawing) ?
                                 Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
                                 Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
 
@@ -267,6 +273,8 @@ namespace GDocBackupLib
                                     if (doc.Type == Document.DocumentType.Unknown)
                                     {
                                         String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
+                                        if (isDrawing)
+                                            downloadUrl += "&exportFormat=" + downloadtype.ToString();
                                         Uri downloadUri = new Uri(downloadUrl);
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
@@ -324,7 +332,7 @@ namespace GDocBackupLib
                             DoFeedback(new FeedbackObject(
                                 doc.Title,
                                 doc.Type.ToString(),
-                                doc.Type == Document.DocumentType.Unknown ? "BIN" : downloadtype.ToString(),
+                                (doc.Type == Document.DocumentType.Unknown && !isDrawing) ? "BIN" : downloadtype.ToString(),
                                 downloadDoc ? "BCKUP" : "SKIP",
                                 "", locFileDateTime, gdocFileDateTime));
                         }
