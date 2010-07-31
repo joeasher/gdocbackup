@@ -282,9 +282,11 @@ namespace GDocBackupLib
                                     {
                                         // Questo dovrebbe essere il modo giusto. Ma non funziona (google bug!)
                                         // gdocStream = request.Download(doc, downloadtype);
+                                        // Anche questo non funziona :(
+                                        // gdocStream = request.Download(doc, downloadtype.ToString());
                                         // 
                                         // In attesa di una soluzione, ecco la mandrakata!
-                                        gdocStream = Mandrakata.GetDocUri(request, doc, downloadtype);
+                                        gdocStream = Mandrakata.GetDocExportStream(request, doc, downloadtype);
                                     }
                                     else if (doc.Type == Document.DocumentType.Spreadsheet)
                                     {
