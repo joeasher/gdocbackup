@@ -10,6 +10,7 @@ namespace GDocBackupLib
 {
     internal class Mandrakata
     {
+        /*
         public static Stream GetDocUri_NON_FUNZIONA(DocumentsRequest request, Document doc, Document.DownloadType type)
         {
             // NON FUNZIONA (porca putt...!)
@@ -20,11 +21,12 @@ namespace GDocBackupLib
             Uri target = new Uri(uriS);
             return request.Service.Query(target);
         }
+        */
 
-        public static Stream GetDocUri(DocumentsRequest request, Document doc, Document.DownloadType type)
+        public static Stream GetDocExportStream(DocumentsRequest request, Document doc, Document.DownloadType downloadtype)
         {
             // Questa funziona ma mi pare na stronz...
-            string format = type.ToString();
+            string format = downloadtype.ToString();
             string url =
                 doc.DocumentEntry.Content.AbsoluteUri +
                 "&exportFormat=" + format + "&format=" + format;
