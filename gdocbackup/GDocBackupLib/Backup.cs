@@ -427,19 +427,34 @@ namespace GDocBackupLib
         /// </summary>
         private string RemoveInvalidChars(string s, bool convertMultipleToSingleDot)
         {
-            StringBuilder x = new StringBuilder();
-            for (int i = 0; i < s.Length; i++)
-            {
-                char c = s[i];
-                if (Char.IsLetter(c) || Char.IsNumber(c) || c == '-' || c == '_' || c == '.')
-                    x.Append(c);
-                else
-                    x.Append('_');
-            }
+            //StringBuilder x = new StringBuilder();
+            //for (int i = 0; i < s.Length; i++)
+            //{
+            //    char c = s[i];
+            //    if (Char.IsLetter(c) || Char.IsNumber(c) || c == '-' || c == '_' || c == '.')
+            //        x.Append(c);
+            //    else
+            //        x.Append('_');
+            //}            
+
+            //return convertMultipleToSingleDot ?
+            //    Regex.Replace(x.ToString(), "(\\.){1,}", ".") :
+            //    Regex.Replace(x.ToString(), "(\\.)", "_");
+
+            List<char> invalidList = new List<char>();
+            invalidList.AddRange(Path.GetInvalidPathChars());
+            invalidList.AddRange(Path.GetInvalidFileNameChars());
+
+            char[] sChars = s.ToCharArray();
+            for (int i = 0; i < sChars.Length; i++)
+                if (invalidList.Contains(sChars[i]))
+                    sChars[i] = '_';
+
+            string sNew = new String(sChars);
 
             return convertMultipleToSingleDot ?
-                Regex.Replace(x.ToString(), "(\\.){1,}", ".") :
-                Regex.Replace(x.ToString(), "(\\.)", "_");
+                Regex.Replace(sNew, "(\\.){1,}", ".") :
+                Regex.Replace(sNew, "(\\.)", "_");
         }
 
 
