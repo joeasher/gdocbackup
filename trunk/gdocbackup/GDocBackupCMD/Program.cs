@@ -135,7 +135,7 @@ namespace GDocBackupCMD
                 username, password, destDir,
                 downloadAll == "yes",
                 docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(),
-                null, bypassHttpsCertChecks, false);
+                null, bypassHttpsCertChecks, false, null);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 

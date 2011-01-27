@@ -314,7 +314,8 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
                 webproxy,
                 conf.BypassCertificateChecks,
-                this.DebugMode);
+                this.DebugMode,
+                5);
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
