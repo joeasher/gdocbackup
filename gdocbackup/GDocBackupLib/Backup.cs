@@ -43,6 +43,7 @@ namespace GDocBackupLib
         private IWebProxy _iwebproxy;
         private bool _bypassHttpsChecks;
         private bool _debugMode;
+        private int? _dateDiff;
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
         private Exception _lastException = null;
@@ -105,7 +106,8 @@ namespace GDocBackupLib
             Document.DownloadType[] presExpType,
             IWebProxy webproxy,
             bool bypassHttpsChecks,
-            bool debugMode)
+            bool debugMode,
+            int? dateDiff)
         {
             _userName = userName;
             _password = password;
@@ -117,6 +119,7 @@ namespace GDocBackupLib
             _iwebproxy = webproxy;
             _bypassHttpsChecks = bypassHttpsChecks;
             _debugMode = debugMode;
+            _dateDiff = dateDiff;
         }
 
 
@@ -263,7 +266,20 @@ namespace GDocBackupLib
                             locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
                             gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
 
-                            bool downloadDoc = (!fi.Exists || locFileDateTime != gdocFileDateTime || _downloadAll);
+                            bool downloadDoc = (!fi.Exists || _downloadAll);
+
+                            if (_dateDiff.HasValue)
+                            {
+                                if (Math.Abs(locFileDateTime.Subtract(gdocFileDateTime).TotalSeconds) > _dateDiff.Value)
+                                    downloadDoc = true;
+                            }
+                            else
+                            {
+                                if (locFileDateTime != gdocFileDateTime)
+                                    downloadDoc = true;
+                            }
+
+
                             if (downloadDoc)
                             {
                                 DoFeedback("Start exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
