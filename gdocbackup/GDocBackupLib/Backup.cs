@@ -23,6 +23,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 
 namespace GDocBackupLib
@@ -157,6 +158,8 @@ namespace GDocBackupLib
         {
             DoFeedback(new string('*', 60));
             DoFeedback("****** START BACKUP PROCESS ******");
+            AssemblyName assembName = Assembly.GetExecutingAssembly().GetName();
+            DoFeedback(assembName.Name + " - ver. " + assembName.Version.ToString());
 
             _lastException = null;
 
@@ -400,12 +403,15 @@ namespace GDocBackupLib
                             string newCurrPath = Path.Combine(currentPath, folderName);
 
                             //OLD_folderDict.Add(doc.Id, newCurrPath);
-                            _folderDict.Add(doc.Self, newCurrPath);
+                            if (!_folderDict.ContainsKey(doc.Self))
+                            {
+                                _folderDict.Add(doc.Self, newCurrPath);
 
-                            if (!Directory.Exists(newCurrPath))
-                                Directory.CreateDirectory(newCurrPath);
+                                if (!Directory.Exists(newCurrPath))
+                                    Directory.CreateDirectory(newCurrPath);
 
-                            BuildFolders(doc, docs, newCurrPath);
+                                BuildFolders(doc, docs, newCurrPath);
+                            }
                         }
                     }
                     else
