@@ -315,7 +315,7 @@ namespace GDocBackup
                 webproxy,
                 conf.BypassCertificateChecks,
                 this.DebugMode,
-                5);
+                conf.DateDelta);
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
