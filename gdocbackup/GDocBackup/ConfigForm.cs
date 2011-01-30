@@ -58,6 +58,7 @@ namespace GDocBackup
             cbDisableUpdateCheck.Checked = conf.DisableUpdateCheck;
             cbCheckForBetaVersion.Checked = conf.CheckForBeta;
             cbBypassCertificatesCheck.Checked = conf.BypassCertificateChecks;
+            TbDateDelta.Text = conf.DateDelta.ToString();
 
 
             // --- Data format TAB ---
@@ -105,6 +106,7 @@ namespace GDocBackup
             conf.DisableUpdateCheck = cbDisableUpdateCheck.Checked;
             conf.CheckForBeta = cbCheckForBetaVersion.Checked;
             conf.BypassCertificateChecks = cbBypassCertificatesCheck.Checked;
+            conf.DateDelta = int.Parse(TbDateDelta.Text);
 
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;

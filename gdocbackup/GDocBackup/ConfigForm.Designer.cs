@@ -64,6 +64,7 @@ namespace GDocBackup
             this.cbSetProxy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cbCheckForBetaVersion = new System.Windows.Forms.CheckBox();
             this.cbBypassCertificatesCheck = new System.Windows.Forms.CheckBox();
             this.cbDisableUpdateCheck = new System.Windows.Forms.CheckBox();
             this.tabPageNormalExport = new System.Windows.Forms.TabPage();
@@ -80,7 +81,8 @@ namespace GDocBackup
             this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
             this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
             this.tbMultiExpPres = new System.Windows.Forms.TextBox();
-            this.cbCheckForBetaVersion = new System.Windows.Forms.CheckBox();
+            this.TbDateDelta = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
@@ -113,21 +115,21 @@ namespace GDocBackup
             // 
             // TbUsername
             // 
-            this.TbUsername.Location = new System.Drawing.Point(107, 17);
+            this.TbUsername.Location = new System.Drawing.Point(124, 17);
             this.TbUsername.Name = "TbUsername";
             this.TbUsername.Size = new System.Drawing.Size(98, 20);
             this.TbUsername.TabIndex = 1;
             // 
             // TbBackupDir
             // 
-            this.TbBackupDir.Location = new System.Drawing.Point(107, 83);
+            this.TbBackupDir.Location = new System.Drawing.Point(124, 83);
             this.TbBackupDir.Name = "TbBackupDir";
             this.TbBackupDir.Size = new System.Drawing.Size(165, 20);
             this.TbBackupDir.TabIndex = 3;
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(109, 241);
+            this.BtnSave.Location = new System.Drawing.Point(109, 280);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(84, 29);
             this.BtnSave.TabIndex = 4;
@@ -137,7 +139,7 @@ namespace GDocBackup
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(199, 241);
+            this.BtnCancel.Location = new System.Drawing.Point(199, 280);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(84, 30);
             this.BtnCancel.TabIndex = 5;
@@ -147,7 +149,7 @@ namespace GDocBackup
             // 
             // BtnSelectDir
             // 
-            this.BtnSelectDir.Location = new System.Drawing.Point(278, 83);
+            this.BtnSelectDir.Location = new System.Drawing.Point(295, 83);
             this.BtnSelectDir.Name = "BtnSelectDir";
             this.BtnSelectDir.Size = new System.Drawing.Size(31, 20);
             this.BtnSelectDir.TabIndex = 6;
@@ -217,7 +219,7 @@ namespace GDocBackup
             // 
             // TbPassword
             // 
-            this.TbPassword.Location = new System.Drawing.Point(107, 43);
+            this.TbPassword.Location = new System.Drawing.Point(124, 43);
             this.TbPassword.Name = "TbPassword";
             this.TbPassword.PasswordChar = '*';
             this.TbPassword.Size = new System.Drawing.Size(98, 20);
@@ -226,7 +228,7 @@ namespace GDocBackup
             // CbStorePassword
             // 
             this.CbStorePassword.AutoSize = true;
-            this.CbStorePassword.Location = new System.Drawing.Point(211, 45);
+            this.CbStorePassword.Location = new System.Drawing.Point(228, 45);
             this.CbStorePassword.Name = "CbStorePassword";
             this.CbStorePassword.Size = new System.Drawing.Size(77, 17);
             this.CbStorePassword.TabIndex = 9;
@@ -410,11 +412,13 @@ namespace GDocBackup
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(370, 223);
+            this.tabControl1.Size = new System.Drawing.Size(370, 260);
             this.tabControl1.TabIndex = 11;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label15);
+            this.tabPage1.Controls.Add(this.TbDateDelta);
             this.tabPage1.Controls.Add(this.cbCheckForBetaVersion);
             this.tabPage1.Controls.Add(this.cbBypassCertificatesCheck);
             this.tabPage1.Controls.Add(this.cbDisableUpdateCheck);
@@ -429,15 +433,25 @@ namespace GDocBackup
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(362, 197);
+            this.tabPage1.Size = new System.Drawing.Size(362, 234);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // cbCheckForBetaVersion
+            // 
+            this.cbCheckForBetaVersion.AutoSize = true;
+            this.cbCheckForBetaVersion.Location = new System.Drawing.Point(14, 183);
+            this.cbCheckForBetaVersion.Name = "cbCheckForBetaVersion";
+            this.cbCheckForBetaVersion.Size = new System.Drawing.Size(167, 17);
+            this.cbCheckForBetaVersion.TabIndex = 11;
+            this.cbCheckForBetaVersion.Text = "Also check for BETA releases";
+            this.cbCheckForBetaVersion.UseVisualStyleBackColor = true;
+            // 
             // cbBypassCertificatesCheck
             // 
             this.cbBypassCertificatesCheck.AutoSize = true;
-            this.cbBypassCertificatesCheck.Location = new System.Drawing.Point(14, 172);
+            this.cbBypassCertificatesCheck.Location = new System.Drawing.Point(14, 206);
             this.cbBypassCertificatesCheck.Name = "cbBypassCertificatesCheck";
             this.cbBypassCertificatesCheck.Size = new System.Drawing.Size(273, 17);
             this.cbBypassCertificatesCheck.TabIndex = 10;
@@ -447,7 +461,7 @@ namespace GDocBackup
             // cbDisableUpdateCheck
             // 
             this.cbDisableUpdateCheck.AutoSize = true;
-            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 126);
+            this.cbDisableUpdateCheck.Location = new System.Drawing.Point(14, 160);
             this.cbDisableUpdateCheck.Name = "cbDisableUpdateCheck";
             this.cbDisableUpdateCheck.Size = new System.Drawing.Size(130, 17);
             this.cbDisableUpdateCheck.TabIndex = 10;
@@ -462,7 +476,7 @@ namespace GDocBackup
             this.tabPageNormalExport.Location = new System.Drawing.Point(4, 22);
             this.tabPageNormalExport.Name = "tabPageNormalExport";
             this.tabPageNormalExport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNormalExport.Size = new System.Drawing.Size(362, 197);
+            this.tabPageNormalExport.Size = new System.Drawing.Size(362, 215);
             this.tabPageNormalExport.TabIndex = 1;
             this.tabPageNormalExport.Text = "Export format";
             this.tabPageNormalExport.UseVisualStyleBackColor = true;
@@ -561,7 +575,7 @@ namespace GDocBackup
             this.tabPage3.Controls.Add(this.cbSetProxy);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(362, 197);
+            this.tabPage3.Size = new System.Drawing.Size(362, 215);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Proxy";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -587,21 +601,27 @@ namespace GDocBackup
             this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
             this.tbMultiExpPres.TabIndex = 0;
             // 
-            // cbCheckForBetaVersion
+            // TbDateDelta
             // 
-            this.cbCheckForBetaVersion.AutoSize = true;
-            this.cbCheckForBetaVersion.Location = new System.Drawing.Point(14, 149);
-            this.cbCheckForBetaVersion.Name = "cbCheckForBetaVersion";
-            this.cbCheckForBetaVersion.Size = new System.Drawing.Size(167, 17);
-            this.cbCheckForBetaVersion.TabIndex = 11;
-            this.cbCheckForBetaVersion.Text = "Also check for BETA releases";
-            this.cbCheckForBetaVersion.UseVisualStyleBackColor = true;
+            this.TbDateDelta.Location = new System.Drawing.Point(124, 121);
+            this.TbDateDelta.Name = "TbDateDelta";
+            this.TbDateDelta.Size = new System.Drawing.Size(37, 20);
+            this.TbDateDelta.TabIndex = 12;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 124);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(104, 13);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "Date delta (minutes):";
             // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 277);
+            this.ClientSize = new System.Drawing.Size(392, 317);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnSave);
@@ -690,5 +710,7 @@ namespace GDocBackup
         private System.Windows.Forms.CheckedListBox clbSprShFormat;
         private System.Windows.Forms.CheckBox cbBypassCertificatesCheck;
         private System.Windows.Forms.CheckBox cbCheckForBetaVersion;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox TbDateDelta;
     }
 }
