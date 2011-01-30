@@ -15,11 +15,11 @@
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-
-
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE checkGDocBackupIsRunning
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
+
 
 ; Warning page
 !define MUI_WELCOMEPAGE_TITLE "WARNING"
@@ -46,6 +46,9 @@
 !insertmacro MUI_LANGUAGE "English"
 
 ; MUI end ------
+
+
+
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "${PRODUCT_NAME}_${PRODUCT_VERSION}.$$$VerRevision$$$_Setup.exe"
@@ -83,6 +86,16 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
 SectionEnd
+
+
+; Check if GDocBackup is running
+Function checkGDocBackupIsRunning
+	FindProcDLL::FindProc "GDocBackup.exe"
+	IntCmp $R0 1 0 notRunning
+		MessageBox MB_OK|MB_ICONEXCLAMATION "GDocBackup is running. Cannot install a new version. Please close it first!" /SD IDOK
+		Quit
+	notRunning:
+FunctionEnd
 
 
 Function un.onUninstSuccess
