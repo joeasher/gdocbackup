@@ -64,6 +64,8 @@ namespace GDocBackup
             this.cbSetProxy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.TbDateDelta = new System.Windows.Forms.TextBox();
             this.cbCheckForBetaVersion = new System.Windows.Forms.CheckBox();
             this.cbBypassCertificatesCheck = new System.Windows.Forms.CheckBox();
             this.cbDisableUpdateCheck = new System.Windows.Forms.CheckBox();
@@ -81,8 +83,6 @@ namespace GDocBackup
             this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
             this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
             this.tbMultiExpPres = new System.Windows.Forms.TextBox();
-            this.TbDateDelta = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
@@ -438,6 +438,22 @@ namespace GDocBackup
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 124);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(108, 13);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "Date delta (seconds):";
+            // 
+            // TbDateDelta
+            // 
+            this.TbDateDelta.Location = new System.Drawing.Point(124, 121);
+            this.TbDateDelta.Name = "TbDateDelta";
+            this.TbDateDelta.Size = new System.Drawing.Size(37, 20);
+            this.TbDateDelta.TabIndex = 12;
+            // 
             // cbCheckForBetaVersion
             // 
             this.cbCheckForBetaVersion.AutoSize = true;
@@ -476,7 +492,7 @@ namespace GDocBackup
             this.tabPageNormalExport.Location = new System.Drawing.Point(4, 22);
             this.tabPageNormalExport.Name = "tabPageNormalExport";
             this.tabPageNormalExport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNormalExport.Size = new System.Drawing.Size(362, 215);
+            this.tabPageNormalExport.Size = new System.Drawing.Size(362, 234);
             this.tabPageNormalExport.TabIndex = 1;
             this.tabPageNormalExport.Text = "Export format";
             this.tabPageNormalExport.UseVisualStyleBackColor = true;
@@ -575,7 +591,7 @@ namespace GDocBackup
             this.tabPage3.Controls.Add(this.cbSetProxy);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(362, 215);
+            this.tabPage3.Size = new System.Drawing.Size(362, 234);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Proxy";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -600,22 +616,6 @@ namespace GDocBackup
             this.tbMultiExpPres.Name = "tbMultiExpPres";
             this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
             this.tbMultiExpPres.TabIndex = 0;
-            // 
-            // TbDateDelta
-            // 
-            this.TbDateDelta.Location = new System.Drawing.Point(124, 121);
-            this.TbDateDelta.Name = "TbDateDelta";
-            this.TbDateDelta.Size = new System.Drawing.Size(37, 20);
-            this.TbDateDelta.TabIndex = 12;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 124);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(104, 13);
-            this.label15.TabIndex = 13;
-            this.label15.Text = "Date delta (minutes):";
             // 
             // ConfigForm
             // 
