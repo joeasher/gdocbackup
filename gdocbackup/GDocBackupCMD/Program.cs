@@ -41,7 +41,19 @@ namespace GDocBackupCMD
             if (parameters["mode"] == "encodepassword")
             {
                 if (parameters.ContainsKey("password"))
-                    Console.WriteLine(GDocBackupLib.Utility.ProtectData(parameters["password"]));
+                {
+                    string encodedpassword = GDocBackupLib.Utility.ProtectData(parameters["password"]);
+                    if (parameters.ContainsKey("outfile"))
+                    {
+                        string outfile = parameters["outfile"];
+                        File.WriteAllText(outfile, encodedpassword);
+                        Console.WriteLine("Encoded password written to file " + outfile);
+                    }
+                    else
+                    {
+                        Console.WriteLine(encodedpassword);
+                    }
+                }
                 return 0;
             }
 
@@ -179,6 +191,7 @@ namespace GDocBackupCMD
             Console.WriteLine("");
             Console.WriteLine(">>> mode=encodepassword <<<");
             Console.WriteLine("  -password: string to be encoded");
+            Console.WriteLine("  -outfile: output file name");
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("Examples:");
