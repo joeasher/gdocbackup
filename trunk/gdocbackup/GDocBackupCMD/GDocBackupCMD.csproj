@@ -33,11 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.GData.Client, Version=1.7.0.1, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
+    <Reference Include="Google.GData.Client, Version=1.7.0.1084, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\_dll\Google.GData.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Documents, Version=1.7.0.1, Culture=neutral, PublicKeyToken=e4daaad656f19bb9, processorArchitecture=MSIL">
+    <Reference Include="Google.GData.Documents, Version=1.7.0.1084, Culture=neutral, PublicKeyToken=e4daaad656f19bb9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\_dll\Google.GData.Documents.dll</HintPath>
     </Reference>
