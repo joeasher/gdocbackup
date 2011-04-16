@@ -67,14 +67,17 @@ namespace GDocBackup
             List<Document.DownloadType> docsDownTypes = Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat);
             List<Document.DownloadType> sprsDownTypes = Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat);
             List<Document.DownloadType> presDownTypes = Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat);
+            List<Document.DownloadType> drawDownTypes = Utility.DecodeDownloadTypeArray(conf.DrawingExportFormat);
 
             if (docsDownTypes.Count > 0) cbDocFormat.SelectedItem = docsDownTypes[0];
             if (sprsDownTypes.Count > 0) cbSprShFormat.SelectedItem = sprsDownTypes[0];
             if (presDownTypes.Count > 0) cbPresFormat.SelectedItem = presDownTypes[0];
+            if (drawDownTypes.Count > 0) cbDrawFormat.SelectedItem = drawDownTypes[0];
 
             this.CLBActivateItems(clbDocFormat, docsDownTypes);
             this.CLBActivateItems(clbSprShFormat, sprsDownTypes);
             this.CLBActivateItems(clbPresFormat, presDownTypes);
+            this.CLBActivateItems(clbDrawFormat, drawDownTypes);
 
 
             // --- Proxy TAB ---
@@ -115,15 +118,18 @@ namespace GDocBackup
                 List<Document.DownloadType> docsDownTypes = this.CLBGetActiveItems(clbDocFormat);
                 List<Document.DownloadType> sprsDownTypes = this.CLBGetActiveItems(clbSprShFormat);
                 List<Document.DownloadType> presDownTypes = this.CLBGetActiveItems(clbPresFormat);
+                List<Document.DownloadType> drawDownTypes = this.CLBGetActiveItems(clbDrawFormat);
                 if (docsDownTypes.Count > 0) conf.DocumentExportFormat = Utility.EncodeDownloadTypeArray(docsDownTypes);
                 if (sprsDownTypes.Count > 0) conf.SpreadsheetExportFormat = Utility.EncodeDownloadTypeArray(sprsDownTypes);
                 if (presDownTypes.Count > 0) conf.PresentationExportFormat = Utility.EncodeDownloadTypeArray(presDownTypes);
+                if (drawDownTypes.Count > 0) conf.DrawingExportFormat = Utility.EncodeDownloadTypeArray(drawDownTypes);
             }
             else
             {
                 if (cbDocFormat.SelectedItem != null) conf.DocumentExportFormat = cbDocFormat.SelectedItem.ToString();
                 if (cbSprShFormat.SelectedItem != null) conf.SpreadsheetExportFormat = cbSprShFormat.SelectedItem.ToString();
                 if (cbPresFormat.SelectedItem != null) conf.PresentationExportFormat = cbPresFormat.SelectedItem.ToString();
+                if (cbDrawFormat.SelectedItem != null) conf.DrawingExportFormat = cbDrawFormat.SelectedItem.ToString();
             }
 
             // Proxy TAB
@@ -235,7 +241,6 @@ namespace GDocBackup
                 Document.DownloadType.rtf,
                 Document.DownloadType.txt,
                 Document.DownloadType.pdf,
-                // Document.DownloadType.html   // ZIP missing --> html is not useful
             };
 
             Document.DownloadType[] sprsDownType = new Document.DownloadType[]{
@@ -244,23 +249,32 @@ namespace GDocBackup
                 Document.DownloadType.ods,
                 Document.DownloadType.tsv,
                 Document.DownloadType.pdf,
-                // Document.DownloadType.html   // ZIP missing --> html is not useful
             };
 
             Document.DownloadType[] presDownType = new Document.DownloadType[]{ 
                 Document.DownloadType.ppt,
                 Document.DownloadType.pdf,
-                Document.DownloadType.swf,  // NEW
-                Document.DownloadType.txt   // NEW
+                Document.DownloadType.swf, 
+                Document.DownloadType.txt  
+            };
+
+            Document.DownloadType[] drawDownType = new Document.DownloadType[]{
+                Document.DownloadType.pdf, 
+                Document.DownloadType.svg,
+                Document.DownloadType.jpeg,
+                Document.DownloadType.png 
             };
 
             for (int i = 0; i < docsDownTypes.Length; i++) cbDocFormat.Items.Add(docsDownTypes[i]);
             for (int i = 0; i < sprsDownType.Length; i++) cbSprShFormat.Items.Add(sprsDownType[i]);
             for (int i = 0; i < presDownType.Length; i++) cbPresFormat.Items.Add(presDownType[i]);
+            for (int i = 0; i < drawDownType.Length; i++) cbDrawFormat.Items.Add(drawDownType[i]);
 
             for (int i = 0; i < docsDownTypes.Length; i++) clbDocFormat.Items.Add(docsDownTypes[i]);
             for (int i = 0; i < sprsDownType.Length; i++) clbSprShFormat.Items.Add(sprsDownType[i]);
             for (int i = 0; i < presDownType.Length; i++) clbPresFormat.Items.Add(presDownType[i]);
+            for (int i = 0; i < drawDownType.Length; i++) clbDrawFormat.Items.Add(drawDownType[i]);
+
         }
 
 

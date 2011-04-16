@@ -312,6 +312,7 @@ namespace GDocBackup
                 Utility.DecodeDownloadTypeArray(conf.DocumentExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.SpreadsheetExportFormat).ToArray(),
                 Utility.DecodeDownloadTypeArray(conf.PresentationExportFormat).ToArray(),
+                Utility.DecodeDownloadTypeArray(conf.DrawingExportFormat).ToArray(),
                 webproxy,
                 conf.BypassCertificateChecks,
                 this.DebugMode,

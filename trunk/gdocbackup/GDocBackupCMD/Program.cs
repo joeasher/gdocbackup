@@ -119,12 +119,15 @@ namespace GDocBackupCMD
             string docF = parameters.ContainsKey("docF") ? parameters["docF"] : null;
             string sprsF = parameters.ContainsKey("sprsF") ? parameters["sprsF"] : null;
             string presF = parameters.ContainsKey("presF") ? parameters["presF"] : null;
+            string drawF = parameters.ContainsKey("drawF") ? parameters["drawF"] : null;
             if (docF == null) throw new ApplicationException("Empty docF");
             if (sprsF == null) throw new ApplicationException("Empty sprsF");
             if (presF == null) throw new ApplicationException("Empty presF");
+            if (presF == null) throw new ApplicationException("Empty drawF");
             List<Document.DownloadType> docTypes = Utility.DecodeDownloadTypeArray(docF, '+');
             List<Document.DownloadType> sprsTypes = Utility.DecodeDownloadTypeArray(sprsF, '+');
             List<Document.DownloadType> presTypes = Utility.DecodeDownloadTypeArray(presF, '+');
+            List<Document.DownloadType> drawTypes = Utility.DecodeDownloadTypeArray(drawF, '+');
             string downloadAll = parameters.ContainsKey("downloadAll") ? parameters["downloadAll"] : null;
 
             // Get BypassHttpsCertChecks
@@ -144,10 +147,14 @@ namespace GDocBackupCMD
 
             // Exec backup
             Backup backup = new Backup(
-                username, password, destDir,
+                username, password, 
+                destDir,
                 downloadAll == "yes",
-                docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(),
-                null, bypassHttpsCertChecks, false, null);
+                docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(), drawTypes.ToArray(),
+                null,
+                bypassHttpsCertChecks,
+                false,
+                null);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 

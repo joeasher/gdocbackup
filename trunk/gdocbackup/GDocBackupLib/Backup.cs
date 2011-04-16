@@ -41,6 +41,7 @@ namespace GDocBackupLib
         private Document.DownloadType[] _docExpType;
         private Document.DownloadType[] _sprdExpType;
         private Document.DownloadType[] _presExpType;
+        private Document.DownloadType[] _drawExpType;
         private IWebProxy _iwebproxy;
         private bool _bypassHttpsChecks;
         private bool _debugMode;
@@ -105,6 +106,7 @@ namespace GDocBackupLib
             Document.DownloadType[] docExpType,
             Document.DownloadType[] sprdExpType,
             Document.DownloadType[] presExpType,
+            Document.DownloadType[] drawExpType,
             IWebProxy webproxy,
             bool bypassHttpsChecks,
             bool debugMode,
@@ -117,6 +119,7 @@ namespace GDocBackupLib
             _docExpType = docExpType;
             _sprdExpType = sprdExpType;
             _presExpType = presExpType;
+            _drawExpType = drawExpType;
             _iwebproxy = webproxy;
             _bypassHttpsChecks = bypassHttpsChecks;
             _debugMode = debugMode;
@@ -221,8 +224,10 @@ namespace GDocBackupLib
                         downloadTypes = _sprdExpType;
                         break;
                     case Document.DocumentType.PDF:
-                        // --- NOT Completely supported by GDoc API 2.0 for .NET ---
                         downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+                        break;
+                    case Document.DocumentType.Drawing:
+                        downloadTypes = _drawExpType;
                         break;
                     case Document.DocumentType.Unknown:
                         downloadTypes = new Document.DownloadType[] { Document.DownloadType.zip };  // download format not used! It's only a "place-holder".
@@ -238,9 +243,10 @@ namespace GDocBackupLib
                     {
                         // * WorkAround for drawing *
                         // Detect if drawing and then force downloadtype to pdf
-                        bool isDrawing = doc.ResourceId.StartsWith("drawing:");   // drawing:14TBycKwlpXJ25N......
-                        if (isDrawing)
-                            downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+                        //bool isDrawing = doc.ResourceId.StartsWith("drawing:");   // drawing:14TBycKwlpXJ25N......
+                        //if (isDrawing)
+                        //    downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+                        // bool isDrawing = false;
 
                         foreach (Document.DownloadType downloadtype in downloadTypes)
                         {
@@ -256,9 +262,9 @@ namespace GDocBackupLib
                                 outFolderPath = _folderDict[doc.ParentFolders[0]];
                             }
                             string outFileFP =
-                                (doc.Type == Document.DocumentType.Unknown && !isDrawing) ?
-                                Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
-                                Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
+                                (doc.Type == Document.DocumentType.Unknown) ?
+                                    Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
+                                    Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
 
                             // Get current local file in infos
                             FileInfo fi = new FileInfo(outFileFP);
@@ -292,8 +298,6 @@ namespace GDocBackupLib
                                     if (doc.Type == Document.DocumentType.Unknown)
                                     {
                                         String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        if (isDrawing)
-                                            downloadUrl += "&exportFormat=" + downloadtype.ToString();
                                         Uri downloadUri = new Uri(downloadUrl);
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
@@ -301,16 +305,18 @@ namespace GDocBackupLib
                                     {
                                         // Questo dovrebbe essere il modo giusto. Ma non funziona (google bug!)
                                         // gdocStream = request.Download(doc, downloadtype);
-                                        // Anche questo non funziona :(
-                                        // gdocStream = request.Download(doc, downloadtype.ToString());
+
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
                                         // 
                                         // In attesa di una soluzione, ecco la mandrakata!
-                                        gdocStream = Mandrakata.GetDocExportStream(request, doc, downloadtype);
+                                        //gdocStream = Mandrakata.GetDocExportStream(request, doc, downloadtype);
                                     }
                                     else if (doc.Type == Document.DocumentType.Spreadsheet)
                                     {
-                                        // dovrei usare questo: gdocStream = request.Download(doc, downloadtype);
-                                        // ma non funziona. Questo funziona... boh...
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
+                                    }
+                                    else if (doc.Type == Document.DocumentType.Drawing)
+                                    {
                                         gdocStream = request.Download(doc, downloadtype.ToString());
                                     }
                                     else if (doc.Type != Document.DocumentType.PDF)
@@ -320,9 +326,10 @@ namespace GDocBackupLib
                                     else
                                     {
                                         // This is a workaround for downloading Pdf (new API 3.0 will support)                                            
-                                        String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        Uri downloadUri = new Uri(downloadUrl);
-                                        gdocStream = request.Service.Query(downloadUri);
+                                        //String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
+                                        //Uri downloadUri = new Uri(downloadUrl);
+                                        //gdocStream = request.Service.Query(downloadUri);
+                                        gdocStream = request.Download(doc, null);
                                     }
 
                                     using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
@@ -353,7 +360,7 @@ namespace GDocBackupLib
                             DoFeedback(new FeedbackObject(
                                 doc.Title,
                                 doc.Type.ToString(),
-                                (doc.Type == Document.DocumentType.Unknown && !isDrawing) ? "BIN" : downloadtype.ToString(),
+                                (doc.Type == Document.DocumentType.Unknown) ? "BIN" : downloadtype.ToString(),
                                 downloadDoc ? "BCKUP" : "SKIP",
                                 "", locFileDateTime, gdocFileDateTime));
                         }

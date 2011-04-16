@@ -274,5 +274,17 @@ namespace GDocBackup.Properties {
                 this["DateDelta"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("pdf")]
+        public string DrawingExportFormat {
+            get {
+                return ((string)(this["DrawingExportFormat"]));
+            }
+            set {
+                this["DrawingExportFormat"] = value;
+            }
+        }
     }
 }
