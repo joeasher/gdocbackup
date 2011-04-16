@@ -93,8 +93,12 @@ namespace GDocBackup
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            string gdocbakcupVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             this.Icon = Properties.Resources.Logo;
-            this.Text += " - Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            this.Text += " - Ver. " + gdocbakcupVersion;
+
             this.StoreLogMsgInfo(-1, "FORM_LOAD: " + this.Text);
 
             if (Properties.Settings.Default.CallUpgrade)

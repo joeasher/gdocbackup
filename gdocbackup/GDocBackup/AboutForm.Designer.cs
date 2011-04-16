@@ -35,6 +35,7 @@ namespace GDocBackup
             this.pictRotor = new System.Windows.Forms.PictureBox();
             this.lblCheckNewVer = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.LblGoogleVer = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictRotor)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +54,7 @@ namespace GDocBackup
             // 
             this.LblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblVersion.ForeColor = System.Drawing.Color.Maroon;
-            this.LblVersion.Location = new System.Drawing.Point(9, 33);
+            this.LblVersion.Location = new System.Drawing.Point(9, 39);
             this.LblVersion.Name = "LblVersion";
             this.LblVersion.Size = new System.Drawing.Size(203, 14);
             this.LblVersion.TabIndex = 1;
@@ -64,7 +65,7 @@ namespace GDocBackup
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Location = new System.Drawing.Point(9, 60);
+            this.linkLabel1.Location = new System.Drawing.Point(9, 92);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(161, 15);
             this.linkLabel1.TabIndex = 2;
@@ -75,7 +76,7 @@ namespace GDocBackup
             // pictRotor
             // 
             this.pictRotor.Image = global::GDocBackup.Properties.Resources.running;
-            this.pictRotor.Location = new System.Drawing.Point(12, 210);
+            this.pictRotor.Location = new System.Drawing.Point(12, 242);
             this.pictRotor.Name = "pictRotor";
             this.pictRotor.Size = new System.Drawing.Size(20, 20);
             this.pictRotor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -84,7 +85,7 @@ namespace GDocBackup
             // 
             // lblCheckNewVer
             // 
-            this.lblCheckNewVer.Location = new System.Drawing.Point(38, 210);
+            this.lblCheckNewVer.Location = new System.Drawing.Point(38, 242);
             this.lblCheckNewVer.Name = "lblCheckNewVer";
             this.lblCheckNewVer.Size = new System.Drawing.Size(231, 20);
             this.lblCheckNewVer.TabIndex = 8;
@@ -96,7 +97,7 @@ namespace GDocBackup
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 90);
+            this.textBox1.Location = new System.Drawing.Point(12, 122);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -104,15 +105,27 @@ namespace GDocBackup
             this.textBox1.TabIndex = 10;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
+            // LblGoogleVer
+            // 
+            this.LblGoogleVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblGoogleVer.ForeColor = System.Drawing.Color.Maroon;
+            this.LblGoogleVer.Location = new System.Drawing.Point(9, 57);
+            this.LblGoogleVer.Name = "LblGoogleVer";
+            this.LblGoogleVer.Size = new System.Drawing.Size(278, 18);
+            this.LblGoogleVer.TabIndex = 1;
+            this.LblGoogleVer.Text = "Lib version";
+            this.LblGoogleVer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 248);
+            this.ClientSize = new System.Drawing.Size(361, 279);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lblCheckNewVer);
             this.Controls.Add(this.pictRotor);
             this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.LblGoogleVer);
             this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
@@ -135,5 +148,6 @@ namespace GDocBackup
         private System.Windows.Forms.PictureBox pictRotor;
         private System.Windows.Forms.Label lblCheckNewVer;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label LblGoogleVer;
     }
 }
