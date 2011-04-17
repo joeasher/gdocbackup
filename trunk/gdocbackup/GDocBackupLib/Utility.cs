@@ -190,6 +190,24 @@ namespace GDocBackupLib
             return String.Join("|", list.ConvertAll<String>(delegate(Document.DownloadType x) { return x.ToString(); }).ToArray());
         }
 
+
+
+        /// <summary>
+        /// Search for duplicates items in a List of Strings
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static List<string> FindDuplicates(List<string> data)
+        {
+            List<string> outList = new List<string>();
+            List<string> checkList = new List<string>();
+            foreach (string docname in data)
+                if (checkList.Contains(docname))
+                    outList.Add(docname);
+                else
+                    checkList.Add(docname);
+            return outList;
+        }
     }
 
 

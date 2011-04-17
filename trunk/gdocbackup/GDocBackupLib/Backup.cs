@@ -198,6 +198,16 @@ namespace GDocBackupLib
             foreach (Document entry in feed.Entries)
                 docs.Add(entry);
 
+
+            // Work in progress
+            if (false)
+            {
+                List<string> warningNames = this.FindDuplicatedNames(docs);
+            }
+
+
+
+
             // Builds/updates local folder structure
             this.BuildFolders(null, docs, _outDir);
             foreach (String k in _folderDict.Keys)
@@ -516,6 +526,38 @@ namespace GDocBackupLib
             DoFeedbackDebug(new String('-', 80));
         }
 
+
+
+        private List<string> FindDuplicatedNames(List<Document> allDocs)
+        {
+            List<string> warningList = new List<string>();
+
+            foreach (Document docX in allDocs)
+            {
+                if (docX.Type == Document.DocumentType.Folder)
+                {
+                    List<String> docnameInFolder = new List<String>();
+                    foreach (Document doc in allDocs)
+                        if (doc.ParentFolders.Contains(docX.Self))
+                            docnameInFolder.Add(doc.Title);
+
+                    warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
+                }
+            }
+
+
+            // documents in root (= no parent folder)
+            {
+                List<String> docnameInFolder = new List<String>();
+                foreach (Document doc in allDocs)
+                    if (doc.ParentFolders.Count == 0)
+                        docnameInFolder.Add(doc.Title);
+
+                warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
+            }
+
+            return warningList;
+        }
     }
 
 }
