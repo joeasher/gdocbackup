@@ -49,12 +49,19 @@ namespace GDocBackupLib
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
         private Exception _lastException = null;
+        private List<string> _duplicatedDocNames;
 
 
         /// <summary>
         /// Last exception
         /// </summary>
         public Exception LastException { get { return _lastException; } }
+
+
+        /// <summary>
+        /// List of duplicated doc names in the same folder
+        /// </summary>
+        public List<string> DuplicatedDocNames { get { return _duplicatedDocNames; } }
 
 
         /// <summary>
@@ -165,6 +172,7 @@ namespace GDocBackupLib
             DoFeedback(assembName.Name + " - ver. " + assembName.Version.ToString());
 
             _lastException = null;
+            _duplicatedDocNames = new List<string>();
 
             // Bypass Https checks?
             // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
@@ -199,13 +207,8 @@ namespace GDocBackupLib
                 docs.Add(entry);
 
 
-            // Work in progress
-            if (false)
-            {
-                List<string> warningNames = this.FindDuplicatedNames(docs);
-            }
-
-
+            // Search for duplicated doc names in the same folder
+            _duplicatedDocNames = this.FindDuplicatedNames(docs);
 
 
             // Builds/updates local folder structure
@@ -527,11 +530,14 @@ namespace GDocBackupLib
         }
 
 
-
+        /// <summary>
+        /// Search for duplicates document names in the same folder
+        /// </summary>
         private List<string> FindDuplicatedNames(List<Document> allDocs)
         {
             List<string> warningList = new List<string>();
 
+            // documents in folders
             foreach (Document docX in allDocs)
             {
                 if (docX.Type == Document.DocumentType.Folder)
@@ -540,19 +546,16 @@ namespace GDocBackupLib
                     foreach (Document doc in allDocs)
                         if (doc.ParentFolders.Contains(docX.Self))
                             docnameInFolder.Add(doc.Title);
-
                     warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
                 }
             }
 
-
-            // documents in root (= no parent folder)
+            // documents in root folder (= no parent folder)
             {
                 List<String> docnameInFolder = new List<String>();
                 foreach (Document doc in allDocs)
                     if (doc.ParentFolders.Count == 0)
                         docnameInFolder.Add(doc.Title);
-
                 warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
             }
 

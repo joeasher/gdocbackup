@@ -324,7 +324,7 @@ namespace GDocBackup
 
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
-            this.BeginInvoke((MethodInvoker)delegate() { EndDownload(result, b.LastException); });
+            this.BeginInvoke((MethodInvoker)delegate() { EndDownload(result, b.DuplicatedDocNames, b.LastException); });
         }
 
 
@@ -361,13 +361,21 @@ namespace GDocBackup
         /// <summary>
         /// End download event handler
         /// </summary>
-        private void EndDownload(bool isOK, Exception ex)
+        private void EndDownload(bool isOK, List<string> duplicatedDocNames, Exception ex)
         {
             this.progressBar1.Value = 0;
             this.Cursor = Cursors.Default;
             this.dataGV.Cursor = Cursors.Default;    // Need to set it (perhaps a bug of DataGridView...)
             this.BtnExec.Enabled = true;
             this.BtnExec.Text = "Exec";
+
+            if (duplicatedDocNames != null && duplicatedDocNames.Count > 0)
+            {
+                string msg =
+                    "Warning: there are documents with the same name in the same folder. " + Environment.NewLine +
+                    "Documents: " + String.Join(" / ", duplicatedDocNames.ToArray());
+                MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
             if (isOK)
             {
