@@ -209,6 +209,8 @@ namespace GDocBackupLib
 
             // Search for duplicated doc names in the same folder
             _duplicatedDocNames = this.FindDuplicatedNames(docs);
+            DoFeedback("Duplicated Doc Names [" + _duplicatedDocNames.Count + "]");
+            _duplicatedDocNames.ForEach(delegate(string s) { DoFeedback(" - " + s); });            
 
 
             // Builds/updates local folder structure
@@ -538,15 +540,22 @@ namespace GDocBackupLib
             List<string> warningList = new List<string>();
 
             // documents in folders
-            foreach (Document docX in allDocs)
+            foreach (Document folderX in allDocs)
             {
-                if (docX.Type == Document.DocumentType.Folder)
+                if (folderX.Type == Document.DocumentType.Folder)
                 {
                     List<String> docnameInFolder = new List<String>();
                     foreach (Document doc in allDocs)
-                        if (doc.ParentFolders.Contains(docX.Self))
+                    {
+                        if (doc.ParentFolders.Contains(folderX.Self))  // && doc.Type != Document.DocumentType.Folder 
+                        {
                             docnameInFolder.Add(doc.Title);
-                    warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
+                        }
+                    }
+
+                    List<string> dupNames = Utility.FindDuplicates(docnameInFolder);
+                    foreach (String s in dupNames)
+                        warningList.Add(s + "@" + folderX.Title);
                 }
             }
 
@@ -554,9 +563,15 @@ namespace GDocBackupLib
             {
                 List<String> docnameInFolder = new List<String>();
                 foreach (Document doc in allDocs)
-                    if (doc.ParentFolders.Count == 0)
+                {
+                    if (doc.ParentFolders.Count == 0)   // && doc.Type != Document.DocumentType.Folder)
+                    {
                         docnameInFolder.Add(doc.Title);
-                warningList.AddRange(Utility.FindDuplicates(docnameInFolder));
+                    }
+                }
+                List<string> dupNames = Utility.FindDuplicates(docnameInFolder);
+                foreach (String s in dupNames)
+                    warningList.Add(s + "@" + "[RootFolder]");
             }
 
             return warningList;
