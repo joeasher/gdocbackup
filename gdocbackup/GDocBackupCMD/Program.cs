@@ -123,7 +123,7 @@ namespace GDocBackupCMD
             if (docF == null) throw new ApplicationException("Empty docF");
             if (sprsF == null) throw new ApplicationException("Empty sprsF");
             if (presF == null) throw new ApplicationException("Empty presF");
-            if (presF == null) throw new ApplicationException("Empty drawF");
+            if (drawF == null) throw new ApplicationException("Empty drawF");
             List<Document.DownloadType> docTypes = Utility.DecodeDownloadTypeArray(docF, '+');
             List<Document.DownloadType> sprsTypes = Utility.DecodeDownloadTypeArray(sprsF, '+');
             List<Document.DownloadType> presTypes = Utility.DecodeDownloadTypeArray(presF, '+');
@@ -142,6 +142,7 @@ namespace GDocBackupCMD
             Console.WriteLine("Document:     " + docF);
             Console.WriteLine("Spreadsheet:  " + sprsF);
             Console.WriteLine("Presentation: " + presF);
+            Console.WriteLine("Drawing:      " + drawF);
             Console.WriteLine("DownloadAll:  " + downloadAll);
             Console.WriteLine(new String('-', 40));
 
@@ -192,6 +193,7 @@ namespace GDocBackupCMD
             Console.WriteLine("  -docF : export format (for Documents)");
             Console.WriteLine("  -sprsF: export format (for Spreadsheets)");
             Console.WriteLine("  -presF: export format (for Presentations)");
+            Console.WriteLine("  -drawF: export format (for Drawings)");
             Console.WriteLine("  -downloadall: if \"yes\" download all documents");
             Console.WriteLine("  -bypassHttpsCertChecks:  bypass the checks of https certificate (at your own risk!!!)");
             Console.WriteLine("");
