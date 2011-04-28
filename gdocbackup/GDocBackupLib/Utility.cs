@@ -195,8 +195,6 @@ namespace GDocBackupLib
         /// <summary>
         /// Search for duplicates items in a List of Strings
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static List<string> FindDuplicates(List<string> data)
         {
             List<string> outList = new List<string>();
