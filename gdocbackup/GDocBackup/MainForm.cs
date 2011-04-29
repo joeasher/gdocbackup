@@ -371,9 +371,17 @@ namespace GDocBackup
 
             if (duplicatedDocNames != null && duplicatedDocNames.Count > 0)
             {
+                int totDupDocs = duplicatedDocNames.Count;
+                if (totDupDocs > 20)
+                {
+                    duplicatedDocNames = duplicatedDocNames.GetRange(0, 20);
+                    duplicatedDocNames.Add("...(list truncated)");
+                }
+
                 string msg =
-                    "Warning: there are documents with the same name in the same folder. " + Environment.NewLine +
-                    "Documents: " + String.Join(" / ", duplicatedDocNames.ToArray());
+                    "Warning: there are " + totDupDocs + " documents with the same name in the same folder. " + Environment.NewLine +
+                    "Documents: " + Environment.NewLine +
+                    String.Join(Environment.NewLine, duplicatedDocNames.ToArray());
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 

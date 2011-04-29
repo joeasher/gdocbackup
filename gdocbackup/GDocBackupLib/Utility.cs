@@ -195,15 +195,19 @@ namespace GDocBackupLib
         /// <summary>
         /// Search for duplicates items in a List of Strings
         /// </summary>
-        public static List<string> FindDuplicates(List<string> data)
+        public static List<Document> FindDuplicates(List<Document> data)
         {
-            List<string> outList = new List<string>();
-            List<string> checkList = new List<string>();
-            foreach (string docname in data)
-                if (checkList.Contains(docname))
-                    outList.Add(docname);
-                else
-                    checkList.Add(docname);
+            List<Document> outList = new List<Document>();
+            foreach (Document docA in data)
+            {
+                foreach (Document docB in data)
+                {
+                    if (docA.Title == docB.Title && docA != docB)
+                    {
+                        outList.Add(docA);
+                    }
+                }
+            }
             return outList;
         }
     }
