@@ -210,7 +210,7 @@ namespace GDocBackupLib
             // Search for duplicated doc names in the same folder
             _duplicatedDocNames = this.FindDuplicatedNames(docs);
             DoFeedback("Duplicated Doc Names [" + _duplicatedDocNames.Count + "]");
-            _duplicatedDocNames.ForEach(delegate(string s) { DoFeedback(" - " + s); });            
+            _duplicatedDocNames.ForEach(delegate(string s) { DoFeedback(" - " + s); });
 
 
             // Builds/updates local folder structure
@@ -544,35 +544,44 @@ namespace GDocBackupLib
             {
                 if (folderX.Type == Document.DocumentType.Folder)
                 {
-                    List<String> docnameInFolder = new List<String>();
+                    List<Document> docnameInFolder = new List<Document>();
                     foreach (Document doc in allDocs)
                     {
                         if (doc.ParentFolders.Contains(folderX.Self))  // && doc.Type != Document.DocumentType.Folder 
                         {
-                            docnameInFolder.Add(doc.Title);
+                            docnameInFolder.Add(doc);
                         }
                     }
 
-                    List<string> dupNames = Utility.FindDuplicates(docnameInFolder);
-                    foreach (String s in dupNames)
-                        warningList.Add(s + "@" + folderX.Title);
+                    List<Document> dupDocs = Utility.FindDuplicates(docnameInFolder);
+                    foreach (Document doc in dupDocs)
+                    {
+                        string s = doc.Title + "@" + folderX.Title + " {" + doc.Type + "}";
+                        warningList.Add(s);
+                        DoFeedbackDebug(" - DupItem: " + s + " (" + doc.ResourceId + ")");
+                    }
                 }
             }
 
             // documents in root folder (= no parent folder)
             {
-                List<String> docnameInFolder = new List<String>();
+                List<Document> docnameInFolder = new List<Document>();
                 foreach (Document doc in allDocs)
                 {
                     if (doc.ParentFolders.Count == 0)   // && doc.Type != Document.DocumentType.Folder)
                     {
-                        docnameInFolder.Add(doc.Title);
+                        docnameInFolder.Add(doc);
                     }
                 }
-                List<string> dupNames = Utility.FindDuplicates(docnameInFolder);
-                foreach (String s in dupNames)
-                    warningList.Add(s + "@" + "[RootFolder]");
+                List<Document> dupDocs = Utility.FindDuplicates(docnameInFolder);
+                foreach (Document doc in dupDocs)
+                {
+                    string s = doc.Title + "@" + "[RootFolder] {" + doc.Type + "}";
+                    warningList.Add(s);
+                    DoFeedbackDebug(" - DupItem: " + s + " (" + doc.ResourceId + ")");
+                }
             }
+
 
             return warningList;
         }
