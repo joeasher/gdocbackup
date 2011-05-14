@@ -148,7 +148,7 @@ namespace GDocBackupCMD
 
             // Exec backup
             Backup backup = new Backup(
-                username, password, 
+                username, password,
                 destDir,
                 downloadAll == "yes",
                 docTypes.ToArray(), sprsTypes.ToArray(), presTypes.ToArray(), drawTypes.ToArray(),

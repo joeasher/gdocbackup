@@ -156,6 +156,7 @@ namespace GDocBackupLib
             {
                 _lastException = ex;
                 DoFeedback("GLOBAL-ERROR:  " + ex.Message, 0);
+                DoFeedback("GLOBAL-ERROR (exception details): " + ex.ToString(), 0);
                 return false;
             }
         }
