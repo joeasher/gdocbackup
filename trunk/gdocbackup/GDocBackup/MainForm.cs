@@ -379,8 +379,8 @@ namespace GDocBackup
                 }
 
                 string msg =
-                    "Warning: there are " + totDupDocs + " documents with the same name in the same folder. " + Environment.NewLine +
-                    "Documents: " + Environment.NewLine +
+                    "Warning: there are " + totDupDocs + " items with the same name in the same folder. " + Environment.NewLine +
+                    ((totDupDocs > 20) ? ("First 20 items: " + Environment.NewLine) : ("")) +
                     String.Join(Environment.NewLine, duplicatedDocNames.ToArray());
                 MessageBox.Show(msg, "GDocBackup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
