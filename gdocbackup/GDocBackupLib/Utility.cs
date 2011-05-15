@@ -202,7 +202,7 @@ namespace GDocBackupLib
             {
                 foreach (Document docB in data)
                 {
-                    if (docA.Title == docB.Title && docA != docB)
+                    if (docA.Title == docB.Title && docA.ResourceId != docB.ResourceId)
                     {
                         outList.Add(docA);
                     }
