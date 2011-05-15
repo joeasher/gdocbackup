@@ -548,7 +548,7 @@ namespace GDocBackupLib
                     List<Document> docnameInFolder = new List<Document>();
                     foreach (Document doc in allDocs)
                     {
-                        if (doc.ParentFolders.Contains(folderX.Self))  // && doc.Type != Document.DocumentType.Folder 
+                        if (doc.ParentFolders.Contains(folderX.Self))
                         {
                             docnameInFolder.Add(doc);
                         }
@@ -569,7 +569,7 @@ namespace GDocBackupLib
                 List<Document> docnameInFolder = new List<Document>();
                 foreach (Document doc in allDocs)
                 {
-                    if (doc.ParentFolders.Count == 0)   // && doc.Type != Document.DocumentType.Folder)
+                    if (doc.ParentFolders.Count == 0)
                     {
                         docnameInFolder.Add(doc);
                     }
