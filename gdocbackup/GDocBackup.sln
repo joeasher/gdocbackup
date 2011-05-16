@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDocBackupCMD", "GDocBackup
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDocBackupLib", "GDocBackupLib\GDocBackupLib.csproj", "{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevApp", "DevApp\DevApp.csproj", "{2D513C45-B6CD-4B76-B48A-CB87774430D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A52C68A-0E5A-4DA5-B5ED-71502E1BB87F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D513C45-B6CD-4B76-B48A-CB87774430D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D513C45-B6CD-4B76-B48A-CB87774430D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D513C45-B6CD-4B76-B48A-CB87774430D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D513C45-B6CD-4B76-B48A-CB87774430D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
