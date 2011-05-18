@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DevApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Eltrac s.r.l.")]
+[assembly: AssemblyCompany("Fabrizio")]
 [assembly: AssemblyProduct("DevApp")]
-[assembly: AssemblyCopyright("Copyright © Eltrac s.r.l. 2011")]
+[assembly: AssemblyCopyright("Copyright © Fabrizio Accatino 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
