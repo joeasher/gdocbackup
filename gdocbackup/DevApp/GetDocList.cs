@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Google.GData.Client;
 using Google.Documents;
+using System.IO;
 
 namespace DevApp
 {
@@ -27,8 +28,19 @@ namespace DevApp
             foreach (Document entry in feed.Entries)
                 docs.Add(entry);
 
-
-            // .... TODO .....
+            StreamWriter outFile = new StreamWriter("doclist.txt", false);
+            StreamWriter outFile2 = new StreamWriter("doclistdetails.txt", false);
+            foreach (Document doc in docs)
+            {
+                string s = doc.Title + "\t" + doc.ResourceId;
+                Console.WriteLine(s);
+                outFile.WriteLine(s);
+                outFile2.WriteLine(s);
+                foreach (string pf in doc.ParentFolders)
+                    outFile2.WriteLine("\t\t\t" + pf);
+            }
+            outFile.Close();
+            outFile2.Close();
 
             Console.WriteLine("--- END ---");
         }
