@@ -48,6 +48,8 @@ namespace GDocBackup
             this.Export = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLocalData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.techSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.techDocListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGV)).BeginInit();
             this.SuspendLayout();
@@ -95,6 +97,7 @@ namespace GDocBackup
             this.aboutToolStripMenuItem,
             this.toolStripSeparator2,
             this.debugModeToolStripMenuItem,
+            this.techSupportToolStripMenuItem,
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
@@ -219,6 +222,21 @@ namespace GDocBackup
             this.ColumnLocalData.Name = "ColumnLocalData";
             this.ColumnLocalData.ReadOnly = true;
             // 
+            // techSupportToolStripMenuItem
+            // 
+            this.techSupportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.techDocListToolStripMenuItem});
+            this.techSupportToolStripMenuItem.Name = "techSupportToolStripMenuItem";
+            this.techSupportToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.techSupportToolStripMenuItem.Text = "Tech support";
+            // 
+            // techDocListToolStripMenuItem
+            // 
+            this.techDocListToolStripMenuItem.Name = "techDocListToolStripMenuItem";
+            this.techDocListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.techDocListToolStripMenuItem.Text = "Doc list";
+            this.techDocListToolStripMenuItem.Click += new System.EventHandler(this.techDocListToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,6 +283,8 @@ namespace GDocBackup
         private System.Windows.Forms.DataGridViewTextBoxColumn Export;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLocalData;
+        private System.Windows.Forms.ToolStripMenuItem techSupportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem techDocListToolStripMenuItem;
     }
 }
 
