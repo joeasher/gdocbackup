@@ -250,6 +250,16 @@ namespace GDocBackup
             }
         }
 
+        private void techDocListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO: 
+            //  - ask output folder
+            //  - ask username + password (if needed)
+            //  - fill file
+            //  - end message
+        }
+
+
         #endregion --------------------------------
 
 
