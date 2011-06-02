@@ -252,11 +252,41 @@ namespace GDocBackup
 
         private void techDocListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO: 
-            //  - ask output folder
-            //  - ask username + password (if needed)
-            //  - fill file
-            //  - end message
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                string userName = Properties.Settings.Default.UserName;
+                string password =
+                    String.IsNullOrEmpty(Properties.Settings.Default.Password) ?
+                    String.Empty :
+                    Utility.UnprotectData(Properties.Settings.Default.Password);
+
+                if (String.IsNullOrEmpty(userName))
+                {
+                    SimpleInputBox sib = new SimpleInputBox();
+                    sib.Title = "Username";
+                    sib.MaskInput = false;
+                    if (sib.ShowDialog() != DialogResult.OK)
+                        return;
+                    userName = sib.TextValue;
+                }
+
+                if (String.IsNullOrEmpty(password))
+                {
+                    SimpleInputBox sib = new SimpleInputBox();
+                    sib.Title = "Password";
+                    sib.MaskInput = true;
+                    if (sib.ShowDialog() != DialogResult.OK)
+                        return;
+                    password = sib.TextValue;
+                }
+
+                MessageBox.Show("Starting");
+                
+                TechSupport.ExportDocList(fbd.SelectedPath, userName, password);
+
+                MessageBox.Show("Done");
+            }
         }
 
 
