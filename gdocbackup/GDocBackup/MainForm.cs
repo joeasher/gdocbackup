@@ -282,7 +282,7 @@ namespace GDocBackup
                 }
 
                 MessageBox.Show("Starting");
-                
+
                 TechSupport.ExportDocList(fbd.SelectedPath, userName, password);
 
                 MessageBox.Show("Done");
@@ -409,7 +409,7 @@ namespace GDocBackup
             this.BtnExec.Enabled = true;
             this.BtnExec.Text = "Exec";
 
-            if (duplicatedDocNames != null && duplicatedDocNames.Count > 0)
+            if (duplicatedDocNames != null && duplicatedDocNames.Count > 0 && Properties.Settings.Default.DisableDuplicatedItemWarnings == false)
             {
                 int totDupDocs = duplicatedDocNames.Count;
                 if (totDupDocs > 20)
