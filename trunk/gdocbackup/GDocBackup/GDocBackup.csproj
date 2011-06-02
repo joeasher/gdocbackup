@@ -126,6 +126,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>SendFeedbackForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SimpleInputBox.resx">
+      <DependentUpon>SimpleInputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -147,6 +150,12 @@
     </Compile>
     <Compile Include="SendFeedbackForm.Designer.cs">
       <DependentUpon>SendFeedbackForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimpleInputBox.Designer.cs">
+      <DependentUpon>SimpleInputBox.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
