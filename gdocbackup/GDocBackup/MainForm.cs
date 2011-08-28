@@ -348,7 +348,7 @@ namespace GDocBackup
 
             IWebProxy webproxy = Utility.GetProxy(conf.ProxyExplicit, conf.ProxyDirectConnection, conf.ProxyHostPortSource, conf.ProxyHost, conf.ProxyPort, conf.ProxyAuthMode, conf.ProxyUsername, conf.ProxyPassword);
 
-            Backup b = new Backup(
+            Config config = new Config(
                 parameters[0],
                 parameters[1],
                 parameters[2],
@@ -360,8 +360,12 @@ namespace GDocBackup
                 webproxy,
                 conf.BypassCertificateChecks,
                 this.DebugMode,
-                conf.DateDelta);
+                conf.DateDelta,
+                conf.AppsMode,
+                conf.AppsDomain,
+                conf.AppsOAuthSecret);
 
+            Backup b = new Backup(config);
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
             bool result = b.Exec();
             this.BeginInvoke((MethodInvoker)delegate() { EndDownload(result, b.DuplicatedDocNames, b.LastException); });

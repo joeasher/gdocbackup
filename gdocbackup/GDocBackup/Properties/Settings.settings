@@ -71,5 +71,14 @@
     <Setting Name="DisableDuplicatedItemWarnings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="AppsMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AppsDomain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dummy.local</Value>
+    </Setting>
+    <Setting Name="AppsOAuthSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FOO</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
