@@ -24,6 +24,7 @@ using System.Net;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Google.GData.Apps;
 
 
 namespace GDocBackupLib
@@ -34,6 +35,7 @@ namespace GDocBackupLib
     /// </summary>
     public class Backup
     {
+        /*
         private string _userName;
         private string _password;
         private string _outDir;
@@ -46,6 +48,10 @@ namespace GDocBackupLib
         private bool _bypassHttpsChecks;
         private bool _debugMode;
         private int? _dateDiff;
+        */
+
+        private Config _config;
+
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
         private Exception _lastException = null;
@@ -94,14 +100,14 @@ namespace GDocBackupLib
         private void DoFeedbackDebug(string message)
         {
             System.Diagnostics.Debug.WriteLine(message);
-            if (_debugMode)
+            if (_config.debugMode)
             {
                 if (Feedback != null)
                     Feedback(this, new FeedbackEventArgs(message, _lastPercent));
             }
         }
 
-
+        /*
         /// <summary>
         /// [Constructor]
         /// </summary>
@@ -131,8 +137,12 @@ namespace GDocBackupLib
             _bypassHttpsChecks = bypassHttpsChecks;
             _debugMode = debugMode;
             _dateDiff = dateDiff;
-        }
+        }*/
 
+        public Backup(Config conf)
+        {
+            _config = conf;
+        }
 
         /// <summary>
         /// Exec backup
@@ -163,7 +173,7 @@ namespace GDocBackupLib
 
 
         /// <summary>
-        /// Exec backup (internal)
+        /// ...
         /// </summary>
         private int ExecInternal()
         {
@@ -172,12 +182,69 @@ namespace GDocBackupLib
             AssemblyName assembName = Assembly.GetExecutingAssembly().GetName();
             DoFeedback(assembName.Name + " - ver. " + assembName.Version.ToString());
 
+            int errorCount = -1;
+            if (_config.appsMode == false)
+            {
+                errorCount = this.ExecBackupSingleUser(null);
+            }
+            else
+            {
+                errorCount = this.ExecInternalApps();
+            }
+
+            DoFeedback("****** END BACKUP PROCESS ******");
+            return errorCount;
+        }
+
+
+        /// <summary>
+        /// ....
+        /// </summary>
+        private int ExecInternalApps()
+        {
+            string domainAdminUsername = _config.userName;
+            if (!domainAdminUsername.ToLower().EndsWith(_config.appsDomain.ToLower()))
+                domainAdminUsername = domainAdminUsername + "@" + _config.appsDomain;
+
+            // Retrieve user list
+            List<String> usernames = new List<string>();
+            AppsService appsServ = new AppsService(_config.appsDomain, domainAdminUsername, _config.password);
+            UserFeed usersFeed = appsServ.RetrieveAllUsers();
+            foreach (UserEntry entry in usersFeed.Entries)
+                usernames.Add(entry.Login.UserName);
+
+            // Build output folders, one for each user
+            foreach (string username in usernames)
+            {
+                string x = Path.Combine(_config.outDir, username);
+                if (!Directory.Exists(x))
+                    Directory.CreateDirectory(x);
+            }
+
+            // Do work!
+            int errCount = 0;
+            foreach (string username in usernames)
+                errCount += this.ExecBackupSingleUser(username);
+
+            return errCount;
+        }
+
+
+        /// <summary>
+        /// Exec backup (internal)
+        /// </summary>
+        private int ExecBackupSingleUser(string username)
+        {
+            DoFeedback(new string('-', 80));
+            DoFeedback("--- ExecBackupSingleUser - username=" + username + " ---");
+            DoFeedback(new string('-', 80));
+
             _lastException = null;
             _duplicatedDocNames = new List<string>();
 
             // Bypass Https checks?
             // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
-            if (_bypassHttpsChecks)
+            if (_config.bypassHttpsChecks)
             {
                 DoFeedback("BypassHttpsCertCheck ACTIVE");
                 ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
@@ -185,21 +252,26 @@ namespace GDocBackupLib
 
             // Setup credentials and connection
             DoFeedback("Setup connection & get doc list");
-            GDataCredentials credentials = new GDataCredentials(_userName, _password);
-            RequestSettings settings = new RequestSettings("GDocBackup", credentials);
-            settings.AutoPaging = true;
-            settings.PageSize = 100;
+            RequestSettings settings;
+            if (_config.appsMode == false)
+            {
+                GDataCredentials credentials = new GDataCredentials(_config.userName, _config.password);
+                settings = new RequestSettings("GDocBackup", credentials);
+                settings.AutoPaging = true;
+                settings.PageSize = 100;
+            }
+            else
+            {
+                settings = new RequestSettings("GDocBackup", _config.appsDomain, _config.appsOAuthSecret, username, _config.appsDomain);
+                settings.AutoPaging = true;
+                settings.PageSize = 100;
+                //settings.Maximum = 10000;  
+            }
 
             DocumentsRequest request = new DocumentsRequest(settings);
-            if (_iwebproxy != null)
-            {
-                // OLD CODE
-                // GDataRequestFactory gdrf = request.Service.RequestFactory as GDataRequestFactory;
-                // gdrf.Proxy = _iwebproxy;
+            if (_config.iwebproxy != null)
+                request.Proxy = _config.iwebproxy;
 
-                // new DocumentRequest support proxy setting :)
-                request.Proxy = _iwebproxy;
-            }
 
             // Get doc list from GDocs
             Feed<Document> feed = request.GetEverything();
@@ -215,7 +287,10 @@ namespace GDocBackupLib
 
 
             // Builds/updates local folder structure
-            this.BuildFolders(null, docs, _outDir);
+            if (_config.appsMode)
+                this.BuildFolders(null, docs, Path.Combine(_config.outDir, username));
+            else
+                this.BuildFolders(null, docs, _config.outDir);
             foreach (String k in _folderDict.Keys)
                 DoFeedbackDebug("FolderDict: " + k + " --> " + _folderDict[k]);
             this.DumpAllDocInfo(docs);
@@ -231,19 +306,19 @@ namespace GDocBackupLib
                 switch (doc.Type)
                 {
                     case Document.DocumentType.Document:
-                        downloadTypes = _docExpType;
+                        downloadTypes = _config.docExpType;
                         break;
                     case Document.DocumentType.Presentation:
-                        downloadTypes = _presExpType;
+                        downloadTypes = _config.presExpType;
                         break;
                     case Document.DocumentType.Spreadsheet:
-                        downloadTypes = _sprdExpType;
+                        downloadTypes = _config.sprdExpType;
                         break;
                     case Document.DocumentType.PDF:
                         downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
                         break;
                     case Document.DocumentType.Drawing:
-                        downloadTypes = _drawExpType;
+                        downloadTypes = _config.drawExpType;
                         break;
                     case Document.DocumentType.Unknown:
                         downloadTypes = new Document.DownloadType[] { Document.DownloadType.zip };  // download format not used! It's only a "place-holder".
@@ -270,7 +345,7 @@ namespace GDocBackupLib
                             string outFolderPath;
                             if (doc.ParentFolders.Count == 0)
                             {
-                                outFolderPath = _outDir;
+                                outFolderPath = _config.appsMode ? Path.Combine(_config.outDir, username) : _config.outDir;
                             }
                             else
                             {
@@ -291,11 +366,11 @@ namespace GDocBackupLib
                             locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
                             gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
 
-                            bool downloadDoc = (!fi.Exists || _downloadAll);
+                            bool downloadDoc = (!fi.Exists || _config.downloadAll);
 
-                            if (_dateDiff.HasValue)
+                            if (_config.dateDiff.HasValue)
                             {
-                                if (Math.Abs(locFileDateTime.Subtract(gdocFileDateTime).TotalSeconds) > _dateDiff.Value)
+                                if (Math.Abs(locFileDateTime.Subtract(gdocFileDateTime).TotalSeconds) > _config.dateDiff.Value)
                                     downloadDoc = true;
                             }
                             else
@@ -319,15 +394,13 @@ namespace GDocBackupLib
                                     }
                                     else if (doc.Type == Document.DocumentType.Document)
                                     {
-                                        // Questo dovrebbe essere il modo giusto. Ma non funziona (google bug!)
-                                        // gdocStream = request.Download(doc, downloadtype);
-
                                         gdocStream = request.Download(doc, downloadtype.ToString());
-                                        // 
-                                        // In attesa di una soluzione, ecco la mandrakata!
-                                        //gdocStream = Mandrakata.GetDocExportStream(request, doc, downloadtype);
                                     }
                                     else if (doc.Type == Document.DocumentType.Spreadsheet)
+                                    {
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
+                                    }
+                                    else if (doc.Type == Document.DocumentType.Presentation)
                                     {
                                         gdocStream = request.Download(doc, downloadtype.ToString());
                                     }
@@ -372,9 +445,9 @@ namespace GDocBackupLib
                                 DoFeedback("Skipped doc: " + doc.Title);
                             }
 
-                            // Send Feedback                             
+                            // Send Feedback                            
                             DoFeedback(new FeedbackObject(
-                                doc.Title,
+                                (_config.appsMode ? username + "#" + doc.Title : doc.Title),
                                 doc.Type.ToString(),
                                 (doc.Type == Document.DocumentType.Unknown) ? "BIN" : downloadtype.ToString(),
                                 downloadDoc ? "BCKUP" : "SKIP",
@@ -386,10 +459,10 @@ namespace GDocBackupLib
                         errorCount++;
                         DoFeedback("DOC-ERROR: " + ex.ToString());
                         DoFeedback(new FeedbackObject(
-                            doc.Title, doc.Type.ToString(), "", "ERROR",
-                            "", null, null));
+                            (_config.appsMode ? username + "#" + doc.Title : doc.Title),
+                            doc.Type.ToString(),
+                            "", "ERROR", "", null, null));
                     }
-
                 }
                 else
                 {
@@ -398,7 +471,6 @@ namespace GDocBackupLib
                 }
             }
 
-            DoFeedback("****** END BACKUP PROCESS ******");
             return errorCount;
         }
 

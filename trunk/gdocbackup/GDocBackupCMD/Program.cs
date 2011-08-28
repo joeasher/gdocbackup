@@ -147,7 +147,7 @@ namespace GDocBackupCMD
             Console.WriteLine(new String('-', 40));
 
             // Exec backup
-            Backup backup = new Backup(
+            Config config = new Config(
                 username, password,
                 destDir,
                 downloadAll == "yes",
@@ -155,7 +155,12 @@ namespace GDocBackupCMD
                 null,
                 bypassHttpsCertChecks,
                 false,
+                null,
+                false,
+                null,
                 null);
+
+            Backup backup = new Backup(config);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
             bool resOK = backup.Exec();
 

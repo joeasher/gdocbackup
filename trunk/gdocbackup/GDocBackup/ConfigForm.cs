@@ -60,7 +60,9 @@ namespace GDocBackup
             cbBypassCertificatesCheck.Checked = conf.BypassCertificateChecks;
             TbDateDelta.Text = conf.DateDelta.ToString();
             cbDisableDuplicatedItemsWarning.Checked = conf.DisableDuplicatedItemWarnings;
-
+            cbAppMode.Checked = conf.AppsMode;
+            TbDomain.Text = conf.AppsDomain;
+            TbOAuthSecret.Text = conf.AppsOAuthSecret;
 
             // --- Data format TAB ---
             cbEnableMultiExport.Checked = conf.MultiExportEnabled;
@@ -112,6 +114,9 @@ namespace GDocBackup
             conf.BypassCertificateChecks = cbBypassCertificatesCheck.Checked;
             conf.DateDelta = int.Parse(TbDateDelta.Text);
             conf.DisableDuplicatedItemWarnings = cbDisableDuplicatedItemsWarning.Checked;
+            conf.AppsMode = cbAppMode.Checked;
+            conf.AppsDomain = TbDomain.Text;
+            conf.AppsOAuthSecret = TbOAuthSecret.Text;
 
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;
