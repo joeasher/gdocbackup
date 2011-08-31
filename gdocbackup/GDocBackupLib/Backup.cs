@@ -107,42 +107,16 @@ namespace GDocBackupLib
             }
         }
 
-        /*
+
         /// <summary>
         /// [Constructor]
         /// </summary>
-        public Backup(
-            string userName,
-            string password,
-            string outDir,
-            bool downloadAll,
-            Document.DownloadType[] docExpType,
-            Document.DownloadType[] sprdExpType,
-            Document.DownloadType[] presExpType,
-            Document.DownloadType[] drawExpType,
-            IWebProxy webproxy,
-            bool bypassHttpsChecks,
-            bool debugMode,
-            int? dateDiff)
-        {
-            _userName = userName;
-            _password = password;
-            _outDir = outDir;
-            _downloadAll = downloadAll;
-            _docExpType = docExpType;
-            _sprdExpType = sprdExpType;
-            _presExpType = presExpType;
-            _drawExpType = drawExpType;
-            _iwebproxy = webproxy;
-            _bypassHttpsChecks = bypassHttpsChecks;
-            _debugMode = debugMode;
-            _dateDiff = dateDiff;
-        }*/
-
+        /// <param name="conf"></param>
         public Backup(Config conf)
         {
             _config = conf;
         }
+
 
         /// <summary>
         /// Exec backup
@@ -202,9 +176,7 @@ namespace GDocBackupLib
         /// </summary>
         private int ExecInternalApps()
         {
-            string domainAdminUsername = _config.userName;
-            if (!domainAdminUsername.ToLower().EndsWith(_config.appsDomain.ToLower()))
-                domainAdminUsername = domainAdminUsername + "@" + _config.appsDomain;
+            string domainAdminUsername = this.GetDomainAdminFullUserName();
 
             // Retrieve user list
             List<String> usernames = new List<string>();
@@ -227,6 +199,19 @@ namespace GDocBackupLib
                 errCount += this.ExecBackupSingleUser(username);
 
             return errCount;
+        }
+
+
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        private string GetDomainAdminFullUserName()
+        {
+            string domainAdminUsername = _config.userName;
+            if (!domainAdminUsername.ToLower().EndsWith(_config.appsDomain.ToLower()))
+                domainAdminUsername = domainAdminUsername + "@" + _config.appsDomain;
+            return domainAdminUsername;
         }
 
 
@@ -389,7 +374,9 @@ namespace GDocBackupLib
                                     if (doc.Type == Document.DocumentType.Unknown)
                                     {
                                         String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        Uri downloadUri = new Uri(downloadUrl);
+                                        Uri downloadUri = _config.appsMode ?
+                                            new Uri(downloadUrl + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName()) :
+                                            new Uri(downloadUrl);
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
                                     else if (doc.Type == Document.DocumentType.Document)
@@ -398,7 +385,7 @@ namespace GDocBackupLib
                                     }
                                     else if (doc.Type == Document.DocumentType.Spreadsheet)
                                     {
-                                        gdocStream = request.Download(doc, downloadtype.ToString() + "&dummy=spreadsheets.google.com");
+                                        gdocStream = request.Download(doc, downloadtype.ToString());
                                     }
                                     else if (doc.Type == Document.DocumentType.Presentation)
                                     {
@@ -410,14 +397,18 @@ namespace GDocBackupLib
                                     }
                                     else if (doc.Type != Document.DocumentType.PDF)
                                     {
+                                        // *** ??? ***
                                         gdocStream = request.Download(doc, downloadtype);
                                     }
                                     else
                                     {
-                                        // This is a workaround for downloading Pdf (new API 3.0 will support)                                            
-                                        //String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        //Uri downloadUri = new Uri(downloadUrl);
-                                        //gdocStream = request.Service.Query(downloadUri);
+                                        // *** PDF ***
+                                        if (_config.appsMode)
+                                        {
+                                            // add xoauth_requestor_id to the doc url
+                                            string url = doc.DocumentEntry.Content.Src.ToString();
+                                            doc.DocumentEntry.Content.Src = new AtomUri(url + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName());
+                                        }
                                         gdocStream = request.Download(doc, null);
                                     }
 
