@@ -62,7 +62,7 @@ namespace GDocBackup
             cbDisableDuplicatedItemsWarning.Checked = conf.DisableDuplicatedItemWarnings;
             cbAppMode.Checked = conf.AppsMode;
             TbDomain.Text = conf.AppsDomain;
-            TbOAuthSecret.Text = conf.AppsOAuthSecret;
+            TbOAuthSecret.Text = String.IsNullOrEmpty(conf.AppsOAuthSecretEncrypted) ? null : Utility.UnprotectData(conf.AppsOAuthSecretEncrypted);
 
             // --- Data format TAB ---
             cbEnableMultiExport.Checked = conf.MultiExportEnabled;
@@ -116,7 +116,8 @@ namespace GDocBackup
             conf.DisableDuplicatedItemWarnings = cbDisableDuplicatedItemsWarning.Checked;
             conf.AppsMode = cbAppMode.Checked;
             conf.AppsDomain = TbDomain.Text;
-            conf.AppsOAuthSecret = TbOAuthSecret.Text;
+            conf.AppsOAuthSecret = null;  // Chiave non più usata. Svuotarla!
+            conf.AppsOAuthSecretEncrypted = String.IsNullOrEmpty(TbOAuthSecret.Text) ? null : Utility.ProtectData(TbOAuthSecret.Text);
 
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;
