@@ -35,25 +35,13 @@ namespace GDocBackupLib
     /// </summary>
     public class Backup
     {
-        /*
-        private string _userName;
-        private string _password;
-        private string _outDir;
-        private bool _downloadAll;
-        private Document.DownloadType[] _docExpType;
-        private Document.DownloadType[] _sprdExpType;
-        private Document.DownloadType[] _presExpType;
-        private Document.DownloadType[] _drawExpType;
-        private IWebProxy _iwebproxy;
-        private bool _bypassHttpsChecks;
-        private bool _debugMode;
-        private int? _dateDiff;
-        */
 
         private Config _config;
 
         private Dictionary<string, string> _folderDict;
         private double _lastPercent = 0;
+        private int _currentAppsUserIndex = -1;  // first user --> value = 0
+        private int _totalAppUsers = -1;
         private Exception _lastException = null;
         private List<string> _duplicatedDocNames;
 
@@ -84,10 +72,20 @@ namespace GDocBackupLib
 
         private void DoFeedback(string message, double percent)
         {
-            _lastPercent = percent;
+            if (_config.appsMode)
+            {
+                double x = 1.0 / _totalAppUsers;
+                _lastPercent = x * _currentAppsUserIndex + percent * x;
+                if (_lastPercent > 1.0)
+                    _lastPercent = 1.0;   // non dovrebbe mai capitare.... ma non si sa mai!  :)
+            }
+            else
+            {
+                _lastPercent = percent;
+            }
             System.Diagnostics.Debug.WriteLine(message);
             if (Feedback != null)
-                Feedback(this, new FeedbackEventArgs(message, percent));
+                Feedback(this, new FeedbackEventArgs(message, _lastPercent));
         }
 
         private void DoFeedback(FeedbackObject fo)
@@ -193,10 +191,22 @@ namespace GDocBackupLib
                     Directory.CreateDirectory(x);
             }
 
-            // Do work!
+            // Do work fopr each user!
             int errCount = 0;
-            foreach (string username in usernames)
-                errCount += this.ExecBackupSingleUser(username);
+            _totalAppUsers = usernames.Count;
+            for (int i = 0; i < usernames.Count; i++)
+            {
+                _currentAppsUserIndex = i;
+                try
+                {
+                    errCount += this.ExecBackupSingleUser(usernames[i]);
+                }
+                catch (Exception ex)
+                {
+                    errCount++;
+                    DoFeedback("ERROR: " + ex.ToString(), 0);
+                }
+            }
 
             return errCount;
         }
