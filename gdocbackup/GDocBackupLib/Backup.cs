@@ -384,9 +384,19 @@ namespace GDocBackupLib
                                     if (doc.Type == Document.DocumentType.Unknown)
                                     {
                                         String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        Uri downloadUri = _config.appsMode ?
-                                            new Uri(downloadUrl + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName()) :
-                                            new Uri(downloadUrl);
+
+                                        Uri downloadUri = null;
+                                        if (_config.appsMode)
+                                        {
+                                            // add xoauth_requestor_id to the doc url if not present
+                                            if (!downloadUrl.Contains("xoauth_requestor_id="))
+                                                downloadUri = new Uri(downloadUrl + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName());
+                                        }
+                                        else
+                                        {
+                                            downloadUri = new Uri(downloadUrl);
+                                        }
+
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
                                     else if (doc.Type == Document.DocumentType.Document)
@@ -415,9 +425,10 @@ namespace GDocBackupLib
                                         // *** PDF ***
                                         if (_config.appsMode)
                                         {
-                                            // add xoauth_requestor_id to the doc url
+                                            // add xoauth_requestor_id to the doc url if not present
                                             string url = doc.DocumentEntry.Content.Src.ToString();
-                                            doc.DocumentEntry.Content.Src = new AtomUri(url + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName());
+                                            if (!url.Contains("xoauth_requestor_id="))
+                                                doc.DocumentEntry.Content.Src = new AtomUri(url + "&xoauth_requestor_id=" + this.GetDomainAdminFullUserName());
                                         }
                                         gdocStream = request.Download(doc, null);
                                     }
