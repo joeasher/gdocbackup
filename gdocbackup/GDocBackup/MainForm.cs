@@ -363,7 +363,7 @@ namespace GDocBackup
                 conf.DateDelta,
                 conf.AppsMode,
                 conf.AppsDomain,
-                Utility.UnprotectData(conf.AppsOAuthSecretEncrypted));
+                String.IsNullOrEmpty(conf.AppsOAuthSecretEncrypted) ? null : Utility.UnprotectData(conf.AppsOAuthSecretEncrypted));
 
             Backup b = new Backup(config);
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);
