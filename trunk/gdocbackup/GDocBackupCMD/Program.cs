@@ -158,7 +158,8 @@ namespace GDocBackupCMD
                 null,
                 false,
                 null,
-                null);
+                null,
+                false);
 
             Backup backup = new Backup(config);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);

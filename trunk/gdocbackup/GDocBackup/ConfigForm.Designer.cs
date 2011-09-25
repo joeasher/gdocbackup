@@ -64,11 +64,22 @@ namespace GDocBackup
             this.cbSetProxy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panelRunModeNormal = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.rbRunModeNormal = new System.Windows.Forms.RadioButton();
+            this.rbRunModeGoogleApps = new System.Windows.Forms.RadioButton();
+            this.label21 = new System.Windows.Forms.Label();
+            this.panelRunModeGoogleApps = new System.Windows.Forms.Panel();
+            this.panelGAppsUserName = new System.Windows.Forms.Panel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tbGAUserName = new System.Windows.Forms.TextBox();
+            this.tbGAPassword = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.cbUseOnlyOauth = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
+            this.TbDomain = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.TbOAuthSecret = new System.Windows.Forms.TextBox();
-            this.TbDomain = new System.Windows.Forms.TextBox();
-            this.cbAppMode = new System.Windows.Forms.CheckBox();
             this.cbDisableDuplicatedItemsWarning = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.TbDateDelta = new System.Windows.Forms.TextBox();
@@ -93,25 +104,26 @@ namespace GDocBackup
             this.tbMultiExpCalc = new System.Windows.Forms.TextBox();
             this.tbMultiExpDoc = new System.Windows.Forms.TextBox();
             this.tbMultiExpPres = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
             this.panelProxy.SuspendLayout();
             this.panelProxy2.SuspendLayout();
             this.panelProxyUserPwd.SuspendLayout();
             this.panelProxyHostPort.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panelRunModeNormal.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panelRunModeGoogleApps.SuspendLayout();
+            this.panelGAppsUserName.SuspendLayout();
             this.tabPageNormalExport.SuspendLayout();
             this.panelMultiExport.SuspendLayout();
             this.panelSingleExport.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 20);
+            this.label1.Location = new System.Drawing.Point(5, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 0;
@@ -128,7 +140,7 @@ namespace GDocBackup
             // 
             // TbUsername
             // 
-            this.TbUsername.Location = new System.Drawing.Point(124, 17);
+            this.TbUsername.Location = new System.Drawing.Point(77, 8);
             this.TbUsername.Name = "TbUsername";
             this.TbUsername.Size = new System.Drawing.Size(98, 20);
             this.TbUsername.TabIndex = 1;
@@ -226,7 +238,7 @@ namespace GDocBackup
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 46);
+            this.label6.Location = new System.Drawing.Point(5, 37);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 13);
             this.label6.TabIndex = 0;
@@ -234,7 +246,7 @@ namespace GDocBackup
             // 
             // TbPassword
             // 
-            this.TbPassword.Location = new System.Drawing.Point(124, 43);
+            this.TbPassword.Location = new System.Drawing.Point(77, 34);
             this.TbPassword.Name = "TbPassword";
             this.TbPassword.PasswordChar = '*';
             this.TbPassword.Size = new System.Drawing.Size(98, 20);
@@ -243,7 +255,7 @@ namespace GDocBackup
             // CbStorePassword
             // 
             this.CbStorePassword.AutoSize = true;
-            this.CbStorePassword.Location = new System.Drawing.Point(228, 45);
+            this.CbStorePassword.Location = new System.Drawing.Point(181, 36);
             this.CbStorePassword.Name = "CbStorePassword";
             this.CbStorePassword.Size = new System.Drawing.Size(77, 17);
             this.CbStorePassword.TabIndex = 9;
@@ -435,7 +447,9 @@ namespace GDocBackup
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.panel1);
+            this.tabPage1.Controls.Add(this.panelRunModeNormal);
+            this.tabPage1.Controls.Add(this.panel2);
+            this.tabPage1.Controls.Add(this.panelRunModeGoogleApps);
             this.tabPage1.Controls.Add(this.cbDisableDuplicatedItemsWarning);
             this.tabPage1.Controls.Add(this.label15);
             this.tabPage1.Controls.Add(this.TbDateDelta);
@@ -443,12 +457,7 @@ namespace GDocBackup
             this.tabPage1.Controls.Add(this.cbBypassCertificatesCheck);
             this.tabPage1.Controls.Add(this.cbDisableUpdateCheck);
             this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.CbStorePassword);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.TbUsername);
             this.tabPage1.Controls.Add(this.BtnSelectDir);
-            this.tabPage1.Controls.Add(this.TbPassword);
             this.tabPage1.Controls.Add(this.TbBackupDir);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -458,19 +467,152 @@ namespace GDocBackup
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panelRunModeNormal
+            // 
+            this.panelRunModeNormal.BackColor = System.Drawing.Color.AliceBlue;
+            this.panelRunModeNormal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelRunModeNormal.Controls.Add(this.TbUsername);
+            this.panelRunModeNormal.Controls.Add(this.TbPassword);
+            this.panelRunModeNormal.Controls.Add(this.label6);
+            this.panelRunModeNormal.Controls.Add(this.CbStorePassword);
+            this.panelRunModeNormal.Controls.Add(this.label1);
+            this.panelRunModeNormal.Location = new System.Drawing.Point(6, 38);
+            this.panelRunModeNormal.Name = "panelRunModeNormal";
+            this.panelRunModeNormal.Size = new System.Drawing.Size(325, 66);
+            this.panelRunModeNormal.TabIndex = 26;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.rbRunModeNormal);
+            this.panel2.Controls.Add(this.rbRunModeGoogleApps);
+            this.panel2.Controls.Add(this.label21);
+            this.panel2.Location = new System.Drawing.Point(5, 6);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(239, 26);
+            this.panel2.TabIndex = 25;
+            // 
+            // rbRunModeNormal
+            // 
+            this.rbRunModeNormal.AutoSize = true;
+            this.rbRunModeNormal.Location = new System.Drawing.Point(68, 3);
+            this.rbRunModeNormal.Name = "rbRunModeNormal";
+            this.rbRunModeNormal.Size = new System.Drawing.Size(58, 17);
+            this.rbRunModeNormal.TabIndex = 21;
+            this.rbRunModeNormal.TabStop = true;
+            this.rbRunModeNormal.Text = "Normal";
+            this.rbRunModeNormal.UseVisualStyleBackColor = true;
+            this.rbRunModeNormal.CheckedChanged += new System.EventHandler(this.rbRunModeNormal_CheckedChanged);
+            // 
+            // rbRunModeGoogleApps
+            // 
+            this.rbRunModeGoogleApps.AutoSize = true;
+            this.rbRunModeGoogleApps.Location = new System.Drawing.Point(132, 3);
+            this.rbRunModeGoogleApps.Name = "rbRunModeGoogleApps";
+            this.rbRunModeGoogleApps.Size = new System.Drawing.Size(86, 17);
+            this.rbRunModeGoogleApps.TabIndex = 22;
+            this.rbRunModeGoogleApps.TabStop = true;
+            this.rbRunModeGoogleApps.Text = "Google Apps";
+            this.rbRunModeGoogleApps.UseVisualStyleBackColor = true;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(3, 5);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(59, 13);
+            this.label21.TabIndex = 20;
+            this.label21.Text = "Run mode:";
+            // 
+            // panelRunModeGoogleApps
+            // 
+            this.panelRunModeGoogleApps.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.panelRunModeGoogleApps.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelRunModeGoogleApps.Controls.Add(this.panelGAppsUserName);
+            this.panelRunModeGoogleApps.Controls.Add(this.cbUseOnlyOauth);
+            this.panelRunModeGoogleApps.Controls.Add(this.label19);
+            this.panelRunModeGoogleApps.Controls.Add(this.TbDomain);
+            this.panelRunModeGoogleApps.Controls.Add(this.label18);
+            this.panelRunModeGoogleApps.Controls.Add(this.TbOAuthSecret);
+            this.panelRunModeGoogleApps.Location = new System.Drawing.Point(30, 116);
+            this.panelRunModeGoogleApps.Name = "panelRunModeGoogleApps";
+            this.panelRunModeGoogleApps.Size = new System.Drawing.Size(301, 147);
+            this.panelRunModeGoogleApps.TabIndex = 19;
+            // 
+            // panelGAppsUserName
+            // 
+            this.panelGAppsUserName.Controls.Add(this.label22);
+            this.panelGAppsUserName.Controls.Add(this.tbGAUserName);
+            this.panelGAppsUserName.Controls.Add(this.tbGAPassword);
+            this.panelGAppsUserName.Controls.Add(this.label20);
+            this.panelGAppsUserName.Location = new System.Drawing.Point(-1, 80);
+            this.panelGAppsUserName.Name = "panelGAppsUserName";
+            this.panelGAppsUserName.Size = new System.Drawing.Size(290, 62);
+            this.panelGAppsUserName.TabIndex = 24;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(7, 9);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(58, 13);
+            this.label22.TabIndex = 20;
+            this.label22.Text = "Username:";
+            // 
+            // tbGAUserName
+            // 
+            this.tbGAUserName.Location = new System.Drawing.Point(85, 6);
+            this.tbGAUserName.Name = "tbGAUserName";
+            this.tbGAUserName.Size = new System.Drawing.Size(108, 20);
+            this.tbGAUserName.TabIndex = 21;
+            // 
+            // tbGAPassword
+            // 
+            this.tbGAPassword.Location = new System.Drawing.Point(85, 33);
+            this.tbGAPassword.Name = "tbGAPassword";
+            this.tbGAPassword.PasswordChar = '*';
+            this.tbGAPassword.Size = new System.Drawing.Size(108, 20);
+            this.tbGAPassword.TabIndex = 22;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(7, 36);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 19;
+            this.label20.Text = "Password:";
+            // 
+            // cbUseOnlyOauth
+            // 
+            this.cbUseOnlyOauth.AutoSize = true;
+            this.cbUseOnlyOauth.Location = new System.Drawing.Point(7, 6);
+            this.cbUseOnlyOauth.Name = "cbUseOnlyOauth";
+            this.cbUseOnlyOauth.Size = new System.Drawing.Size(100, 17);
+            this.cbUseOnlyOauth.TabIndex = 23;
+            this.cbUseOnlyOauth.Text = "Use only OAuth";
+            this.cbUseOnlyOauth.UseVisualStyleBackColor = true;
+            this.cbUseOnlyOauth.CheckedChanged += new System.EventHandler(this.cbUseOnlyOauth_CheckedChanged);
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(7, 58);
+            this.label19.Location = new System.Drawing.Point(6, 59);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(72, 13);
             this.label19.TabIndex = 18;
             this.label19.Text = "OAuth secret:";
             // 
+            // TbDomain
+            // 
+            this.TbDomain.Location = new System.Drawing.Point(84, 29);
+            this.TbDomain.Name = "TbDomain";
+            this.TbDomain.Size = new System.Drawing.Size(205, 20);
+            this.TbDomain.TabIndex = 16;
+            // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(7, 31);
+            this.label18.Location = new System.Drawing.Point(6, 32);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 13);
             this.label18.TabIndex = 18;
@@ -478,27 +620,10 @@ namespace GDocBackup
             // 
             // TbOAuthSecret
             // 
-            this.TbOAuthSecret.Location = new System.Drawing.Point(85, 55);
+            this.TbOAuthSecret.Location = new System.Drawing.Point(84, 55);
             this.TbOAuthSecret.Name = "TbOAuthSecret";
             this.TbOAuthSecret.Size = new System.Drawing.Size(205, 20);
             this.TbOAuthSecret.TabIndex = 17;
-            // 
-            // TbDomain
-            // 
-            this.TbDomain.Location = new System.Drawing.Point(85, 28);
-            this.TbDomain.Name = "TbDomain";
-            this.TbDomain.Size = new System.Drawing.Size(205, 20);
-            this.TbDomain.TabIndex = 16;
-            // 
-            // cbAppMode
-            // 
-            this.cbAppMode.AutoSize = true;
-            this.cbAppMode.Location = new System.Drawing.Point(10, 7);
-            this.cbAppMode.Name = "cbAppMode";
-            this.cbAppMode.Size = new System.Drawing.Size(116, 17);
-            this.cbAppMode.TabIndex = 15;
-            this.cbAppMode.Text = "Google Apps mode";
-            this.cbAppMode.UseVisualStyleBackColor = true;
             // 
             // cbDisableDuplicatedItemsWarning
             // 
@@ -727,32 +852,6 @@ namespace GDocBackup
             this.tbMultiExpPres.Size = new System.Drawing.Size(142, 20);
             this.tbMultiExpPres.TabIndex = 0;
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.LightGoldenrodYellow;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label20);
-            this.panel1.Controls.Add(this.cbAppMode);
-            this.panel1.Controls.Add(this.label19);
-            this.panel1.Controls.Add(this.TbDomain);
-            this.panel1.Controls.Add(this.label18);
-            this.panel1.Controls.Add(this.TbOAuthSecret);
-            this.panel1.Location = new System.Drawing.Point(14, 83);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(301, 89);
-            this.panel1.TabIndex = 19;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.Color.Red;
-            this.label20.Location = new System.Drawing.Point(251, 8);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(39, 13);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "BETA";
-            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -779,6 +878,14 @@ namespace GDocBackup
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.panelRunModeNormal.ResumeLayout(false);
+            this.panelRunModeNormal.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panelRunModeGoogleApps.ResumeLayout(false);
+            this.panelRunModeGoogleApps.PerformLayout();
+            this.panelGAppsUserName.ResumeLayout(false);
+            this.panelGAppsUserName.PerformLayout();
             this.tabPageNormalExport.ResumeLayout(false);
             this.tabPageNormalExport.PerformLayout();
             this.panelMultiExport.ResumeLayout(false);
@@ -787,8 +894,6 @@ namespace GDocBackup
             this.panelSingleExport.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -855,12 +960,21 @@ namespace GDocBackup
         private System.Windows.Forms.ComboBox cbDrawFormat;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox cbDisableDuplicatedItemsWarning;
-        private System.Windows.Forms.CheckBox cbAppMode;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox TbOAuthSecret;
         private System.Windows.Forms.TextBox TbDomain;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelRunModeGoogleApps;
+        private System.Windows.Forms.RadioButton rbRunModeGoogleApps;
+        private System.Windows.Forms.RadioButton rbRunModeNormal;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelRunModeNormal;
+        private System.Windows.Forms.CheckBox cbUseOnlyOauth;
+        private System.Windows.Forms.TextBox tbGAUserName;
+        private System.Windows.Forms.TextBox tbGAPassword;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Panel panelGAppsUserName;
     }
 }

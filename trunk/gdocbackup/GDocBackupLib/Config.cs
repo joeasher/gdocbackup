@@ -13,6 +13,7 @@ namespace GDocBackupLib
         public bool appsMode;
         public string appsDomain;
         public string appsOAuthSecret;
+        public bool appsOnlyOAuth;
         public string outDir;
         public bool downloadAll;
         public Document.DownloadType[] docExpType;
@@ -22,7 +23,7 @@ namespace GDocBackupLib
         public IWebProxy iwebproxy;
         public bool bypassHttpsChecks;
         public bool debugMode;
-        public int? dateDiff;
+        public int? dateDiff;        
 
 
         public Config()
@@ -43,7 +44,8 @@ namespace GDocBackupLib
             int? dateDiff,
             bool appsMode,
             string appsDomain,
-            string appsOAuthSecret)
+            string appsOAuthSecret,
+            bool appsOnlyOAuth)
         {
             this.userName = userName;
             this.password = password;
@@ -60,6 +62,7 @@ namespace GDocBackupLib
             this.appsMode = appsMode;
             this.appsDomain = appsDomain;
             this.appsOAuthSecret = appsOAuthSecret;
+            this.appsOnlyOAuth = appsOnlyOAuth;
         }
 
     }
