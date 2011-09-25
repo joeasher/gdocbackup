@@ -309,7 +309,7 @@ namespace GDocBackup
             Document.DownloadType[] presDownType = new Document.DownloadType[]{ 
                 Document.DownloadType.ppt,
                 Document.DownloadType.pdf,
-                Document.DownloadType.swf, 
+                //Document.DownloadType.swf, 
                 Document.DownloadType.txt  
             };
 
