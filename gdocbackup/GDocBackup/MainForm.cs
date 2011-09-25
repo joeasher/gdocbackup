@@ -304,23 +304,25 @@ namespace GDocBackup
             string userName = Properties.Settings.Default.UserName;
             string password =
                 String.IsNullOrEmpty(Properties.Settings.Default.Password) ?
-                String.Empty :
-                Utility.UnprotectData(Properties.Settings.Default.Password);
+                String.Empty : Utility.UnprotectData(Properties.Settings.Default.Password);
             string backupDir = Properties.Settings.Default.BackupDir;
 
-            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(backupDir))
+            if (Properties.Settings.Default.AppsMode == false)
             {
-                LoginForm login = new LoginForm();
-                login.UserName = userName;
-                login.BackupDir = backupDir;
-                if (login.ShowDialog() == DialogResult.OK)
+                if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(backupDir))
                 {
-                    userName = login.UserName;
-                    password = login.Password;
-                    backupDir = login.BackupDir;
+                    LoginForm login = new LoginForm();
+                    login.UserName = userName;
+                    login.BackupDir = backupDir;
+                    if (login.ShowDialog() == DialogResult.OK)
+                    {
+                        userName = login.UserName;
+                        password = login.Password;
+                        backupDir = login.BackupDir;
+                    }
+                    else
+                        return;
                 }
-                else
-                    return;
             }
 
             _logs = new List<string>();
@@ -363,7 +365,8 @@ namespace GDocBackup
                 conf.DateDelta,
                 conf.AppsMode,
                 conf.AppsDomain,
-                String.IsNullOrEmpty(conf.AppsOAuthSecretEncrypted) ? null : Utility.UnprotectData(conf.AppsOAuthSecretEncrypted));
+                String.IsNullOrEmpty(conf.AppsOAuthSecretEncrypted) ? null : Utility.UnprotectData(conf.AppsOAuthSecretEncrypted),
+                conf.AppsOAuthOnly);
 
             Backup b = new Backup(config);
             b.Feedback += new EventHandler<FeedbackEventArgs>(Backup_Feedback);

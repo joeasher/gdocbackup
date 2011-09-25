@@ -178,10 +178,36 @@ namespace GDocBackupLib
 
             // Retrieve user list
             List<String> usernames = new List<string>();
-            AppsService appsServ = new AppsService(_config.appsDomain, domainAdminUsername, _config.password);
-            UserFeed usersFeed = appsServ.RetrieveAllUsers();
-            foreach (UserEntry entry in usersFeed.Entries)
-                usernames.Add(entry.Login.UserName);
+            try
+            {
+                if (_config.appsOnlyOAuth)
+                {
+                    GOAuthRequestFactory reqF = new GOAuthRequestFactory("apps", "GDocBackup");
+                    reqF.ConsumerKey = _config.appsDomain;
+                    reqF.ConsumerSecret = _config.appsOAuthSecret;
+                    UserService userService = new UserService("GDocBackup");
+                    userService.RequestFactory = reqF;
+                    UserQuery query = new UserQuery(_config.appsDomain, true);
+                    UserFeed usersFeed = userService.Query(query);
+                    foreach (UserEntry entry in usersFeed.Entries)
+                        usernames.Add(entry.Login.UserName);
+                }
+                else
+                {
+                    AppsService appsServ = new AppsService(_config.appsDomain, domainAdminUsername, _config.password);
+                    UserFeed usersFeed = appsServ.RetrieveAllUsers();
+                    foreach (UserEntry entry in usersFeed.Entries)
+                        usernames.Add(entry.Login.UserName);
+                }
+
+                DoFeedback("Users: (" + usernames.Count + ")");
+                foreach (string x in usernames)
+                    DoFeedback(" > " + x);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error retrieving users list", ex);
+            }
 
             // Build output folders, one for each user
             foreach (string username in usernames)
@@ -191,7 +217,7 @@ namespace GDocBackupLib
                     Directory.CreateDirectory(x);
             }
 
-            // Do work fopr each user!
+            // Do work for each user!
             int errCount = 0;
             _totalAppUsers = usernames.Count;
             for (int i = 0; i < usernames.Count; i++)

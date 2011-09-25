@@ -51,8 +51,16 @@ namespace GDocBackup
             this.SetupControls();
 
             // --- Main TAB ---
-            TbUsername.Text = conf.UserName;
-            TbPassword.Text = String.IsNullOrEmpty(conf.Password) ? null : Utility.UnprotectData(conf.Password);
+            if (!conf.AppsMode)
+            {
+                TbUsername.Text = conf.UserName;
+                TbPassword.Text = String.IsNullOrEmpty(conf.Password) ? null : Utility.UnprotectData(conf.Password);
+            }
+            else
+            {
+                TbUsername.Text = "";
+                TbPassword.Text = "";
+            }
             CbStorePassword.Checked = !String.IsNullOrEmpty(conf.Password);
             TbBackupDir.Text = conf.BackupDir;
             cbDisableUpdateCheck.Checked = conf.DisableUpdateCheck;
@@ -60,9 +68,26 @@ namespace GDocBackup
             cbBypassCertificatesCheck.Checked = conf.BypassCertificateChecks;
             TbDateDelta.Text = conf.DateDelta.ToString();
             cbDisableDuplicatedItemsWarning.Checked = conf.DisableDuplicatedItemWarnings;
-            cbAppMode.Checked = conf.AppsMode;
+            rbRunModeNormal.Checked = !conf.AppsMode;
+            rbRunModeGoogleApps.Checked = conf.AppsMode;
+            panelRunModeNormal.Visible = !conf.AppsMode;
+            panelRunModeGoogleApps.Visible = conf.AppsMode;
+            panelRunModeGoogleApps.Location = panelRunModeNormal.Location;
             TbDomain.Text = conf.AppsDomain;
             TbOAuthSecret.Text = String.IsNullOrEmpty(conf.AppsOAuthSecretEncrypted) ? null : Utility.UnprotectData(conf.AppsOAuthSecretEncrypted);
+            cbUseOnlyOauth.Checked = conf.AppsOAuthOnly;
+            if (conf.AppsMode)
+            {
+                tbGAUserName.Text = String.IsNullOrEmpty(conf.UserName) ? String.Empty : conf.UserName;
+                tbGAPassword.Text = String.IsNullOrEmpty(conf.Password) ? String.Empty : Utility.UnprotectData(conf.Password);
+            }
+            else
+            {
+                tbGAUserName.Text = "";
+                tbGAPassword.Text = "";
+            }
+
+
 
             // --- Data format TAB ---
             cbEnableMultiExport.Checked = conf.MultiExportEnabled;
@@ -106,18 +131,40 @@ namespace GDocBackup
         private void BtnSave_Click(object sender, EventArgs e)
         {
             // Main TAB
-            conf.UserName = TbUsername.Text;
-            conf.Password = CbStorePassword.Checked ? Utility.ProtectData(TbPassword.Text) : null;
+            if (rbRunModeNormal.Checked)
+            {
+                conf.UserName = TbUsername.Text;
+                conf.Password = CbStorePassword.Checked ? Utility.ProtectData(TbPassword.Text) : null;
+            }
+            else
+            {
+                conf.UserName = tbGAUserName.Text;
+                conf.Password = Utility.ProtectData(tbGAPassword.Text);
+            }
             conf.BackupDir = TbBackupDir.Text;
             conf.DisableUpdateCheck = cbDisableUpdateCheck.Checked;
             conf.CheckForBeta = cbCheckForBetaVersion.Checked;
             conf.BypassCertificateChecks = cbBypassCertificatesCheck.Checked;
             conf.DateDelta = int.Parse(TbDateDelta.Text);
             conf.DisableDuplicatedItemWarnings = cbDisableDuplicatedItemsWarning.Checked;
-            conf.AppsMode = cbAppMode.Checked;
-            conf.AppsDomain = TbDomain.Text;
+            conf.AppsMode = rbRunModeGoogleApps.Checked;            
             conf.AppsOAuthSecret = null;  // Chiave non più usata. Svuotarla!
-            conf.AppsOAuthSecretEncrypted = String.IsNullOrEmpty(TbOAuthSecret.Text) ? null : Utility.ProtectData(TbOAuthSecret.Text);
+            if (!conf.AppsOAuthOnly)
+            {
+                conf.AppsDomain = "";
+                conf.AppsOAuthSecretEncrypted = Utility.ProtectData("");
+            }
+            else
+            {
+                conf.AppsDomain = TbDomain.Text;
+                conf.AppsOAuthSecretEncrypted = String.IsNullOrEmpty(TbOAuthSecret.Text) ? null : Utility.ProtectData(TbOAuthSecret.Text);
+            }
+            conf.AppsOAuthOnly = cbUseOnlyOauth.Checked;
+            if (conf.AppsOAuthOnly == true)
+            {
+                conf.UserName = String.Empty;
+                conf.Password = Utility.ProtectData(String.Empty);
+            }
 
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;
@@ -310,6 +357,17 @@ namespace GDocBackup
             return list;
         }
 
+
+        private void rbRunModeNormal_CheckedChanged(object sender, EventArgs e)
+        {
+            panelRunModeNormal.Visible = rbRunModeNormal.Checked;
+            panelRunModeGoogleApps.Visible = rbRunModeGoogleApps.Checked;
+        }
+
+        private void cbUseOnlyOauth_CheckedChanged(object sender, EventArgs e)
+        {
+            panelGAppsUserName.Visible = !cbUseOnlyOauth.Checked;
+        }
 
     }
 }
