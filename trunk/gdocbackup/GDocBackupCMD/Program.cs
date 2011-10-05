@@ -94,10 +94,26 @@ namespace GDocBackupCMD
         /// </summary>
         private static bool DoBackup(Dictionary<string, string> parameters)
         {
+
+            // Google Apps
+            bool appsMode = parameters.ContainsKey("appsMode") ? parameters["appsMode"] == "1" : false;
+            string appsDomain = null;
+            string appsOAuthSecret = null;
+            bool appsOAuthOnly = false;
+            if (appsMode)
+            {
+                appsDomain = parameters.ContainsKey("appsDomain") ? parameters["appsDomain"] : null;
+                appsOAuthSecret = parameters.ContainsKey("appsOAuthSecret") ? parameters["appsOAuthSecret"] : null;
+                appsOAuthOnly = parameters.ContainsKey("appsOAuthOnly") ? parameters["appsOAuthOnly"] == "1" : false;
+                if (String.IsNullOrEmpty(appsDomain)) throw new ApplicationException("Empty appsDomain parameter");
+                if (String.IsNullOrEmpty(appsOAuthSecret)) throw new ApplicationException("Empty appsOAuthSecret parameter");
+            }
+
             // Get username
             string username = parameters.ContainsKey("username") ? parameters["username"] : null;
-            if (username == null)
-                throw new ApplicationException("Empty username");
+            if ((appsMode == false && username == null) ||
+                (appsMode == true && appsOAuthOnly == false && username == null))
+                throw new ApplicationException("Empty username parameter");
 
             // Get password
             string password = null;
@@ -107,23 +123,24 @@ namespace GDocBackupCMD
                 password = Utility.UnprotectData(parameters["passwordEnc"]);
             if (parameters.ContainsKey("passwordEncFile"))
                 password = Utility.UnprotectData(File.ReadAllText(parameters["passwordEncFile"]));
-            if (password == null)
-                throw new ApplicationException("Empty password");
+            if ((appsMode == false && password == null) ||
+                (appsMode == true && appsOAuthOnly == false && password == null))
+                throw new ApplicationException("Empty password parameter");
 
             // Get destDir
             string destDir = parameters.ContainsKey("destDir") ? parameters["destDir"] : null;
             if (destDir == null)
-                throw new ApplicationException("Empty destDir");
+                throw new ApplicationException("Empty destDir parameter");
 
             // Get document export format
             string docF = parameters.ContainsKey("docF") ? parameters["docF"] : null;
             string sprsF = parameters.ContainsKey("sprsF") ? parameters["sprsF"] : null;
             string presF = parameters.ContainsKey("presF") ? parameters["presF"] : null;
             string drawF = parameters.ContainsKey("drawF") ? parameters["drawF"] : null;
-            if (docF == null) throw new ApplicationException("Empty docF");
-            if (sprsF == null) throw new ApplicationException("Empty sprsF");
-            if (presF == null) throw new ApplicationException("Empty presF");
-            if (drawF == null) throw new ApplicationException("Empty drawF");
+            if (docF == null) throw new ApplicationException("Empty docF parameter");
+            if (sprsF == null) throw new ApplicationException("Empty sprsF parameter");
+            if (presF == null) throw new ApplicationException("Empty presF parameter");
+            if (drawF == null) throw new ApplicationException("Empty drawF parameter");
             List<Document.DownloadType> docTypes = Utility.DecodeDownloadTypeArray(docF, '+');
             List<Document.DownloadType> sprsTypes = Utility.DecodeDownloadTypeArray(sprsF, '+');
             List<Document.DownloadType> presTypes = Utility.DecodeDownloadTypeArray(presF, '+');
@@ -136,14 +153,18 @@ namespace GDocBackupCMD
             // Output parameters
             Console.WriteLine(new String('-', 40));
             Console.WriteLine("Parameters: ");
-            Console.WriteLine("Username:     " + username);
-            Console.WriteLine("Password:     " + "[hidden]");
-            Console.WriteLine("DestDir:      " + destDir);
-            Console.WriteLine("Document:     " + docF);
-            Console.WriteLine("Spreadsheet:  " + sprsF);
-            Console.WriteLine("Presentation: " + presF);
-            Console.WriteLine("Drawing:      " + drawF);
-            Console.WriteLine("DownloadAll:  " + downloadAll);
+            Console.WriteLine("Username:        " + username);
+            Console.WriteLine("Password:        " + "[hidden]");
+            Console.WriteLine("DestDir:         " + destDir);
+            Console.WriteLine("Document:        " + docF);
+            Console.WriteLine("Spreadsheet:     " + sprsF);
+            Console.WriteLine("Presentation:    " + presF);
+            Console.WriteLine("Drawing:         " + drawF);
+            Console.WriteLine("DownloadAll:     " + downloadAll);
+            Console.WriteLine("appsMode:        " + appsMode);
+            Console.WriteLine("appsDomain:      " + appsDomain);
+            Console.WriteLine("appsOAuthSecret: " + appsOAuthSecret);
+            Console.WriteLine("appsOAuthOnly:   " + appsOAuthOnly);
             Console.WriteLine(new String('-', 40));
 
             // Exec backup
@@ -156,10 +177,10 @@ namespace GDocBackupCMD
                 bypassHttpsCertChecks,
                 false,
                 null,
-                false,
-                null,
-                null,
-                false);
+                appsMode,
+                appsDomain,
+                appsOAuthSecret,
+                appsOAuthOnly);
 
             Backup backup = new Backup(config);
             backup.Feedback += new EventHandler<FeedbackEventArgs>(backup_Feedback);
