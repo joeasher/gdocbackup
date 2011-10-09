@@ -174,8 +174,6 @@ namespace GDocBackupLib
         /// </summary>
         private int ExecInternalApps()
         {
-            string domainAdminUsername = this.BuildDomainUserFullName(_config.userName);
-
             // Retrieve user list
             List<String> usernames = new List<string>();
             try
@@ -194,6 +192,7 @@ namespace GDocBackupLib
                 }
                 else
                 {
+                    string domainAdminUsername = this.BuildDomainUserFullName(_config.userName);
                     AppsService appsServ = new AppsService(_config.appsDomain, domainAdminUsername, _config.password);
                     UserFeed usersFeed = appsServ.RetrieveAllUsers();
                     foreach (UserEntry entry in usersFeed.Entries)
