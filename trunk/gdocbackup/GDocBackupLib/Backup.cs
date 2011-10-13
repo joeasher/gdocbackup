@@ -154,6 +154,20 @@ namespace GDocBackupLib
             AssemblyName assembName = Assembly.GetExecutingAssembly().GetName();
             DoFeedback(assembName.Name + " - ver. " + assembName.Version.ToString());
 
+            //DoFeedback("Username:        " + _config.userName);
+            //DoFeedback("Password:        " + "[hidden]");
+            //DoFeedback("DestDir:         " + _config.outDir);
+            //DoFeedback("Document:        " + _config.docExpType);
+            //DoFeedback("Spreadsheet:     " + _config.sprdExpType);
+            //DoFeedback("Presentation:    " + _config.presExpType);
+            //DoFeedback("Drawing:         " + _config.drawExpType);
+            //DoFeedback("DownloadAll:     " + _config.downloadAll);
+            //DoFeedback("appsMode:        " + _config.appsMode);
+            //DoFeedback("appsDomain:      " + _config.appsDomain);
+            //DoFeedback("appsOAuthSecret: " + "[hidden]");
+            //DoFeedback("appsOAuthOnly:   " + _config.appsOnlyOAuth);
+            //DoFeedback(new string('-', 60));
+
             int errorCount = -1;
             if (_config.appsMode == false)
             {
