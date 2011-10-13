@@ -163,6 +163,12 @@ namespace GDocBackup
                 conf.Password = Utility.ProtectData(String.Empty);
             }
 
+            if (!conf.AppsMode)
+            {
+                conf.AppsDomain = String.Empty;
+                conf.AppsOAuthSecretEncrypted = Utility.ProtectData(String.Empty);
+            }
+
             // Data format TAB
             conf.MultiExportEnabled = cbEnableMultiExport.Checked;
             if (cbEnableMultiExport.Checked)
