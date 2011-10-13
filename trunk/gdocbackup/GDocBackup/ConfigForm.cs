@@ -147,20 +147,17 @@ namespace GDocBackup
             conf.BypassCertificateChecks = cbBypassCertificatesCheck.Checked;
             conf.DateDelta = int.Parse(TbDateDelta.Text);
             conf.DisableDuplicatedItemWarnings = cbDisableDuplicatedItemsWarning.Checked;
-            conf.AppsMode = rbRunModeGoogleApps.Checked;            
+            conf.AppsMode = rbRunModeGoogleApps.Checked;
             conf.AppsOAuthSecret = null;  // Chiave non più usata. Svuotarla!
-            if (!conf.AppsOAuthOnly)
-            {
-                conf.AppsDomain = "";
-                conf.AppsOAuthSecretEncrypted = Utility.ProtectData("");
-            }
-            else
+            conf.AppsOAuthOnly = cbUseOnlyOauth.Checked;
+
+            if (conf.AppsMode)
             {
                 conf.AppsDomain = TbDomain.Text;
                 conf.AppsOAuthSecretEncrypted = String.IsNullOrEmpty(TbOAuthSecret.Text) ? null : Utility.ProtectData(TbOAuthSecret.Text);
             }
-            conf.AppsOAuthOnly = cbUseOnlyOauth.Checked;
-            if (conf.AppsOAuthOnly == true)
+
+            if (conf.AppsMode && conf.AppsOAuthOnly)
             {
                 conf.UserName = String.Empty;
                 conf.Password = Utility.ProtectData(String.Empty);
