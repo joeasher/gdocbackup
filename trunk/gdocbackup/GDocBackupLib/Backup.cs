@@ -423,19 +423,13 @@ namespace GDocBackupLib
                                     if (doc.Type == Document.DocumentType.Unknown)
                                     {
                                         String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-
-                                        Uri downloadUri = null;
+                                        Uri downloadUri = new Uri(downloadUrl);
                                         if (_config.appsMode)
                                         {
                                             // add xoauth_requestor_id to the doc url if not present
                                             if (!downloadUrl.Contains("xoauth_requestor_id="))
                                                 downloadUri = new Uri(downloadUrl + "&xoauth_requestor_id=" + this.BuildDomainUserFullName(username));
                                         }
-                                        else
-                                        {
-                                            downloadUri = new Uri(downloadUrl);
-                                        }
-
                                         gdocStream = request.Service.Query(downloadUri);
                                     }
                                     else if (doc.Type == Document.DocumentType.Document)
