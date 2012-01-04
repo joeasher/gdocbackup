@@ -168,6 +168,14 @@ namespace GDocBackupLib
             //DoFeedback("appsOAuthOnly:   " + _config.appsOnlyOAuth);
             //DoFeedback(new string('-', 60));
 
+            // Bypass Https checks?
+            // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
+            if (_config.bypassHttpsChecks)
+            {
+                DoFeedback("BypassHttpsCertCheck ACTIVE");
+                ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
+            }
+
             int errorCount = -1;
             if (_config.appsMode == false)
             {
@@ -275,14 +283,6 @@ namespace GDocBackupLib
 
             _lastException = null;
             _duplicatedDocNames = new List<string>();
-
-            // Bypass Https checks?
-            // I know, CertificatePolicy is deprecated. I should use ServerCertificateValidationCallback but Mono does not support it.  :(
-            if (_config.bypassHttpsChecks)
-            {
-                DoFeedback("BypassHttpsCertCheck ACTIVE");
-                ServicePointManager.CertificatePolicy = new BypassHttpsCertCheck();
-            }
 
             // Setup credentials and connection
             DoFeedback("Setup connection & get doc list");
