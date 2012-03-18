@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDocBackup", "GDocBackup\GDocBackup.csproj", "{F83C7F69-C33D-4C99-B278-AF8EE67013D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDocBackupCMD", "GDocBackupCMD\GDocBackupCMD.csproj", "{FE34A3C5-FFC2-4463-A411-71A3B0BC3BB9}"
