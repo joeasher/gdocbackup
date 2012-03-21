@@ -41,6 +41,9 @@ namespace GDocBackup
         {
             set
             {
+                int m=100000;
+                string s = value.Length > m ? value.Substring(value.Length - m) : value;
+
                 // Add extra informations
                 StringBuilder sb = new StringBuilder();
                 Type tmono = Type.GetType("Mono.Runtime");
@@ -50,7 +53,7 @@ namespace GDocBackup
                 if (tmono != null)
                     sb.AppendLine("Running on Mono [" + tmono.ToString() + "]");
                 sb.AppendLine(new String('-', 40));
-                sb.AppendLine(value);
+                sb.AppendLine(s);                
 
                 // Set TextBox
                 this.TbData.Text = sb.ToString();
