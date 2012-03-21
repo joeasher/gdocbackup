@@ -40,7 +40,21 @@ namespace GDocBackup
         /// <summary>
         /// Log data
         /// </summary>
-        private List<string> _logs = null;
+        //private List<string> _logsX = null;
+        //public void AddLogEntry(string msg)
+        //{
+        //    if (_logsX != null)
+        //    {
+        //        if (_logsX.Count > (20000 + 100))
+        //        {
+        //            _logsX.RemoveRange(0, 100);
+        //        }
+        //        _logsX.Add(msg);
+        //    }
+        //}
+
+
+        private MySimpleLog _mySimpleLog = null;
 
 
         /// <summary>
@@ -175,8 +189,8 @@ namespace GDocBackup
         private void StoreLogMsgInfo(int percent, string s)
         {
             string msg = DateTime.Now.ToString() + " - " + percent.ToString("000") + " > " + s;
-            if (_logs != null)
-                _logs.Add(msg);
+            if (_mySimpleLog != null)
+                _mySimpleLog.Add(msg);             
             if (_debugMode)
             {
                 string logFileName = _debugModeLogSessionID + ".log";
@@ -244,8 +258,8 @@ namespace GDocBackup
         {
             using (LogsForm lf = new LogsForm())
             {
-                if (_logs != null)
-                    lf.Logs = _logs.ToArray();
+                if (_mySimpleLog != null)
+                    lf.Logs = _mySimpleLog.DumpToStrArray();
                 lf.ShowDialog();
             }
         }
@@ -325,7 +339,14 @@ namespace GDocBackup
                 }
             }
 
-            _logs = new List<string>();
+            _mySimpleLog = new MySimpleLog();
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                _mySimpleLog.Add("" + i + "___DUMMY_____18/03/2012 09:57:12 - 065 > FO> FileName=fh#NEW DOC - PRIVATE DocType=Document ExpFrm=doc Action=SKIP Folder= LocalDateTime=07/05/2010 08:21:27 RemoteDateTime=07/05/2010 08:21:27");
+                _mySimpleLog.Add("DUMMY_____18/03/2012 09:57:12 - 065 > ITEM: Share outside domain (Document) [141/147]");
+            }
+
             this.dataGV.Rows.Clear();
             this.BtnExec.Text = "STOP";
             this.Cursor = Cursors.WaitCursor;
