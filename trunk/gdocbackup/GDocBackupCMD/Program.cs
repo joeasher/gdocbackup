@@ -202,10 +202,20 @@ namespace GDocBackupCMD
         }
 
 
-        /// <summary>
+                /// <summary>
         /// ...
         /// </summary>
         private static void ShowUsage()
+        {
+            Console.WriteLine("Command line options: http://gs.fhtino.it/gdocbackup/quickguide-cmd");
+            Console.WriteLine("");
+            Console.WriteLine("");
+        }
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        private static void ShowUsage_OLD()
         {
             Console.WriteLine("USAGE   (draft)");
             Console.WriteLine("");

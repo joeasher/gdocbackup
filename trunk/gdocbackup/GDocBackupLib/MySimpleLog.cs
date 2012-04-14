@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace GDocBackupLib
 {
@@ -29,6 +30,7 @@ namespace GDocBackupLib
         private int _maxCount = 10000;
         private int _maxCountWindows = 100;
 
+        private string _debugModeLogSessionID = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
 
         public MySimpleLog()
         {
@@ -40,7 +42,7 @@ namespace GDocBackupLib
             _logEntries = new List<MySimpleLogEntry>();
         }
 
-        public void Add(string msg)
+        public void Add(string msg, bool debugMode)
         {
             _logEntries.Add(new MySimpleLogEntry() { DT = DateTime.Now, Message = msg });
 
@@ -48,14 +50,21 @@ namespace GDocBackupLib
             {
                 _logEntries.RemoveRange(0, _maxCountWindows);
             }
+
+            if (debugMode)
+            {
+                string logFileName = _debugModeLogSessionID + ".log";
+                string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
+                File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
+            }
         }
 
         public string[] DumpToStrArray()
         {
             List<string> list = new List<string>();
-            foreach (MySimpleLogEntry entry in _logEntries)            
+            foreach (MySimpleLogEntry entry in _logEntries)
                 list.Add(entry.DT + " : " + entry.Message);
-            return list.ToArray();           
+            return list.ToArray();
         }
 
     }
