@@ -88,12 +88,6 @@ namespace GDocBackup
 
 
         /// <summary>
-        /// ...
-        /// </summary>
-        private string _debugModeLogSessionID = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
-
-
-        /// <summary>
         /// [Constructor]
         /// </summary>
         public MainForm()
@@ -191,14 +185,7 @@ namespace GDocBackup
             string msg = DateTime.Now.ToString() + " - " + percent.ToString("000") + " > " + s;
 
             if (_mySimpleLog != null)
-                _mySimpleLog.Add(msg);
-
-            if (_debugMode)
-            {
-                string logFileName = _debugModeLogSessionID + ".log";
-                string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
-                File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
-            }
+                _mySimpleLog.Add(msg, _debugMode);
         }
 
 
