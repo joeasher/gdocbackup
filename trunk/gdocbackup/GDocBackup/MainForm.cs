@@ -1,5 +1,5 @@
 /*
-   Copyright 2009  Fabrizio Accatino
+   Copyright 2009-2012  Fabrizio Accatino
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -189,8 +189,10 @@ namespace GDocBackup
         private void StoreLogMsgInfo(int percent, string s)
         {
             string msg = DateTime.Now.ToString() + " - " + percent.ToString("000") + " > " + s;
+
             if (_mySimpleLog != null)
-                _mySimpleLog.Add(msg);             
+                _mySimpleLog.Add(msg);
+
             if (_debugMode)
             {
                 string logFileName = _debugModeLogSessionID + ".log";
@@ -341,11 +343,11 @@ namespace GDocBackup
 
             _mySimpleLog = new MySimpleLog();
 
-            for (int i = 0; i < 1000000; i++)
-            {
-                _mySimpleLog.Add("" + i + "___DUMMY_____18/03/2012 09:57:12 - 065 > FO> FileName=fh#NEW DOC - PRIVATE DocType=Document ExpFrm=doc Action=SKIP Folder= LocalDateTime=07/05/2010 08:21:27 RemoteDateTime=07/05/2010 08:21:27");
-                _mySimpleLog.Add("DUMMY_____18/03/2012 09:57:12 - 065 > ITEM: Share outside domain (Document) [141/147]");
-            }
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    _mySimpleLog.Add("" + i + "___DUMMY_____18/03/2012 09:57:12 - 065 > FO> FileName=fh#NEW DOC - PRIVATE DocType=Document ExpFrm=doc Action=SKIP Folder= LocalDateTime=07/05/2010 08:21:27 RemoteDateTime=07/05/2010 08:21:27");
+            //    _mySimpleLog.Add("DUMMY_____18/03/2012 09:57:12 - 065 > ITEM: Share outside domain (Document) [141/147]");
+            //}
 
             this.dataGV.Rows.Clear();
             this.BtnExec.Text = "STOP";

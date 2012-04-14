@@ -1,5 +1,5 @@
 /*
-   Copyright 2009  Fabrizio Accatino
+   Copyright 2009-2012  Fabrizio Accatino
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
