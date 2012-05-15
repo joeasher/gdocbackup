@@ -26,21 +26,24 @@ namespace GDocBackupLib
     {
 
         private List<MySimpleLogEntry> _logEntries;
-
         private int _maxCount = 10000;
         private int _maxCountWindows = 100;
-
+        private bool _writeToFile;
         private string _debugModeLogSessionID = "GDocBackup_" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
 
-        public MySimpleLog()
+
+        public MySimpleLog(bool writeToFile)
         {
-            _logEntries = new List<MySimpleLogEntry>();
+            _writeToFile = writeToFile; 
+            _logEntries = new List<MySimpleLogEntry>();            
         }
 
-        public void Reset()
-        {
-            _logEntries = new List<MySimpleLogEntry>();
-        }
+
+        //public void Reset()
+        //{
+        //    _logEntries = new List<MySimpleLogEntry>();
+        //}
+
 
         public void Add(string msg, bool debugMode)
         {
@@ -51,13 +54,14 @@ namespace GDocBackupLib
                 _logEntries.RemoveRange(0, _maxCountWindows);
             }
 
-            if (debugMode)
+            if (_writeToFile)
             {
                 string logFileName = _debugModeLogSessionID + ".log";
                 string logFileNameFP = Path.Combine(Path.GetTempPath(), logFileName);
                 File.AppendAllText(logFileNameFP, msg + Environment.NewLine);
             }
         }
+
 
         public string[] DumpToStrArray()
         {
