@@ -329,7 +329,7 @@ namespace GDocBackupLib
                 DoFeedbackDebug("FolderDict: " + k + " --> " + _folderDict[k]);
             this.DumpAllDocInfo(docs);
 
-            // Docs loop!
+            // Main Docs loop!
             int errorCount = 0;
             for (int i = 0; i < docs.Count; i++)
             {
@@ -364,149 +364,162 @@ namespace GDocBackupLib
 
                 if (downloadTypes != null)
                 {
-                    try
+                    int maxTentativi = 2;
+                    for (int tentativi = 0; tentativi < maxTentativi; tentativi++)
                     {
-                        // * WorkAround for drawing *
-                        // Detect if drawing and then force downloadtype to pdf
-                        //bool isDrawing = doc.ResourceId.StartsWith("drawing:");   // drawing:14TBycKwlpXJ25N......
-                        //if (isDrawing)
-                        //    downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
-                        // bool isDrawing = false;
-
-                        foreach (Document.DownloadType downloadtype in downloadTypes)
+                        try
                         {
-                            // Build local file path
-                            string outFolderPath;
-                            if (doc.ParentFolders.Count == 0)
+                            // * WorkAround for drawing *
+                            // Detect if drawing and then force downloadtype to pdf
+                            //bool isDrawing = doc.ResourceId.StartsWith("drawing:");   // drawing:14TBycKwlpXJ25N......
+                            //if (isDrawing)
+                            //    downloadTypes = new Document.DownloadType[] { Document.DownloadType.pdf };
+                            // bool isDrawing = false;
+
+                            foreach (Document.DownloadType downloadtype in downloadTypes)
                             {
-                                outFolderPath = _config.appsMode ? Path.Combine(_config.outDir, username) : _config.outDir;
-                            }
-                            else
-                            {
-                                DoFeedback("Try to get folder from dict using key=[" + doc.ParentFolders[0] + "]");
-                                outFolderPath = _folderDict[doc.ParentFolders[0]];
-                            }
-                            string outFileFP =
-                                (doc.Type == Document.DocumentType.Unknown) ?
-                                    Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
-                                    Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
-
-                            // Get current local file in infos
-                            FileInfo fi = new FileInfo(outFileFP);
-                            DateTime locFileDateTime = fi.LastWriteTime;
-                            DateTime gdocFileDateTime = doc.Updated;
-
-                            // Mono and/or Ubuntu (...linux) does not support milliseconds info when saving DataTime to FileInfo.LastWriteTime. So... I remove it!   :)
-                            locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
-                            gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
-
-                            bool downloadDoc = (!fi.Exists || _config.downloadAll);
-
-                            if (_config.dateDiff.HasValue)
-                            {
-                                if (Math.Abs(locFileDateTime.Subtract(gdocFileDateTime).TotalSeconds) > _config.dateDiff.Value)
-                                    downloadDoc = true;
-                            }
-                            else
-                            {
-                                if (locFileDateTime != gdocFileDateTime)
-                                    downloadDoc = true;
-                            }
-
-
-                            if (downloadDoc)
-                            {
-                                DoFeedback("Start exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
-                                Stream gdocStream = null;
-                                try
+                                // Build local file path
+                                string outFolderPath;
+                                if (doc.ParentFolders.Count == 0)
                                 {
-                                    if (doc.Type == Document.DocumentType.Unknown)
-                                    {
-                                        String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
-                                        Uri downloadUri = new Uri(downloadUrl);
-                                        if (_config.appsMode)
-                                        {
-                                            // add xoauth_requestor_id to the doc url if not present
-                                            if (!downloadUrl.Contains("xoauth_requestor_id="))
-                                                downloadUri = new Uri(downloadUrl + "&xoauth_requestor_id=" + this.BuildDomainUserFullName(username));
-                                        }
-                                        gdocStream = request.Service.Query(downloadUri);
-                                    }
-                                    else if (doc.Type == Document.DocumentType.Document)
-                                    {
-                                        gdocStream = request.Download(doc, downloadtype.ToString());
-                                    }
-                                    else if (doc.Type == Document.DocumentType.Spreadsheet)
-                                    {
-                                        gdocStream = request.Download(doc, downloadtype.ToString());
-                                    }
-                                    else if (doc.Type == Document.DocumentType.Presentation)
-                                    {
-                                        gdocStream = request.Download(doc, downloadtype.ToString());
-                                    }
-                                    else if (doc.Type == Document.DocumentType.Drawing)
-                                    {
-                                        gdocStream = request.Download(doc, downloadtype.ToString());
-                                    }
-                                    else if (doc.Type != Document.DocumentType.PDF)
-                                    {
-                                        // *** ??? ***
-                                        gdocStream = request.Download(doc, downloadtype);
-                                    }
-                                    else
-                                    {
-                                        // *** PDF ***
-                                        if (_config.appsMode)
-                                        {
-                                            // add xoauth_requestor_id to the doc url if not present
-                                            string url = doc.DocumentEntry.Content.Src.ToString();
-                                            if (!url.Contains("xoauth_requestor_id="))
-                                                doc.DocumentEntry.Content.Src = new AtomUri(url + "&xoauth_requestor_id=" + this.BuildDomainUserFullName(username));
-                                        }
-                                        gdocStream = request.Download(doc, null);
-                                    }
-
-                                    using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
-                                    {
-                                        byte[] buffer = new byte[8192];
-                                        int bytesRead;
-                                        while ((bytesRead = gdocStream.Read(buffer, 0, buffer.Length)) > 0)
-                                            outFile.Write(buffer, 0, bytesRead);
-                                        outFile.Close();
-                                    }
-                                    gdocStream.Close();
+                                    outFolderPath = _config.appsMode ? Path.Combine(_config.outDir, username) : _config.outDir;
                                 }
-                                finally
+                                else
                                 {
-                                    if (gdocStream != null)
-                                        gdocStream.Dispose();
+                                    DoFeedback("Try to get folder from dict using key=[" + doc.ParentFolders[0] + "]");
+                                    outFolderPath = _folderDict[doc.ParentFolders[0]];
+                                }
+                                string outFileFP =
+                                    (doc.Type == Document.DocumentType.Unknown) ?
+                                        Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
+                                        Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
+
+                                // Get current local file in infos
+                                FileInfo fi = new FileInfo(outFileFP);
+                                DateTime locFileDateTime = fi.LastWriteTime;
+                                DateTime gdocFileDateTime = doc.Updated;
+
+                                // Mono and/or Ubuntu (...linux) does not support milliseconds info when saving DataTime to FileInfo.LastWriteTime. So... I remove it!   :)
+                                locFileDateTime = this.RemoveMilliseconds(locFileDateTime);
+                                gdocFileDateTime = this.RemoveMilliseconds(gdocFileDateTime);
+
+                                bool downloadDoc = (!fi.Exists || _config.downloadAll);
+
+                                if (_config.dateDiff.HasValue)
+                                {
+                                    if (Math.Abs(locFileDateTime.Subtract(gdocFileDateTime).TotalSeconds) > _config.dateDiff.Value)
+                                        downloadDoc = true;
+                                }
+                                else
+                                {
+                                    if (locFileDateTime != gdocFileDateTime)
+                                        downloadDoc = true;
                                 }
 
-                                new FileInfo(outFileFP).LastWriteTime = doc.Updated;
-                                DoFeedback("End exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
-                            }
-                            else
-                            {
-                                DoFeedback("Skipped doc: " + doc.Title);
-                            }
 
-                            // Send Feedback                            
-                            DoFeedback(new FeedbackObject(
-                                (_config.appsMode ? username + "#" + doc.Title : doc.Title),
-                                doc.Type.ToString(),
-                                (doc.Type == Document.DocumentType.Unknown) ? "BIN" : downloadtype.ToString(),
-                                downloadDoc ? "BCKUP" : "SKIP",
-                                "", locFileDateTime, gdocFileDateTime));
+                                if (downloadDoc)
+                                {
+                                    DoFeedback("Start exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
+                                    Stream gdocStream = null;
+                                    try
+                                    {
+                                        if (doc.Type == Document.DocumentType.Unknown)
+                                        {
+                                            String downloadUrl = doc.DocumentEntry.Content.Src.ToString();
+                                            Uri downloadUri = new Uri(downloadUrl);
+                                            if (_config.appsMode)
+                                            {
+                                                // add xoauth_requestor_id to the doc url if not present
+                                                if (!downloadUrl.Contains("xoauth_requestor_id="))
+                                                    downloadUri = new Uri(downloadUrl + "&xoauth_requestor_id=" + this.BuildDomainUserFullName(username));
+                                            }
+                                            gdocStream = request.Service.Query(downloadUri);
+                                        }
+                                        else if (doc.Type == Document.DocumentType.Document)
+                                        {
+                                            gdocStream = request.Download(doc, downloadtype.ToString());
+                                        }
+                                        else if (doc.Type == Document.DocumentType.Spreadsheet)
+                                        {
+                                            gdocStream = request.Download(doc, downloadtype.ToString());
+                                        }
+                                        else if (doc.Type == Document.DocumentType.Presentation)
+                                        {
+                                            gdocStream = request.Download(doc, downloadtype.ToString());
+                                        }
+                                        else if (doc.Type == Document.DocumentType.Drawing)
+                                        {
+                                            gdocStream = request.Download(doc, downloadtype.ToString());
+                                        }
+                                        else if (doc.Type != Document.DocumentType.PDF)
+                                        {
+                                            // *** ??? ***
+                                            gdocStream = request.Download(doc, downloadtype);
+                                        }
+                                        else
+                                        {
+                                            // *** PDF ***
+                                            if (_config.appsMode)
+                                            {
+                                                // add xoauth_requestor_id to the doc url if not present
+                                                string url = doc.DocumentEntry.Content.Src.ToString();
+                                                if (!url.Contains("xoauth_requestor_id="))
+                                                    doc.DocumentEntry.Content.Src = new AtomUri(url + "&xoauth_requestor_id=" + this.BuildDomainUserFullName(username));
+                                            }
+                                            gdocStream = request.Download(doc, null);
+                                        }
+
+                                        using (FileStream outFile = new FileStream(outFileFP, FileMode.Create, FileAccess.Write))
+                                        {
+                                            byte[] buffer = new byte[8192];
+                                            int bytesRead;
+                                            while ((bytesRead = gdocStream.Read(buffer, 0, buffer.Length)) > 0)
+                                                outFile.Write(buffer, 0, bytesRead);
+                                            outFile.Close();
+                                        }
+                                        gdocStream.Close();
+                                    }
+                                    finally
+                                    {
+                                        if (gdocStream != null)
+                                            gdocStream.Dispose();
+                                    }
+
+                                    new FileInfo(outFileFP).LastWriteTime = doc.Updated;
+                                    DoFeedback("End exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
+                                }
+                                else
+                                {
+                                    DoFeedback("Skipped doc: " + doc.Title);
+                                }
+
+                                // Send Feedback                            
+                                DoFeedback(new FeedbackObject(
+                                    (_config.appsMode ? username + "#" + doc.Title : doc.Title),
+                                    doc.Type.ToString(),
+                                    (doc.Type == Document.DocumentType.Unknown) ? "BIN" : downloadtype.ToString(),
+                                    downloadDoc ? "BCKUP" : "SKIP",
+                                    "", locFileDateTime, gdocFileDateTime));
+
+                                tentativi = maxTentativi;
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        errorCount++;
-                        DoFeedback("DOC-ERROR: " + ex.ToString());
-                        DoFeedback(new FeedbackObject(
-                            (_config.appsMode ? username + "#" + doc.Title : doc.Title),
-                            doc.Type.ToString(),
-                            "", "ERROR", "", null, null));
+                        catch (Exception ex)
+                        {
+                            if (tentativi == maxTentativi - 1)
+                            {
+                                errorCount++;
+                                DoFeedback("DOC-ERROR: " + ex.ToString());
+                                DoFeedback(new FeedbackObject(
+                                    (_config.appsMode ? username + "#" + doc.Title : doc.Title),
+                                    doc.Type.ToString(),
+                                    "", "ERROR", "", null, null));
+                            }
+                            else
+                            {
+                                DoFeedback("DOC-ERROR: (attempt " + tentativi + ") " + ex.ToString());
+                            }
+                        }
                     }
                 }
                 else
