@@ -392,7 +392,7 @@ namespace GDocBackupLib
                                 string outFileFP =
                                     (doc.Type == Document.DocumentType.Unknown) ?
                                         Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, true)) :
-                                        Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + downloadtype.ToString());
+                                        Path.Combine(outFolderPath, this.RemoveInvalidChars(doc.Title, false) + "." + ConvertDownloadTypeToFileExtension(downloadtype));
 
                                 // Get current local file in infos
                                 FileInfo fi = new FileInfo(outFileFP);
@@ -716,6 +716,23 @@ namespace GDocBackupLib
 
             return warningList;
         }
+
+
+        /// <summary>
+        /// ...
+        /// </summary>
+        private string ConvertDownloadTypeToFileExtension(Document.DownloadType dt)
+        {
+            switch (dt)
+            {
+                case (Document.DownloadType.doc): return "docx";
+                case (Document.DownloadType.xls): return "xlsx";
+                case (Document.DownloadType.ppt): return "pptx";
+                default: return dt.ToString();
+            }
+        }
+
+
     }
 
 }
