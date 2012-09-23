@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
-[assembly: AssemblyVersion("0.7.2.$WCREV$")]
-[assembly: AssemblyFileVersion("0.7.2.$WCREV$")]
+[assembly: AssemblyVersion("0.7.4.$WCREV$")]
+[assembly: AssemblyFileVersion("0.7.4.$WCREV$")]
 [assembly: AssemblyDescription("GDocBackup - SVNRevision: $WCREV$ $WCMODS?(locally modified!!!):$ [$WCDATE$] - http://gs.fhtino.it/gdocbackup")]
 [assembly: AssemblyCopyright("Copyright © 2009-2012 Fabrizio Accatino")]
