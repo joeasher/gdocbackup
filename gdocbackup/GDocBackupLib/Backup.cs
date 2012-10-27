@@ -487,6 +487,31 @@ namespace GDocBackupLib
 
                                     new FileInfo(outFileFP).LastWriteTime = doc.Updated;
                                     DoFeedback("End exporting " + doc.Title + "(Type=" + doc.Type + ") --> " + downloadtype.ToString());
+
+                                    // ------------------------------------------------------------------------------------------------------------------------
+                                    // Workaround for Issue 100 - http://code.google.com/p/gdocbackup/issues/detail?id=100
+                                    if (doc.Type == Document.DocumentType.Presentation)
+                                    {
+                                        bool isPPTX = false;
+
+                                        using (FileStream presentationFile = new FileStream(outFileFP, FileMode.Open, FileAccess.Read))
+                                        {
+                                            int byte1 = presentationFile.ReadByte();
+                                            int byte2 = presentationFile.ReadByte();
+                                            isPPTX = (byte1 == 80 && byte2 == 75);   // 80 75 = "PK" (pptx is a zip. Every zip starts with "PK"
+                                            presentationFile.Close();
+                                        }
+
+                                        if (!isPPTX)
+                                        {
+                                            string newName = outFileFP.Remove(outFileFP.Length - 1);
+                                            File.Delete(newName);
+                                            File.Move(outFileFP, newName);
+                                            DoFeedback("Presentation API bug: renaming output file [" + newName + "]");
+                                        }
+                                    }
+                                    // ------------------------------------------------------------------------------------------------------------------------
+
                                 }
                                 else
                                 {
