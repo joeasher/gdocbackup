@@ -38,7 +38,7 @@ PAUSE
 rem //////////////////////////////////////
 
 AxInfoSR.exe .\CompiledBIN\GDocBackup.exe  Installer.nsi  Installer.runme.nsi
-"%PROGRAMFILES%\NSIS\makensis.exe" Installer.runme.nsi
+"%PROGRAMFILES(x86)%\NSIS\makensis.exe" Installer.runme.nsi
 DEL Installer.runme.nsi /Q
 
 rem //////////////////////////////////////
