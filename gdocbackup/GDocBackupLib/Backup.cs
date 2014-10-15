@@ -441,7 +441,7 @@ namespace GDocBackupLib
                                         }
                                         else if (doc.Type == Document.DocumentType.Spreadsheet)
                                         {
-                                            gdocStream = request.Download(doc, downloadtype.ToString());
+                                            gdocStream = request.Download(doc, "xlsx");   // WAS: downloadtype.ToString());
                                         }
                                         else if (doc.Type == Document.DocumentType.Presentation)
                                         {
